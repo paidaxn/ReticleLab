@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReticleLab - 国内访问入口</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0F1923 0%, #1a2332 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #FF4655, #ff6b7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        a {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #FF4655;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        a:hover {
+            background: #ff6b7a;
+            transform: scale(1.05);
+        }
+        .mirror {
+            background: #10B981;
+        }
+        .mirror:hover {
+            background: #34d399;
+        }
+        .tips {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 70, 85, 0.1);
+            border-left: 4px solid #FF4655;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RETICLELAB</h1>
+        <h2>瓦罗兰特准星配置平台</h2>
+        
+        <div class="status">
+            <p>⚡ 正在检测最佳访问线路...</p>
+        </div>
+
+        <div class="links">
+            <a href="https://reticle-lab.vercel.app" target="_blank" id="vercel-link">
+                国际线路 (Vercel)
+            </a>
+            
+            <a href="https://reticlelab.netlify.app" target="_blank" class="mirror" id="netlify-link">
+                备用线路 (Netlify)
+            </a>
+            
+            <a href="https://paidaxn.github.io/ReticleLab" target="_blank" class="mirror" id="github-link">
+                镜像线路 (GitHub)
+            </a>
+        </div>
+
+        <div class="tips">
+            <h3>💡 访问提示</h3>
+            <ul>
+                <li>如果主线路无法访问，请尝试备用线路</li>
+                <li>推荐使用 Chrome 或 Edge 浏览器</li>
+                <li>如仍无法访问，可使用科学上网工具</li>
+                <li>网站包含 70+ 职业选手准星配置</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 自动检测最佳线路
+        const checkUrl = async (url, linkId) => {
+            try {
+                const start = Date.now();
+                await fetch(url, { mode: 'no-cors', cache: 'no-cache' });
+                const time = Date.now() - start;
+                
+                const link = document.getElementById(linkId);
+                if (time < 1000) {
+                    link.innerHTML += ' ✅ (推荐)';
+                } else if (time < 3000) {
+                    link.innerHTML += ' ⚡ (可用)';
+                } else {
+                    link.innerHTML += ' ⏱️ (较慢)';
+                }
+            } catch (error) {
+                document.getElementById(linkId).innerHTML += ' ❌ (不可用)';
+            }
+        };
+
+        // 检测所有线路
+        setTimeout(() => {
+            checkUrl('https://reticle-lab.vercel.app', 'vercel-link');
+            checkUrl('https://reticlelab.netlify.app', 'netlify-link');
+            checkUrl('https://paidaxn.github.io/ReticleLab', 'github-link');
+            
+            document.querySelector('.status p').innerHTML = '✅ 线路检测完成，请选择可用线路访问';
+        }, 500);
+    </script>
+</body>
+</html>
