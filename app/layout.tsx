@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
@@ -6,6 +6,13 @@ import { Footer } from '@/components/layout/Footer'
 import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#FF4655',
+}
 
 export const metadata: Metadata = {
   title: 'RETICLELAB - Elite VALORANT Crosshair Arsenal',
@@ -23,12 +30,6 @@ export const metadata: Metadata = {
     title: 'RETICLELAB - Elite VALORANT Crosshair Arsenal',
     description: 'Deploy professional-grade crosshair configurations and gain the tactical advantage.',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  themeColor: '#FF4655',
 }
 
 export default function RootLayout({

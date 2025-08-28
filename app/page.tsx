@@ -49,7 +49,7 @@ export default function HomePage() {
                   <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button asChild size="xl" variant="valorantOutline" className="border-valorant-white text-valorant-white hover:bg-valorant-white hover:text-valorant-black">
+              <Button asChild size="xl" variant="valorant-outline" className="border-valorant-white text-valorant-white hover:bg-valorant-white hover:text-valorant-black">
                 <Link href="/editor">
                   <Settings className="h-5 w-5" />
                   CUSTOMIZE NOW
