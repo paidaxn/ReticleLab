@@ -4,9 +4,12 @@ import Link from 'next/link'
 import { ReticleLabLogo } from '@/components/icons/ReticleLabLogo'
 import { Search, Menu, X, Target, Settings, HelpCircle } from 'lucide-react'
 import { useState } from 'react'
+import { LanguageSwitcher } from '@/components/ui/language-switcher'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { t } = useLanguage()
 
   return (
     <header className="sticky top-0 z-50 w-full bg-valorant-white border-b-2 border-valorant-gray-200">
@@ -19,21 +22,22 @@ export function Header() {
           <nav className="hidden lg:flex items-center space-x-8">
             <Link href="/crosshairs" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <Target className="h-4 w-4" />
-              <span>ARSENAL</span>
+              <span>{t('header.browse')}</span>
             </Link>
             <Link href="/how-to-use" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <HelpCircle className="h-4 w-4" />
-              <span>HOW TO USE</span>
+              <span>{t('header.howTo')}</span>
             </Link>
             <Link href="/editor" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <Settings className="h-4 w-4" />
-              <span>EDITOR</span>
+              <span>{t('header.editor')}</span>
               <span className="ml-1 text-xs bg-yellow-400 text-gray-900 px-2 py-0.5 rounded-full font-bold">SOON</span>
             </Link>
           </nav>
         </div>
 
         <div className="flex items-center gap-6">
+          <LanguageSwitcher />
           <div className="hidden xl:flex items-center gap-4">
             <div className="relative group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-valorant-gray-500 group-focus-within:text-valorant-red transition-colors" />
@@ -68,7 +72,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <Target className="h-5 w-5" />
-              <span className="font-bold tracking-wide uppercase text-lg">ARSENAL</span>
+              <span className="font-bold tracking-wide uppercase text-lg">{t('header.browse')}</span>
             </Link>
             <Link
               href="/how-to-use"
@@ -76,7 +80,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <HelpCircle className="h-5 w-5" />
-              <span className="font-bold tracking-wide uppercase text-lg">HOW TO USE</span>
+              <span className="font-bold tracking-wide uppercase text-lg">{t('header.howTo')}</span>
             </Link>
             <Link
               href="/editor"
@@ -84,7 +88,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <Settings className="h-5 w-5" />
-              <span className="font-bold tracking-wide uppercase text-lg">EDITOR</span>
+              <span className="font-bold tracking-wide uppercase text-lg">{t('header.editor')}</span>
               <span className="ml-auto text-xs bg-yellow-400 text-gray-900 px-2 py-0.5 rounded-full font-bold">SOON</span>
             </Link>
             

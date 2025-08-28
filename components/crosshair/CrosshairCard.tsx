@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { CrosshairCanvas } from './CrosshairCanvas'
 import { Copy, Heart, CheckCircle, Shield } from 'lucide-react'
 import { CrosshairParams } from '@/types/crosshair'
-import toast from 'react-hot-toast'
+import { showSuccess, showError } from '@/lib/toast-config'
+import { useLanguage } from '@/contexts/LanguageContext'
 import Link from 'next/link'
 
 interface CrosshairCardProps {
@@ -32,6 +33,7 @@ export function CrosshairCard({
 }: CrosshairCardProps) {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
+  const { t } = useLanguage()
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -39,19 +41,10 @@ export function CrosshairCard({
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
-      toast.success('Configuration copied to clipboard!', {
-        style: {
-          background: '#10B981',
-          color: '#fff',
-        },
-        iconTheme: {
-          primary: '#fff',
-          secondary: '#10B981',
-        },
-      })
+      showSuccess(t('toast.copySuccess'))
       setTimeout(() => setCopied(false), 2500)
     } catch (error) {
-      toast.error('Failed to copy. Please try again.')
+      showError(t('toast.copyError'))
     }
   }
 
@@ -59,7 +52,7 @@ export function CrosshairCard({
     e.preventDefault()
     e.stopPropagation()
     setLiked(!liked)
-    toast.success(liked ? 'Removed from favorites' : 'Added to favorites')
+    showSuccess(liked ? t('toast.likeRemove') : t('toast.likeAdd'))
   }
 
   const formatNumber = (num: number) => {
@@ -118,7 +111,7 @@ export function CrosshairCard({
             <div className="font-bold text-sm text-gray-900">
               {formatNumber(copies)}
             </div>
-            <div className="text-xs text-gray-500 uppercase">Copies</div>
+            <div className="text-xs text-gray-500 uppercase">{t('card.copies')}</div>
           </div>
           
           <div>
@@ -128,7 +121,7 @@ export function CrosshairCard({
             <div className="font-bold text-sm text-gray-900">
               {formatNumber(likes)}
             </div>
-            <div className="text-xs text-gray-500 uppercase">Likes</div>
+            <div className="text-xs text-gray-500 uppercase">{t('card.likes')}</div>
           </div>
         </div>
         
@@ -145,12 +138,12 @@ export function CrosshairCard({
             {copied ? (
               <>
                 <CheckCircle className="h-4 w-4" />
-                <span>Copied</span>
+                <span>{t('card.copied')}</span>
               </>
             ) : (
               <>
                 <Copy className="h-4 w-4" />
-                <span>Copy</span>
+                <span>{t('card.copy')}</span>
               </>
             )}
           </button>

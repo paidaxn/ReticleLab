@@ -5,7 +5,7 @@ import { CrosshairCanvas } from '@/components/crosshair/CrosshairCanvas'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
 import { Copy, Heart, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target, HelpCircle, ChevronRight } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { showSuccess, showError } from '@/lib/toast-config'
 import Link from 'next/link'
 
 interface CrosshairDetailPageProps {
@@ -38,21 +38,10 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
     try {
       await navigator.clipboard.writeText(crosshair.code)
       setCopied(true)
-      toast.success('Code copied! Now paste it in VALORANT settings.', {
-        duration: 4000,
-        style: {
-          background: '#10B981',
-          color: '#fff',
-          fontWeight: 'bold',
-        },
-        iconTheme: {
-          primary: '#fff',
-          secondary: '#10B981',
-        },
-      })
+      showSuccess('Code copied! Now paste it in VALORANT settings.')
       setTimeout(() => setCopied(false), 3000)
     } catch (error) {
-      toast.error('Failed to copy code. Please copy manually.')
+      showError('Failed to copy code. Please copy manually.')
     }
   }
 
@@ -65,13 +54,13 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
       })
     } catch (error) {
       await navigator.clipboard.writeText(window.location.href)
-      toast.success('Link copied to clipboard!')
+      showSuccess('Link copied to clipboard!')
     }
   }
 
   const handleLike = () => {
     setLiked(!liked)
-    toast.success(liked ? 'Removed from favorites' : 'Added to favorites')
+    showSuccess(liked ? 'Removed from favorites' : 'Added to favorites')
   }
 
   const formatParameterValue = (key: string, value: unknown): string => {
