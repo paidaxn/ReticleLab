@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
-import { Search, TrendingUp, Users, Shield, Target, Crosshair } from 'lucide-react'
+import { Search, TrendingUp, Users, Shield, Target, Crosshair, Sparkles } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -11,6 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Separator } from '@/components/ui/separator'
 
 type FilterType = 'all' | 'elite' | 'community' | 'trending'
 type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
@@ -27,7 +31,7 @@ export default function CrosshairsPage() {
     // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(crosshair => 
+      filtered = filtered.filter(crosshair =>
         crosshair.name.toLowerCase().includes(query) ||
         crosshair.playerName?.toLowerCase().includes(query) ||
         crosshair.teamName?.toLowerCase().includes(query)
@@ -84,22 +88,22 @@ export default function CrosshairsPage() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white border-b border-gray-200">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white shadow-lg border-2 border-valorant-red mb-8">
-              <Target className="h-5 w-5 text-valorant-red" />
-              <span className="text-sm font-bold tracking-wider uppercase text-valorant-red">TACTICAL ARSENAL</span>
-            </div>
-            
+            <Badge variant="valorant" className="px-6 py-3 text-sm gap-2 mb-8 shadow-lg">
+              <Target className="h-5 w-5" />
+              TACTICAL ARSENAL
+            </Badge>
+
             <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 tracking-tight">
               CROSSHAIR CONFIGURATIONS
             </h1>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-              Professional-grade crosshair configurations from championship-winning players, 
+              Professional-grade crosshair configurations from championship-winning players,
               community favorites, and tactical innovations. Copy with precision.
             </p>
           </div>
         </div>
       </section>
-      
+
       <div className="container mx-auto px-6 py-12">
         {/* Filter and Search Section */}
         <div className="mb-12 space-y-8">
@@ -122,62 +126,33 @@ export default function CrosshairsPage() {
               </button>
             )}
           </div>
-          
+
           {/* Filter Tabs */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="flex flex-wrap gap-2">
-              <button 
-                onClick={() => setActiveFilter('all')}
-                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
-                  activeFilter === 'all' 
-                    ? 'bg-valorant-red text-white shadow-md' 
-                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-valorant-red hover:text-valorant-red'
-                }`}
-              >
-                <Crosshair className="h-4 w-4" />
-                <span>ALL CONFIGS</span>
-                <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs font-bold">
-                  {mockCrosshairs.length}
-                </span>
-              </button>
-              
-              <button 
-                onClick={() => setActiveFilter('elite')}
-                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
-                  activeFilter === 'elite' 
-                    ? 'bg-blue-500 text-white shadow-md' 
-                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <Shield className="h-4 w-4" />
-                <span>ELITE</span>
-              </button>
-              
-              <button 
-                onClick={() => setActiveFilter('community')}
-                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
-                  activeFilter === 'community' 
-                    ? 'bg-yellow-500 text-white shadow-md' 
-                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-yellow-500 hover:text-yellow-600 hover:bg-yellow-50'
-                }`}
-              >
-                <Users className="h-4 w-4" />
-                <span>COMMUNITY</span>
-              </button>
-              
-              <button 
-                onClick={() => setActiveFilter('trending')}
-                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
-                  activeFilter === 'trending' 
-                    ? 'bg-green-500 text-white shadow-md' 
-                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-green-500 hover:text-green-600 hover:bg-green-50'
-                }`}
-              >
-                <TrendingUp className="h-4 w-4" />
-                <span>TRENDING</span>
-              </button>
-            </div>
-            
+            <Tabs value={activeFilter} onValueChange={(value) => setActiveFilter(value as FilterType)} className="w-auto">
+              <TabsList className="grid grid-cols-4 w-auto bg-white ">
+                <TabsTrigger value="all" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white gap-2">
+                  <Crosshair className="h-4 w-4" />
+                  ALL
+                  <Badge variant="secondary" className="ml-1 px-2 py-0.5">
+                    {mockCrosshairs.length}
+                  </Badge>
+                </TabsTrigger>
+                <TabsTrigger value="elite" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white gap-2">
+                  <Shield className="h-4 w-4" />
+                  ELITE
+                </TabsTrigger>
+                <TabsTrigger value="community" className="data-[state=active]:bg-yellow-500 data-[state=active]:text-white gap-2">
+                  <Users className="h-4 w-4" />
+                  COMMUNITY
+                </TabsTrigger>
+                <TabsTrigger value="trending" className="data-[state=active]:bg-green-500 data-[state=active]:text-white gap-2">
+                  <TrendingUp className="h-4 w-4" />
+                  TRENDING
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
             <div className="flex items-center gap-3">
               <span className="font-semibold text-gray-600 text-sm uppercase tracking-wide">Sort by:</span>
               <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortType)}>
@@ -194,20 +169,27 @@ export default function CrosshairsPage() {
               </Select>
             </div>
           </div>
-          
+
+          <Separator className="my-8" />
+
           {/* Results Counter */}
-          <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-            <div className="font-semibold text-gray-700">
-              <span className="text-2xl font-bold text-gray-900">{filteredAndSortedCrosshairs.length}</span> 
-              {searchQuery && <span className="ml-2">results for &quot;{searchQuery}&quot;</span>}
-              {!searchQuery && <span className="ml-2">configurations available</span>}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Badge variant="outline" className="text-lg px-4 py-2">
+                <span className="font-bold">{filteredAndSortedCrosshairs.length}</span>
+              </Badge>
+              <div className="font-semibold text-gray-700">
+                {searchQuery && <span>results for &quot;{searchQuery}&quot;</span>}
+                {!searchQuery && <span>configurations available</span>}
+              </div>
             </div>
-            <div className="text-sm text-gray-500">
-              Updated: 2 hours ago
-            </div>
+            <Badge variant="verified" className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              UPDATED LIVE
+            </Badge>
           </div>
         </div>
-        
+
         {/* Crosshair Grid */}
         {filteredAndSortedCrosshairs.length > 0 ? (
           <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
@@ -235,15 +217,16 @@ export default function CrosshairsPage() {
             <p className="text-gray-600 mb-6">
               Try adjusting your search or filters to find what you&apos;re looking for.
             </p>
-            <button
+            <Button
               onClick={() => {
                 setSearchQuery('')
                 setActiveFilter('all')
               }}
-              className="bg-valorant-red hover:bg-red-600 text-white px-6 py-2.5 rounded-lg font-semibold transition-all duration-200"
+              variant="valorant"
+              size="lg"
             >
               Clear Filters
-            </button>
+            </Button>
           </div>
         )}
       </div>

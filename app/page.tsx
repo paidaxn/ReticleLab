@@ -2,6 +2,9 @@ import Link from 'next/link'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
 import { ArrowRight, Target, Users, Zap, Trophy, Shield, Crosshair, Settings } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 export default function HomePage() {
   const popularCrosshairs = mockCrosshairs.slice(0, 3)
@@ -19,10 +22,10 @@ export default function HomePage() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="mx-auto max-w-6xl text-center space-y-12">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-valorant-red/20 border border-valorant-red backdrop-blur-sm">
-                <Shield className="h-4 w-4 text-valorant-red" />
-                <span className="text-sm font-bold tracking-wider uppercase text-valorant-red">TACTICAL ADVANTAGE</span>
-              </div>
+              <Badge variant="valorant" className="px-4 py-2 text-sm gap-2">
+                <Shield className="h-4 w-4" />
+                TACTICAL ADVANTAGE
+              </Badge>
               
               <h1 className="text-6xl md:text-8xl font-black tracking-tight">
                 PERFECT YOUR
@@ -39,16 +42,20 @@ export default function HomePage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-              <Link href="/crosshairs" className="bg-valorant-red hover:bg-valorant-red-dark text-white px-8 py-4 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-3">
-                <Crosshair className="h-5 w-5" />
-                BROWSE ARSENAL
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link href="/editor" className="border-2 border-valorant-white text-valorant-white hover:bg-valorant-white hover:text-valorant-black px-8 py-4 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 hover:scale-105 flex items-center gap-3">
-                <Settings className="h-5 w-5" />
-                CUSTOMIZE NOW
-                <Target className="h-5 w-5" />
-              </Link>
+              <Button asChild size="xl" variant="valorant">
+                <Link href="/crosshairs">
+                  <Crosshair className="h-5 w-5" />
+                  BROWSE ARSENAL
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
+              <Button asChild size="xl" variant="valorantOutline" className="border-valorant-white text-valorant-white hover:bg-valorant-white hover:text-valorant-black">
+                <Link href="/editor">
+                  <Settings className="h-5 w-5" />
+                  CUSTOMIZE NOW
+                  <Target className="h-5 w-5" />
+                </Link>
+              </Button>
             </div>
             
             <div className="pt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -79,10 +86,10 @@ export default function HomePage() {
       <section className="py-24 bg-valorant-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-valorant-blue/10 border border-valorant-blue mb-6">
-              <Target className="h-4 w-4 text-valorant-blue" />
-              <span className="text-sm font-bold tracking-wider uppercase text-valorant-blue">TACTICAL ARSENAL</span>
-            </div>
+            <Badge variant="outline" className="px-4 py-2 text-sm gap-2 border-valorant-blue text-valorant-blue mb-6">
+              <Target className="h-4 w-4" />
+              TACTICAL ARSENAL
+            </Badge>
             <h2 className="text-4xl md:text-5xl font-black text-valorant-black mb-6 tracking-tight">
               ELITE PRECISION TOOLS
             </h2>
@@ -92,50 +99,62 @@ export default function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-xl p-8 text-center hover:border-valorant-red hover:shadow-xl transition-all duration-300">
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-valorant-red text-valorant-white mb-8">
-                <Trophy className="h-12 w-12" />
-              </div>
-              <h3 className="text-2xl font-black text-valorant-black mb-4 tracking-wide uppercase">PRO DATABASE</h3>
-              <p className="text-valorant-gray-600 leading-relaxed mb-6">
-                Verified crosshair configurations from world-class professional players, 
-                meticulously curated and regularly updated for competitive authenticity.
-              </p>
-              <div className="flex items-center justify-center gap-2 text-sm text-valorant-red">
-                <Shield className="h-4 w-4" />
-                <span className="font-bold tracking-wider uppercase">VERIFIED AUTHENTIC</span>
-              </div>
-            </div>
+            <Card className="border-2 hover:border-valorant-red hover:shadow-xl transition-all duration-300 h-full">
+              <CardHeader className="text-center">
+                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-valorant-red text-valorant-white mb-4">
+                  <Trophy className="h-12 w-12" />
+                </div>
+                <CardTitle className="text-2xl font-black tracking-wide uppercase">PRO DATABASE</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-4">
+                <CardDescription className="text-base leading-relaxed">
+                  Verified crosshair configurations from world-class professional players, 
+                  meticulously curated and regularly updated for competitive authenticity.
+                </CardDescription>
+                <Badge variant="elite" className="gap-2">
+                  <Shield className="h-4 w-4" />
+                  VERIFIED AUTHENTIC
+                </Badge>
+              </CardContent>
+            </Card>
             
-            <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-xl p-8 text-center hover:border-valorant-blue hover:shadow-xl transition-all duration-300">
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-valorant-blue text-valorant-white mb-8">
-                <Settings className="h-12 w-12" />
-              </div>
-              <h3 className="text-2xl font-black text-valorant-black mb-4 tracking-wide uppercase">TACTICAL EDITOR</h3>
-              <p className="text-valorant-gray-600 leading-relaxed mb-6">
-                Advanced configuration interface with real-time preview, 
-                precision controls, and tactical presets for optimal combat performance.
-              </p>
-              <div className="flex items-center justify-center gap-2 text-sm text-valorant-blue">
-                <Target className="h-4 w-4" />
-                <span className="font-bold tracking-wider uppercase">REAL-TIME PREVIEW</span>
-              </div>
-            </div>
+            <Card className="border-2 hover:border-valorant-blue hover:shadow-xl transition-all duration-300 h-full">
+              <CardHeader className="text-center">
+                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-valorant-blue text-valorant-white mb-4">
+                  <Settings className="h-12 w-12" />
+                </div>
+                <CardTitle className="text-2xl font-black tracking-wide uppercase">TACTICAL EDITOR</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-4">
+                <CardDescription className="text-base leading-relaxed">
+                  Advanced configuration interface with real-time preview, 
+                  precision controls, and tactical presets for optimal combat performance.
+                </CardDescription>
+                <Badge variant="outline" className="gap-2 border-valorant-blue text-valorant-blue">
+                  <Target className="h-4 w-4" />
+                  REAL-TIME PREVIEW
+                </Badge>
+              </CardContent>
+            </Card>
             
-            <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-xl p-8 text-center hover:border-valorant-yellow hover:shadow-xl transition-all duration-300">
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-valorant-yellow text-valorant-black mb-8">
-                <Zap className="h-12 w-12" />
-              </div>
-              <h3 className="text-2xl font-black text-valorant-black mb-4 tracking-wide uppercase">INSTANT COPY</h3>
-              <p className="text-valorant-gray-600 leading-relaxed mb-6">
-                Lightning-fast configuration copying with one-click commands, 
-                seamless integration, and instant battlefield implementation.
-              </p>
-              <div className="flex items-center justify-center gap-2 text-sm text-valorant-yellow-dark">
-                <Zap className="h-4 w-4" />
-                <span className="font-bold tracking-wider uppercase">INSTANT COPY</span>
-              </div>
-            </div>
+            <Card className="border-2 hover:border-valorant-yellow hover:shadow-xl transition-all duration-300 h-full">
+              <CardHeader className="text-center">
+                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-valorant-yellow text-valorant-black mb-4">
+                  <Zap className="h-12 w-12" />
+                </div>
+                <CardTitle className="text-2xl font-black tracking-wide uppercase">INSTANT COPY</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-4">
+                <CardDescription className="text-base leading-relaxed">
+                  Lightning-fast configuration copying with one-click commands, 
+                  seamless integration, and instant battlefield implementation.
+                </CardDescription>
+                <Badge variant="pro" className="gap-2">
+                  <Zap className="h-4 w-4" />
+                  ONE-CLICK COPY
+                </Badge>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -145,19 +164,21 @@ export default function HomePage() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-16 gap-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-valorant-red/10 border border-valorant-red">
-                <Trophy className="h-4 w-4 text-valorant-red" />
-                <span className="text-sm font-bold tracking-wider uppercase text-valorant-red">PROFESSIONAL GRADE</span>
-              </div>
+              <Badge variant="valorant" className="px-4 py-2 text-sm gap-2 bg-valorant-red/10 text-valorant-red border border-valorant-red">
+                <Trophy className="h-4 w-4" />
+                PROFESSIONAL GRADE
+              </Badge>
               <h2 className="text-4xl md:text-5xl font-black text-valorant-black tracking-tight">ELITE CONFIGURATIONS</h2>
               <p className="text-xl text-valorant-gray-600 max-w-2xl">
                 Battle-tested crosshairs from championship-winning professionals in competitive VALORANT
               </p>
             </div>
-            <Link href="/crosshairs/pro" className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-valorant-white px-6 py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center gap-3 self-start lg:self-center">
-              VIEW COMPLETE ARSENAL
-              <ArrowRight className="h-5 w-5" />
-            </Link>
+            <Button asChild size="lg" variant="outline" className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-valorant-white self-start lg:self-center">
+              <Link href="/crosshairs/pro">
+                VIEW COMPLETE ARSENAL
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {proCrosshairs.map((crosshair) => (
@@ -169,7 +190,6 @@ export default function HomePage() {
                   teamName={crosshair.teamName}
                   code={crosshair.code}
                   params={crosshair.params}
-                  views={crosshair.views}
                   copies={crosshair.copies}
                   likes={crosshair.likes}
                   isVerified={crosshair.isVerified}
@@ -185,19 +205,21 @@ export default function HomePage() {
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-16 gap-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-valorant-yellow/10 border border-valorant-yellow">
-                <Users className="h-4 w-4 text-valorant-yellow-dark" />
-                <span className="text-sm font-bold tracking-wider uppercase text-valorant-yellow-dark">COMMUNITY APPROVED</span>
-              </div>
+              <Badge variant="pro" className="px-4 py-2 text-sm gap-2 bg-valorant-yellow/10 text-valorant-yellow-dark border border-valorant-yellow">
+                <Users className="h-4 w-4" />
+                COMMUNITY APPROVED
+              </Badge>
               <h2 className="text-4xl md:text-5xl font-black text-valorant-black tracking-tight">POPULAR CONFIGURATIONS</h2>
               <p className="text-xl text-valorant-gray-600 max-w-2xl">
                 Most downloaded configurations by the tactical community worldwide
               </p>
             </div>
-            <Link href="/crosshairs" className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-valorant-white px-6 py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center gap-3 self-start lg:self-center">
-              EXPLORE ALL CONFIGS
-              <ArrowRight className="h-5 w-5" />
-            </Link>
+            <Button asChild size="lg" variant="outline" className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-valorant-white self-start lg:self-center">
+              <Link href="/crosshairs">
+                EXPLORE ALL CONFIGS
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {popularCrosshairs.map((crosshair) => (
@@ -209,7 +231,6 @@ export default function HomePage() {
                   teamName={crosshair.teamName}
                   code={crosshair.code}
                   params={crosshair.params}
-                  views={crosshair.views}
                   copies={crosshair.copies}
                   likes={crosshair.likes}
                   isVerified={crosshair.isVerified}
@@ -227,10 +248,10 @@ export default function HomePage() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-5xl mx-auto space-y-12">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-valorant-white/10 border border-valorant-white/20">
+              <Badge variant="outline" className="px-4 py-2 text-sm gap-2 bg-valorant-white/10 border-valorant-white/20 text-white">
                 <Target className="h-4 w-4" />
-                <span className="text-sm font-bold tracking-wider uppercase">MISSION READY</span>
-              </div>
+                MISSION READY
+              </Badge>
               
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
                 DOMINATE THE
@@ -247,17 +268,21 @@ export default function HomePage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-              <Link href="/editor" className="bg-valorant-white text-valorant-red hover:bg-valorant-gray-100 px-8 py-4 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-3">
-                <Settings className="h-5 w-5" />
-                LAUNCH EDITOR
-                <Target className="h-5 w-5" />
-              </Link>
+              <Button asChild size="xl" className="bg-valorant-white text-valorant-red hover:bg-valorant-gray-100">
+                <Link href="/editor">
+                  <Settings className="h-5 w-5" />
+                  LAUNCH EDITOR
+                  <Target className="h-5 w-5" />
+                </Link>
+              </Button>
               
-              <Link href="/crosshairs" className="border-2 border-valorant-white text-valorant-white hover:bg-valorant-white hover:text-valorant-red px-8 py-4 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 hover:scale-105 flex items-center gap-3">
-                <Crosshair className="h-5 w-5" />
-                VIEW ARSENAL
-                <ArrowRight className="h-5 w-5" />
-              </Link>
+              <Button asChild size="xl" variant="outline" className="border-2 border-valorant-white text-valorant-white hover:bg-valorant-white hover:text-valorant-red">
+                <Link href="/crosshairs">
+                  <Crosshair className="h-5 w-5" />
+                  VIEW ARSENAL
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
