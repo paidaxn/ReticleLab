@@ -6,10 +6,11 @@ import { Search, Menu, X, Target, Settings, HelpCircle, Globe } from 'lucide-rea
 import { useState } from 'react'
 import { type Locale } from '@/i18n.config'
 import { usePathname } from 'next/navigation'
+import { type Dictionary } from '@/lib/dictionary'
 
 interface HeaderProps {
   locale: Locale
-  dictionary: any
+  dictionary: Dictionary
 }
 
 export function Header({ locale, dictionary }: HeaderProps) {

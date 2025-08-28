@@ -1,12 +1,26 @@
 import Link from 'next/link'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
-import { mockCrosshairs } from '@/lib/crosshair/mock-data'
+import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 import { ArrowRight, Target, Users, Zap, Trophy, Shield, Crosshair, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { getDictionary } from '@/lib/dictionary'
 import { type Locale } from '@/i18n.config'
+import { generatePageMetadata } from '@/lib/seo-metadata'
+import type { Metadata } from 'next'
+
+export async function generateMetadata({ params }: { params: { locale: Locale } }): Promise<Metadata> {
+  const isZh = params.locale === 'zh'
+  
+  return generatePageMetadata(
+    isZh ? 'RETICLELAB - 专业瓦罗兰特准星配置平台' : 'RETICLELAB - Professional VALORANT Crosshair Arsenal',
+    isZh 
+      ? '来自世界冠军级瓦罗兰特职业选手的专业准星配置。自定义、部署并主宰战场。'
+      : 'Professional-grade crosshair configurations from championship-winning VALORANT players. Customize, deploy, and dominate with tactical precision.',
+    `/${params.locale}`
+  )
+}
 
 export default async function HomePage({
   params: { locale },

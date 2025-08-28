@@ -19,9 +19,9 @@ export default async function HowToUsePage({
             <HelpCircle className="h-5 w-5 text-valorant-red" />
             <span className="text-sm font-bold tracking-wider uppercase text-valorant-red">USER GUIDE</span>
           </div>
-          <h1 className="text-5xl font-black text-gray-900 mb-4">{dictionary.howToUse.title}</h1>
+          <h1 className="text-5xl font-black text-gray-900 mb-4">{dictionary.howTo.title}</h1>
           <p className="text-xl text-gray-700">
-            {dictionary.howToUse.subtitle}
+            {dictionary.howTo.subtitle}
           </p>
         </div>
 
@@ -34,12 +34,12 @@ export default async function HowToUsePage({
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                   <span className="font-black text-white text-lg">1</span>
                 </div>
-                <h2 className="text-2xl font-bold text-white">{dictionary.howToUse.step1.title}</h2>
+                <h2 className="text-2xl font-bold text-white">{dictionary.howTo.steps.title1}</h2>
               </div>
             </div>
             <div className="p-8 space-y-4">
               <p className="text-gray-700 text-lg">
-                {dictionary.howToUse.step1.desc}
+                {dictionary.howTo.steps.desc1}
               </p>
               <Link href={`/${params.locale}/crosshairs`} className="inline-flex items-center gap-2 text-valorant-red hover:text-red-600 font-bold transition-colors">
                 {dictionary.header.browse} <ChevronRight className="h-4 w-4" />
@@ -54,12 +54,12 @@ export default async function HowToUsePage({
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                   <span className="font-black text-white text-lg">2</span>
                 </div>
-                <h2 className="text-2xl font-bold text-white">{dictionary.howToUse.step2.title}</h2>
+                <h2 className="text-2xl font-bold text-white">{dictionary.howTo.steps.title2}</h2>
               </div>
             </div>
             <div className="p-8 space-y-4">
               <p className="text-gray-700 text-lg">
-                {dictionary.howToUse.step2.desc}
+                {dictionary.howTo.steps.desc2}
               </p>
               <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-3">
@@ -80,12 +80,12 @@ export default async function HowToUsePage({
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                   <span className="font-black text-white text-lg">3</span>
                 </div>
-                <h2 className="text-2xl font-bold text-white">{dictionary.howToUse.step3.title}</h2>
+                <h2 className="text-2xl font-bold text-white">{dictionary.howTo.steps.title3}</h2>
               </div>
             </div>
             <div className="p-8 space-y-4">
               <p className="text-gray-700 text-lg">
-                {dictionary.howToUse.step3.desc}
+                {dictionary.howTo.steps.desc3}
               </p>
             </div>
           </div>
@@ -97,12 +97,12 @@ export default async function HowToUsePage({
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                   <span className="font-black text-white text-lg">4</span>
                 </div>
-                <h2 className="text-2xl font-bold text-white">{dictionary.howToUse.step4.title}</h2>
+                <h2 className="text-2xl font-bold text-white">{dictionary.howTo.steps.title4}</h2>
               </div>
             </div>
             <div className="p-8 space-y-4">
               <p className="text-gray-700 text-lg">
-                {dictionary.howToUse.step4.desc}
+                {dictionary.howTo.steps.desc4}
               </p>
             </div>
           </div>
@@ -112,31 +112,31 @@ export default async function HowToUsePage({
             <div className="p-8">
               <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
                 <AlertCircle className="h-6 w-6 text-yellow-400" />
-                {dictionary.howToUse.tips.title}
+                Pro Tips
               </h2>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
                   <p className="text-gray-300">
-                    {dictionary.howToUse.tips['1']}
+                    Experiment with different crosshairs for different agents
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
                   <p className="text-gray-300">
-                    {dictionary.howToUse.tips['2']}
+                    Save multiple crosshair profiles for quick switching
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
                   <p className="text-gray-300">
-                    {dictionary.howToUse.tips['3']}
+                    Adjust based on your monitor and resolution
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
                   <p className="text-gray-300">
-                    {dictionary.howToUse.tips['4']}
+                    Practice in the range after changing crosshairs
                   </p>
                 </div>
               </div>

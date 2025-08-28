@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
-import { Search, TrendingUp, Users, Shield, Target, Crosshair, Sparkles } from 'lucide-react'
+import { Search, TrendingUp, Users, Shield, Target, Crosshair as CrosshairIcon, Sparkles } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -14,14 +14,16 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { type Locale } from '@/i18n.config'
+import { type Crosshair } from '@/types/crosshair'
+import { type Dictionary } from '@/lib/dictionary'
 
 type FilterType = 'all' | 'professional' | 'community' | 'trending'
 type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
 
 interface CrosshairsClientProps {
-  crosshairs: any[]
+  crosshairs: Crosshair[]
   locale: Locale
-  dictionary: any
+  dictionary: Dictionary
 }
 
 export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsClientProps) {
@@ -94,7 +96,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
         <div className="container mx-auto px-6">
           <div className="max-w-4xl">
             <Badge variant="valorant" className="mb-4 px-3 py-1.5 text-xs">
-              <Crosshair className="h-3 w-3" />
+              <CrosshairIcon className="h-3 w-3" />
               VALORANT ARSENAL
             </Badge>
             <h1 className="text-5xl font-black mb-6 tracking-tight">

@@ -7,12 +7,14 @@ import { Copy, Heart, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import { type Locale } from '@/i18n.config'
+import { type Crosshair } from '@/types/crosshair'
+import { type Dictionary } from '@/lib/dictionary'
 
 interface CrosshairDetailClientProps {
-  crosshair: any
-  similarCrosshairs: any[]
+  crosshair: Crosshair
+  similarCrosshairs: Crosshair[]
   locale: Locale
-  dictionary: any
+  dictionary: Dictionary
 }
 
 export function CrosshairDetailClient({ 
@@ -28,7 +30,7 @@ export function CrosshairDetailClient({
     try {
       await navigator.clipboard.writeText(crosshair.code)
       setCopied(true)
-      toast.success(dictionary.toast.copyWithTip, {
+      toast.success(dictionary.toast.copySuccess, {
         duration: 4000,
         style: {
           background: '#10B981',
@@ -64,7 +66,7 @@ export function CrosshairDetailClient({
       })
     } catch (error) {
       await navigator.clipboard.writeText(window.location.href)
-      toast.success(dictionary.toast.shareSuccess, {
+      toast.success(dictionary.toast.copySuccess, {
         style: {
           background: '#10B981',
           color: '#fff',

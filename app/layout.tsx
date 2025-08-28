@@ -1,8 +1,9 @@
-import type { Metadata, Viewport } from 'next'
+import type { Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { Analytics } from '@vercel/analytics/react'
+import { defaultMetadata, generateOrganizationSchema, generateWebSiteSchema } from '@/lib/seo-metadata'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,31 +14,32 @@ export const viewport: Viewport = {
   themeColor: '#FF4655',
 }
 
-export const metadata: Metadata = {
-  title: 'RETICLELAB - Professional VALORANT Crosshair Arsenal',
-  description: 'Professional-grade crosshair configurations from championship-winning VALORANT players. Customize, deploy, and dominate with tactical precision.',
-  keywords: 'VALORANT,Crosshair,Professional,Gaming,FPS,Esports,Tactical,Configuration,Pro Player',
-  authors: [{ name: 'ReticleLab Tactical Division' }],
-  openGraph: {
-    title: 'RETICLELAB - Professional VALORANT Crosshair Arsenal',
-    description: 'Deploy professional-grade crosshair configurations and gain the tactical advantage. Your perfect aim starts here.',
-    type: 'website',
-    siteName: 'ReticleLab',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'RETICLELAB - Professional VALORANT Crosshair Arsenal',
-    description: 'Deploy professional-grade crosshair configurations and gain the tactical advantage.',
-  },
-}
+export const metadata = defaultMetadata
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const organizationSchema = generateOrganizationSchema()
+  const websiteSchema = generateWebSiteSchema()
+
   return (
     <html lang="en" className="">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+      </head>
       <body className={`${inter.className} antialiased`}>
         {children}
         <Toaster

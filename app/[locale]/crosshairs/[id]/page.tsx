@@ -1,4 +1,4 @@
-import { mockCrosshairs } from '@/lib/crosshair/mock-data'
+import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getDictionary } from '@/lib/dictionary'

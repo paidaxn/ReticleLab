@@ -2,6 +2,20 @@ import { Settings, Sparkles, Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getDictionary } from '@/lib/dictionary'
 import { type Locale } from '@/i18n.config'
+import { generatePageMetadata } from '@/lib/seo-metadata'
+import type { Metadata } from 'next'
+
+export async function generateMetadata({ params }: { params: { locale: Locale } }): Promise<Metadata> {
+  const isZh = params.locale === 'zh'
+  
+  return generatePageMetadata(
+    isZh ? '准星编辑器 - RETICLELAB' : 'Crosshair Editor - RETICLELAB',
+    isZh 
+      ? '使用可视化编辑器创建您的完美瓦罗兰特准星。实时预览、精确调整、一键导出准星代码。'
+      : 'Create your perfect VALORANT crosshair with our visual editor. Real-time preview, precise adjustments, and instant code export.',
+    `/${params.locale}/editor`
+  )
+}
 
 export default async function EditorPage({ 
   params 
@@ -33,37 +47,37 @@ export default async function EditorPage({
             <h1 className="text-5xl font-black text-gray-900 tracking-tight">{dictionary.editor.comingSoon}</h1>
             <p className="text-2xl font-bold text-valorant-red">{dictionary.editor.title}</p>
             <p className="text-lg text-gray-600 max-w-lg mx-auto">
-              {dictionary.editor.description}
+              {dictionary.editor.subtitle}
             </p>
           </div>
           
           {/* Features Preview */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-gray-900">{dictionary.editor.features.title}</h3>
+            <h3 className="text-xl font-bold text-gray-900">Features</h3>
             <div className="text-left max-w-lg mx-auto space-y-2">
               <div className="flex items-start gap-2">
                 <span className="text-valorant-red">•</span>
-                <span className="text-gray-600">{dictionary.editor.features['1']}</span>
+                <span className="text-gray-600">{dictionary.editor.features.visual}</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-valorant-red">•</span>
-                <span className="text-gray-600">{dictionary.editor.features['2']}</span>
+                <span className="text-gray-600">{dictionary.editor.features.realtime}</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-valorant-red">•</span>
-                <span className="text-gray-600">{dictionary.editor.features['3']}</span>
+                <span className="text-gray-600">{dictionary.editor.features.export}</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-valorant-red">•</span>
-                <span className="text-gray-600">{dictionary.editor.features['4']}</span>
+                <span className="text-gray-600">Advanced precision controls</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-valorant-red">•</span>
-                <span className="text-gray-600">{dictionary.editor.features['5']}</span>
+                <span className="text-gray-600">Crosshair library presets</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-valorant-red">•</span>
-                <span className="text-gray-600">{dictionary.editor.features['6']}</span>
+                <span className="text-gray-600">Save and share configurations</span>
               </div>
             </div>
           </div>
@@ -78,7 +92,7 @@ export default async function EditorPage({
           <div className="space-y-4">
             <Link href={`/${params.locale}/crosshairs`} className="inline-flex items-center gap-2 bg-valorant-red hover:bg-red-600 text-white px-8 py-3 rounded-lg font-bold uppercase tracking-wide transition-all duration-200 shadow-lg hover:shadow-xl">
               <ArrowLeft className="h-5 w-5" />
-              {dictionary.editor.backBtn}
+              {dictionary.editor.back}
             </Link>
           </div>
         </div>

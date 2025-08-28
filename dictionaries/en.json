@@ -81,46 +81,41 @@
   },
   "editor": {
     "title": "CROSSHAIR EDITOR",
+    "subtitle": "Advanced visual editor for creating perfect crosshairs",
     "comingSoon": "COMING SOON",
-    "subtitle": "Advanced Crosshair Editor",
-    "description": "Our professional-grade crosshair editor is currently under development. Soon you'll be able to create, customize, and perfect your crosshair with precision tools and real-time preview.",
     "features": {
-      "title": "Upcoming Features",
-      "1": "Real-time visual editor with live preview",
-      "2": "Import and modify existing crosshairs",
-      "3": "Save and share your custom configurations",
-      "4": "Advanced color and opacity controls",
-      "5": "Movement and firing error adjustments",
-      "6": "Export directly to VALORANT"
+      "visual": "Visual crosshair editor",
+      "realtime": "Real-time preview",
+      "export": "Export to VALORANT code"
     },
-    "backBtn": "BACK TO ARSENAL"
+    "back": "BACK TO ARSENAL",
+    "backDesc": "Return to crosshair collection"
   },
-  "howToUse": {
+  "howTo": {
     "title": "HOW TO USE",
-    "subtitle": "Import Crosshairs to VALORANT",
-    "step1": {
-      "title": "Step 1: Browse & Select",
-      "desc": "Navigate to the Crosshairs page and browse through our collection of professional player configurations. Use filters and search to find your preferred style."
+    "subtitle": "Import crosshairs to VALORANT in 4 simple steps",
+    "steps": {
+      "title1": "Step 1: Browse & Select",
+      "desc1": "Navigate to the Crosshairs page and browse through our collection of professional player configurations.",
+      "title2": "Step 2: Copy the Code",
+      "desc2": "Click the COPY button on any crosshair card. The code will be copied to your clipboard.",
+      "title3": "Step 3: Open VALORANT Settings",
+      "desc3": "Launch VALORANT and press ESC to open the menu. Navigate to Settings → Crosshair.",
+      "title4": "Step 4: Import Profile",
+      "desc4": "Click on Crosshair Profile and select Import Profile. Paste the code and press Import.",
+      "title5": "Step 5: Test & Adjust",
+      "desc5": "Test your new crosshair in the Practice Range and make adjustments as needed."
     },
-    "step2": {
-      "title": "Step 2: Copy the Code",
-      "desc": "Click the \"COPY\" button on any crosshair card. The configuration code will be automatically copied to your clipboard."
+    "ready": "Ready to find your perfect crosshair?",
+    "browse": "BROWSE CROSSHAIRS"
+  },
+  "footer": {
+    "links": {
+      "browse": "Browse Crosshairs",
+      "editor": "Crosshair Editor",
+      "howTo": "How to Use"
     },
-    "step3": {
-      "title": "Step 3: Open VALORANT Settings",
-      "desc": "Launch VALORANT and press ESC to open the menu. Navigate to Settings → Crosshair."
-    },
-    "step4": {
-      "title": "Step 4: Import Profile",
-      "desc": "Click on \"Crosshair Profile\" and select \"Import Profile\". Paste the code (Ctrl+V) and press Import."
-    },
-    "tips": {
-      "title": "Pro Tips",
-      "1": "Save multiple crosshair profiles for different agents",
-      "2": "Adjust the color if it doesn't contrast well with your game",
-      "3": "Test crosshairs in the Practice Range before competitive play",
-      "4": "Remember: the best crosshair is one you're comfortable with"
-    }
+    "copyright": "© 2024 ReticleLab. All rights reserved."
   },
   "toast": {
     "copySuccess": "Configuration copied to clipboard!",

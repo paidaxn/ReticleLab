@@ -7,6 +7,8 @@ import { CrosshairParams } from '@/types/crosshair'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import { type Locale } from '@/i18n.config'
+import { LazyLoad } from '@/components/ui/lazy-load'
+import { type Dictionary } from '@/lib/dictionary'
 
 interface CrosshairCardProps {
   id: string
@@ -19,7 +21,7 @@ interface CrosshairCardProps {
   likes: number
   isVerified?: boolean
   locale: Locale
-  dictionary: any
+  dictionary: Dictionary
 }
 
 export function CrosshairCard({
@@ -109,7 +111,15 @@ export function CrosshairCard({
       <div className="h-[200px] bg-gradient-to-br from-gray-900 to-gray-800 p-6 flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         <div className="relative group-hover:scale-110 transition-transform duration-300">
-          <CrosshairCanvas params={params} size={150} showBackground={false} />
+          <LazyLoad
+            placeholder={
+              <div className="w-[150px] h-[150px] flex items-center justify-center">
+                <div className="animate-pulse bg-gray-700 rounded-lg w-full h-full opacity-20" />
+              </div>
+            }
+          >
+            <CrosshairCanvas params={params} size={150} showBackground={false} />
+          </LazyLoad>
         </div>
       </div>
       
