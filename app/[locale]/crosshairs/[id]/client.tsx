@@ -134,50 +134,52 @@ export function CrosshairDetailClient({
     <div className="min-h-screen bg-valorant-white">
       {/* Header Navigation */}
       <div className="border-b-2 border-valorant-gray-200 bg-valorant-white">
-        <div className="container mx-auto px-6 py-4">
-          <Link href={`/${locale}/crosshairs`} className="inline-flex items-center gap-2 font-bold tracking-wider uppercase text-valorant-gray-600 hover:text-valorant-black transition-colors">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
+          <Link href={`/${locale}/crosshairs`} className="inline-flex items-center gap-2 font-bold tracking-wider uppercase text-valorant-gray-600 hover:text-valorant-black transition-colors text-xs sm:text-sm">
             <ArrowLeft className="h-4 w-4" />
             {dictionary.detail.backToArsenal}
           </Link>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-12">
         {/* Hero Section */}
-        <div className="relative mb-16">
-          <div className="relative grid grid-cols-1 xl:grid-cols-5 gap-12 items-start">
+        <div className="relative mb-12 sm:mb-16">
+          <div className="relative grid grid-cols-1 xl:grid-cols-5 gap-6 sm:gap-12 items-start">
             {/* Left - Crosshair Preview */}
             <div className="xl:col-span-3">
-              <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-xl p-8 mb-8 shadow-lg">
+              <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-xl p-4 sm:p-8 mb-6 sm:mb-8 shadow-lg">
                 <div className="aspect-video bg-valorant-gray-900 flex items-center justify-center rounded-xl">
-                  <CrosshairCanvas params={crosshair.params} size={400} showBackground={true} />
+                  <div className="w-full h-full flex items-center justify-center">
+                    <CrosshairCanvas params={crosshair.params} size={320} showBackground={true} />
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Right - Info and Actions */}
-            <div className="xl:col-span-2 space-y-8">
+            <div className="xl:col-span-2 space-y-6 sm:space-y-8">
               {/* Header Info */}
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                        <h1 className="text-4xl xl:text-5xl font-black text-valorant-black tracking-wide uppercase">{crosshair.name}</h1>
+              <div className="space-y-4 sm:space-y-6">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                    <div className="space-y-2 flex-1">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                        <h1 className="text-2xl sm:text-4xl xl:text-5xl font-black text-valorant-black tracking-wide uppercase break-words">{crosshair.name}</h1>
                         {crosshair.isVerified && (
-                          <div className="bg-valorant-blue text-white rounded-xl p-2 shadow-lg">
-                            <Shield className="h-5 w-5" />
+                          <div className="bg-valorant-blue text-white rounded-xl p-2 shadow-lg flex-shrink-0">
+                            <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
                           </div>
                         )}
                       </div>
                       
                       {crosshair.playerName && (
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl font-bold text-valorant-red">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                          <span className="text-lg sm:text-2xl font-bold text-valorant-red">
                             {crosshair.playerName}
                           </span>
                           {crosshair.teamName && (
-                            <span className="font-bold tracking-wider uppercase text-sm px-3 py-1 bg-valorant-blue/10 border border-valorant-blue rounded-full text-valorant-blue">
+                            <span className="font-bold tracking-wider uppercase text-xs sm:text-sm px-2 sm:px-3 py-1 bg-valorant-blue/10 border border-valorant-blue rounded-full text-valorant-blue">
                               {crosshair.teamName}
                             </span>
                           )}
@@ -185,102 +187,102 @@ export function CrosshairDetailClient({
                       )}
                     </div>
                     
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 self-start">
                       <button 
                         onClick={handleShare}
-                        className="p-3 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white hover:border-valorant-yellow hover:bg-valorant-yellow/10 transition-all duration-300"
+                        className="p-2 sm:p-3 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white hover:border-valorant-yellow hover:bg-valorant-yellow/10 transition-all duration-300 min-h-[44px] min-w-[44px] flex items-center justify-center"
                       >
-                        <Share2 className="h-5 w-5 text-valorant-black" />
+                        <Share2 className="h-4 w-4 sm:h-5 sm:w-5 text-valorant-black" />
                       </button>
                       <button
                         onClick={handleLike}
-                        className={`p-3 rounded-lg border-2 transition-all duration-300 ${
+                        className={`p-2 sm:p-3 rounded-lg border-2 transition-all duration-300 min-h-[44px] min-w-[44px] flex items-center justify-center ${
                           liked 
                             ? 'border-valorant-red bg-valorant-red/10 text-valorant-red' 
                             : 'border-valorant-gray-200 bg-valorant-white hover:border-valorant-red hover:bg-valorant-red/10 text-valorant-black'
                         }`}
                       >
-                        <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
+                        <Heart className={`h-4 w-4 sm:h-5 sm:w-5 ${liked ? 'fill-current' : ''}`} />
                       </button>
                     </div>
                   </div>
 
                   {/* Stats */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 text-center">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-3 sm:p-4 text-center">
                       <div className="flex items-center justify-center gap-2 mb-2">
-                        <Copy className="h-4 w-4 text-valorant-green" />
+                        <Copy className="h-3 w-3 sm:h-4 sm:w-4 text-valorant-green" />
                       </div>
-                      <div className="text-xl font-black text-valorant-green">
+                      <div className="text-lg sm:text-xl font-black text-valorant-green">
                         {crosshair.copies.toLocaleString()}
                       </div>
-                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">{dictionary.card.copies}</div>
+                      <div className="font-bold tracking-wider uppercase text-[10px] sm:text-xs text-valorant-gray-600">{dictionary.card.copies}</div>
                     </div>
-                    <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 text-center">
+                    <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-3 sm:p-4 text-center">
                       <div className="flex items-center justify-center gap-2 mb-2">
-                        <Heart className="h-4 w-4 text-valorant-red" />
+                        <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-valorant-red" />
                       </div>
-                      <div className="text-xl font-black text-valorant-red">
+                      <div className="text-lg sm:text-xl font-black text-valorant-red">
                         {crosshair.likes.toLocaleString()}
                       </div>
-                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">{dictionary.card.likes}</div>
+                      <div className="font-bold tracking-wider uppercase text-[10px] sm:text-xs text-valorant-gray-600">{dictionary.card.likes}</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Copy Section */}
-              <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-6 space-y-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Target className="h-5 w-5 text-valorant-red" />
-                  <span className="text-lg font-black tracking-wide uppercase text-valorant-black">{dictionary.detail.crosshairCode}</span>
+              <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
+                <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                  <Target className="h-4 w-4 sm:h-5 sm:w-5 text-valorant-red" />
+                  <span className="text-sm sm:text-lg font-black tracking-wide uppercase text-valorant-black">{dictionary.detail.crosshairCode}</span>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <div className="relative">
                     <input
                       type="text"
                       value={crosshair.code}
                       readOnly
-                      className="w-full bg-valorant-gray-50 border-2 border-valorant-gray-200 rounded-lg px-4 py-4 font-mono text-sm focus:ring-2 focus:ring-valorant-red/30 focus:border-valorant-red outline-none text-valorant-black"
+                      className="w-full bg-valorant-gray-50 border-2 border-valorant-gray-200 rounded-lg px-3 sm:px-4 py-3 sm:py-4 font-mono text-xs sm:text-sm focus:ring-2 focus:ring-valorant-red/30 focus:border-valorant-red outline-none text-valorant-black pr-20 sm:pr-24"
                       onClick={(e) => (e.target as HTMLInputElement).select()}
                     />
                     <div className="absolute right-2 top-1/2 -translate-y-1/2">
                       <button
                         onClick={handleCopy}
-                        className={`px-4 py-2 rounded-lg font-bold tracking-wide uppercase text-sm transition-all duration-300 flex items-center gap-2 ${
+                        className={`px-2 sm:px-4 py-2 rounded-lg font-bold tracking-wide uppercase text-xs sm:text-sm transition-all duration-300 flex items-center gap-1 sm:gap-2 min-h-[36px] ${
                           copied ? 'bg-valorant-green text-white' : 'bg-valorant-red text-white hover:bg-valorant-red-dark'
                         }`}
                       >
                         {copied ? (
                           <>
-                            <CheckCircle className="h-4 w-4" />
-                            <span>{dictionary.card.copied}</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <span className="hidden sm:inline">{dictionary.card.copied}</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="h-4 w-4" />
-                            <span>{dictionary.card.copy}</span>
+                            <Copy className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <span className="hidden sm:inline">{dictionary.card.copy}</span>
                           </>
                         )}
                       </button>
                     </div>
                   </div>
-                  <Link href={`/${locale}/how-to-use`} className="inline-flex items-center gap-1 text-valorant-red hover:text-red-600 font-semibold text-sm transition-colors">
-                    <HelpCircle className="h-4 w-4" />
+                  <Link href={`/${locale}/how-to-use`} className="inline-flex items-center gap-1 text-valorant-red hover:text-red-600 font-semibold text-xs sm:text-sm transition-colors">
+                    <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                     {dictionary.detail.howToImport}
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Link>
                 </div>
               </div>
 
               {/* Quick Actions */}
-              <div className="grid grid-cols-2 gap-3">
-                <button className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-2 min-h-[44px] text-xs sm:text-sm">
                   <Download className="h-4 w-4" />
                   <span>{dictionary.detail.export}</span>
                 </button>
-                <Link href={`/${locale}/editor`} className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-2">
+                <Link href={`/${locale}/editor`} className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-2 min-h-[44px] text-xs sm:text-sm">
                   <Settings className="h-4 w-4" />
                   <span>{dictionary.detail.edit}</span>
                 </Link>
@@ -290,26 +292,26 @@ export function CrosshairDetailClient({
         </div>
 
         {/* Technical Specifications */}
-        <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-8">
-          <div className="flex items-center gap-3 mb-8">
-            <Settings className="h-6 w-6 text-valorant-blue" />
-            <h2 className="text-2xl font-black tracking-wide uppercase text-valorant-black">{dictionary.detail.techSpecs}</h2>
+        <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 sm:p-8">
+          <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+            <Settings className="h-5 w-5 sm:h-6 sm:w-6 text-valorant-blue" />
+            <h2 className="text-xl sm:text-2xl font-black tracking-wide uppercase text-valorant-black">{dictionary.detail.techSpecs}</h2>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-3 sm:gap-6">
             {Object.entries(crosshair.params).map(([key, value]) => (
-              <div key={key} className="flex items-center justify-between py-4 px-6 rounded-lg bg-valorant-gray-50 border-2 border-valorant-gray-200">
-                <span className="font-bold tracking-wider uppercase text-sm text-valorant-gray-700">
+              <div key={key} className="flex items-center justify-between py-3 sm:py-4 px-3 sm:px-6 rounded-lg bg-valorant-gray-50 border-2 border-valorant-gray-200">
+                <span className="font-bold tracking-wider uppercase text-xs sm:text-sm text-valorant-gray-700 flex-1 min-w-0 truncate pr-2">
                   {getParameterDisplayName(key)}
                 </span>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                   {key.includes('Color') && (
                     <div
-                      className="w-6 h-6 rounded-lg border-2 border-valorant-gray-300 shadow-inner"
+                      className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg border-2 border-valorant-gray-300 shadow-inner"
                       style={{ backgroundColor: value as string }}
                     />
                   )}
-                  <span className="font-black text-valorant-black">
+                  <span className="font-black text-valorant-black text-sm">
                     {formatParameterValue(key, value)}
                   </span>
                 </div>
@@ -319,19 +321,19 @@ export function CrosshairDetailClient({
         </div>
 
         {/* Similar Configurations */}
-        <div className="mt-20">
-          <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-3">
-              <Target className="h-6 w-6 text-valorant-red" />
-              <h2 className="text-3xl font-black tracking-wide uppercase text-valorant-black">{dictionary.detail.similarConfigs}</h2>
+        <div className="mt-12 sm:mt-20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 gap-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Target className="h-5 w-5 sm:h-6 sm:w-6 text-valorant-red" />
+              <h2 className="text-2xl sm:text-3xl font-black tracking-wide uppercase text-valorant-black">{dictionary.detail.similarConfigs}</h2>
             </div>
-            <Link href={`/${locale}/crosshairs`} className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white px-4 py-2 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center gap-2">
+            <Link href={`/${locale}/crosshairs`} className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white px-3 sm:px-4 py-2 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center gap-2 min-h-[44px] text-xs sm:text-sm">
               <span>{dictionary.detail.viewAll}</span>
               <ExternalLink className="h-4 w-4" />
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {similarCrosshairs.map((similarCrosshair) => (
               <div key={similarCrosshair.id}>
                 <CrosshairCard

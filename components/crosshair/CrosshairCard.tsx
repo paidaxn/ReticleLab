@@ -94,9 +94,13 @@ export function CrosshairCard({
   }
 
   const cardContent = (
-    <div className={`bg-white border-2 rounded-xl group relative overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer flex flex-col h-[450px] ${
+    <div 
+      className={`bg-white border-2 rounded-xl group relative overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer flex flex-col h-[400px] sm:h-[420px] lg:h-[450px] ${
       isVerified && playerName ? 'border-blue-400 hover:border-blue-500' : 'border-gray-200 hover:border-valorant-red'
-    }`}>
+    }`}
+      role="listitem"
+      aria-label={`Crosshair ${name} ${playerName ? `by ${playerName}` : ''}`}
+    >
       {/* Header Badge */}
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         {isVerified && (
@@ -108,7 +112,7 @@ export function CrosshairCard({
       </div>
 
       {/* Crosshair Preview - Fixed Height */}
-      <div className="h-[200px] bg-gradient-to-br from-gray-900 to-gray-800 p-6 flex items-center justify-center relative overflow-hidden">
+      <div className="h-[160px] sm:h-[180px] lg:h-[200px] bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-6 flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         <div className="relative group-hover:scale-110 transition-transform duration-300">
           <LazyLoad
@@ -124,15 +128,15 @@ export function CrosshairCard({
       </div>
       
       {/* Content - Flex Grow */}
-      <div className="p-5 flex-1 flex flex-col">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col">
         {/* Title and Player Info */}
         <div className="space-y-2 flex-1">
-          <h3 className="text-lg font-black uppercase text-gray-900 line-clamp-1 group-hover:text-valorant-red transition-colors">
+          <h3 className="text-base sm:text-lg font-black uppercase text-gray-900 line-clamp-1 group-hover:text-valorant-red transition-colors">
             {name}
           </h3>
           {playerName && (
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-base font-bold text-valorant-red">{playerName}</span>
+              <span className="text-sm sm:text-base font-bold text-valorant-red">{playerName}</span>
               {teamName && (
                 <span className="text-xs font-bold uppercase px-2.5 py-1 bg-gray-100 rounded-full text-gray-600">
                   {teamName}
@@ -190,13 +194,13 @@ export function CrosshairCard({
           
           <button
             onClick={handleLike}
-            className={`px-3 rounded-lg border-2 transition-all duration-200 ${
+            className={`p-2 sm:p-2.5 rounded-lg border-2 transition-all duration-200 min-w-[40px] sm:min-w-[44px] min-h-[40px] sm:min-h-[44px] flex items-center justify-center ${
               liked 
                 ? 'bg-red-50 border-valorant-red text-valorant-red' 
                 : 'bg-white border-gray-300 text-gray-600 hover:border-valorant-red hover:text-valorant-red'
             }`}
           >
-            <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
+            <Heart className={`h-4 w-4 sm:h-5 sm:w-5 ${liked ? 'fill-current' : ''}`} />
           </button>
         </div>
       </div>

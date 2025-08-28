@@ -18,14 +18,14 @@ export function Header({ locale, dictionary }: HeaderProps) {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-valorant-white border-b-2 border-valorant-gray-200">
+    <header className="sticky top-0 z-50 w-full bg-valorant-white border-b-2 border-valorant-gray-200" role="banner">
       <div className="container mx-auto px-6 flex h-20 items-center justify-between">
         <div className="flex items-center gap-12">
           <Link href={`/${locale}`} className="group">
             <ReticleLabLogo className="hover:scale-105 transition-transform duration-300" />
           </Link>
           
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8" role="navigation" aria-label="Main navigation">
             <Link href={`/${locale}/crosshairs`} className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <Target className="h-4 w-4" />
               <span>{dictionary.header.browse}</span>
@@ -46,6 +46,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
           <Link
             href={locale === 'en' ? pathname.replace('/en', '/zh') : pathname.replace('/zh', '/en')}
             className="flex items-center gap-2 px-3 py-2 rounded-lg border-2 border-valorant-gray-200 hover:border-valorant-red transition-all duration-300 text-valorant-black hover:text-valorant-red font-bold text-sm"
+            aria-label={`Switch language to ${locale === 'en' ? 'Chinese' : 'English'}`}
           >
             <Globe className="h-4 w-4" />
             <span>{locale === 'en' ? '中文' : 'EN'}</span>
@@ -54,6 +55,8 @@ export function Header({ locale, dictionary }: HeaderProps) {
           <button
             className="lg:hidden p-3 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white hover:border-valorant-red hover:bg-valorant-red/5 transition-all duration-300"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
               <X className="h-5 w-5 text-valorant-black" />
@@ -67,7 +70,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t-2 border-valorant-gray-200 bg-valorant-white">
-          <nav className="container mx-auto px-6 flex flex-col space-y-2 py-6">
+          <nav className="container mx-auto px-6 flex flex-col space-y-2 py-6" role="navigation" aria-label="Mobile navigation">
             <Link
               href={`/${locale}/crosshairs`}
               className="flex items-center gap-3 p-4 rounded-lg transition-all duration-300 hover:bg-valorant-red/10 text-valorant-black hover:text-valorant-red"

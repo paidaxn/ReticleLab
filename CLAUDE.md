@@ -75,6 +75,54 @@ CSS variables defined in `app/globals.css`:
 - When modifying crosshair parameters, ensure Canvas component properly re-renders
 - Maintain TypeScript strict mode compliance
 
+## Recent Optimizations & Features
+
+### SEO Enhancements
+- **Meta Tags & Structured Data**: Complete implementation of meta tags, Open Graph, and Twitter Cards in `lib/seo-metadata.ts`
+- **Sitemap & Robots**: Dynamic sitemap generation (`app/sitemap.ts`) and robots.txt (`app/robots.ts`)
+- **Page-specific Metadata**: Each page has optimized titles and descriptions for search engines
+- **Structured Data**: JSON-LD schema markup for better search visibility
+
+### Performance Optimizations
+- **Lazy Loading**: Image lazy loading with loading placeholders (`components/ui/lazy-load.tsx`)
+- **Canvas Optimization**: Efficient crosshair rendering with proper cleanup and memoization
+- **Bundle Optimization**: Component code splitting and dynamic imports
+- **Caching Strategy**: Static asset caching configured in `vercel.json`
+
+### User Experience
+- **Keyboard Shortcuts**: 
+  - `/` - Focus search
+  - `1-4` - Switch filter tabs
+  - `Escape` - Clear search
+  - `s` - Open sort dropdown
+- **Mobile Responsiveness**: Full mobile optimization with touch-friendly UI (min 44px touch targets)
+- **Loading States**: Skeleton loaders and smooth transitions
+- **Error Handling**: User-friendly error pages with recovery options
+
+### Internationalization (i18n)
+- **Multi-language Support**: English and Chinese (简体中文) with automatic locale detection
+- **Dictionary System**: Centralized translations in `dictionaries/` folder
+- **URL-based Routing**: SEO-friendly locale prefixes (`/en/`, `/zh/`)
+- **Language Switcher**: Easy language toggle in header
+
+### Accessibility (a11y)
+- **ARIA Labels**: Comprehensive ARIA attributes for screen readers
+- **Keyboard Navigation**: Full keyboard support for all interactive elements
+- **Semantic HTML**: Proper heading hierarchy and landmark regions
+- **Focus Management**: Clear focus indicators and logical tab order
+
+### Security
+- **Content Security Policy (CSP)**: Strict CSP headers in middleware
+- **Security Headers**: X-Frame-Options, HSTS, and other security headers
+- **Input Sanitization**: Safe handling of user inputs
+- **No External Dependencies**: Minimal third-party scripts for security
+
+### Code Quality
+- **TypeScript Strict Mode**: Full type safety with no any types
+- **Component Modularity**: Reusable, well-organized components
+- **Custom Hooks**: Abstracted logic in `hooks/` directory
+- **Utility Functions**: Centralized utilities in `lib/utils/`
+
 ## Important Rules
 
 ### Git & Version Control
@@ -82,3 +130,10 @@ CSS variables defined in `app/globals.css`:
 - **NO git commit or git push without explicit user request** - User will manually commit after reviewing
 - Always explain what changes were made and let the user decide when to commit
 - If deployment issues occur, explain the fix but let the user handle the commit/push
+
+### Development Guidelines
+- **Mobile First**: Always consider mobile UX when making changes
+- **Performance**: Monitor bundle size and rendering performance
+- **Type Safety**: Maintain TypeScript strict mode compliance
+- **Accessibility**: Include ARIA labels and keyboard support
+- **Testing**: Test all features on both desktop and mobile before considering complete

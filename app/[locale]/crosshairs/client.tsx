@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { Search, TrendingUp, Users, Shield, Target, Crosshair as CrosshairIcon, Sparkles } from 'lucide-react'
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
 import {
   Select,
   SelectContent,
@@ -31,19 +32,60 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
   const [sortBy, setSortBy] = useState<SortType>('popular')
   const resultsRef = useRef<HTMLDivElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const sortSelectRef = useRef<HTMLButtonElement>(null)
   const previousFilter = useRef<FilterType>(activeFilter)
-  
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts([
+    {
+      key: '/',
+      handler: () => {
+        searchInputRef.current?.focus()
+      }
+    },
+    {
+      key: '1',
+      handler: () => setActiveFilter('all')
+    },
+    {
+      key: '2',
+      handler: () => setActiveFilter('professional')
+    },
+    {
+      key: '3',
+      handler: () => setActiveFilter('community')
+    },
+    {
+      key: '4',
+      handler: () => setActiveFilter('trending')
+    },
+    {
+      key: 'Escape',
+      handler: () => {
+        setSearchQuery('')
+        searchInputRef.current?.blur()
+      }
+    },
+    {
+      key: 's',
+      handler: () => {
+        sortSelectRef.current?.click()
+      }
+    }
+  ])
+
   // Scroll to top of results only when filter tabs change
   useEffect(() => {
     // Only scroll if the filter actually changed (not on initial render)
     if (previousFilter.current !== activeFilter && resultsRef.current) {
       previousFilter.current = activeFilter
-      
+
       // Calculate the offset considering the sticky header
       const yOffset = -100 // Adjust based on your sticky header height
       const element = resultsRef.current
       const y = element.getBoundingClientRect().top + window.scrollY + yOffset
-      
+
       window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }, [activeFilter])
@@ -109,27 +151,33 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
   return (
     <div className="min-h-screen bg-valorant-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-valorant-black to-valorant-gray-900 text-white py-20">
-        <div className="container mx-auto px-6">
+      <div className="bg-gradient-to-r from-valorant-black to-valorant-gray-900 text-white py-12 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl">
             <Badge variant="valorant" className="mb-4 px-3 py-1.5 text-xs">
               <CrosshairIcon className="h-3 w-3" />
               VALORANT ARSENAL
             </Badge>
-            <h1 className="text-5xl font-black mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-black mb-4 sm:mb-6 tracking-tight">
               {dictionary.crosshairs.title}
             </h1>
-            
+
             {/* Search Bar */}
             <div className="relative max-w-2xl">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-valorant-gray-400" />
+              <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-valorant-gray-400" />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder={dictionary.crosshairs.search}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-valorant-white/10 backdrop-blur border-2 border-valorant-white/20 rounded-xl text-white placeholder:text-valorant-gray-400 focus:outline-none focus:border-valorant-red transition-colors"
+                className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 bg-valorant-white/10 backdrop-blur border-2 border-valorant-white/20 rounded-xl text-white placeholder:text-valorant-gray-400 focus:outline-none focus:border-valorant-red transition-colors text-sm sm:text-base"
+                aria-label="Search crosshairs"
+                role="search"
               />
+              <kbd className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:block px-2 py-1 text-xs font-mono bg-valorant-black/20 border border-valorant-white/20 rounded">
+                /
+              </kbd>
             </div>
           </div>
         </div>
@@ -140,32 +188,40 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
         <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             {/* Filter Tabs */}
-            <Tabs value={activeFilter} onValueChange={(value) => setActiveFilter(value as FilterType)}>
-              <TabsList className="grid w-full grid-cols-4 bg-valorant-gray-50">
-                <TabsTrigger value="all" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
-                  <Target className="h-4 w-4 mr-2" />
-                  {dictionary.crosshairs.filter.all}
+            <Tabs value={activeFilter} onValueChange={(value) => setActiveFilter(value as FilterType)} aria-label="Filter crosshairs">
+              <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-valorant-gray-50 h-auto">
+                <TabsTrigger value="all" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
+                  <Target className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.all}</span>
+                  <span className="sm:hidden">All</span>
+                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">1</kbd>
                 </TabsTrigger>
-                <TabsTrigger value="professional" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
-                  <Shield className="h-4 w-4 mr-2" />
-                  {dictionary.crosshairs.filter.professional}
+                <TabsTrigger value="professional" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
+                  <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.professional}</span>
+                  <span className="sm:hidden">Pro</span>
+                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">2</kbd>
                 </TabsTrigger>
-                <TabsTrigger value="community" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
-                  <Users className="h-4 w-4 mr-2" />
-                  {dictionary.crosshairs.filter.community}
+                <TabsTrigger value="community" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.community}</span>
+                  <span className="sm:hidden">Community</span>
+                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">3</kbd>
                 </TabsTrigger>
-                <TabsTrigger value="trending" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  {dictionary.crosshairs.filter.trending}
+                <TabsTrigger value="trending" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
+                  <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.trending}</span>
+                  <span className="sm:hidden">Trending</span>
+                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">4</kbd>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
 
             {/* Sort Select */}
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-bold text-valorant-gray-600 uppercase">{dictionary.crosshairs.sortBy}</span>
+            <div className="flex items-center gap-2 sm:gap-3 justify-between sm:justify-start">
+              <span className="text-xs sm:text-sm font-bold text-valorant-gray-600 uppercase">{dictionary.crosshairs.sortBy}</span>
               <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortType)}>
-                <SelectTrigger className="w-[180px] border-2 border-valorant-gray-200 focus:border-valorant-red">
+                <SelectTrigger ref={sortSelectRef} className="w-[140px] sm:w-[180px] border-2 border-valorant-gray-200 focus:border-valorant-red text-xs sm:text-sm" aria-label="Sort crosshairs by">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -182,17 +238,17 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
       </div>
 
       {/* Results Count */}
-      <div ref={resultsRef} className="container mx-auto px-6 pt-8">
-        <div className="flex items-center justify-between mb-8">
-          <p className="text-valorant-gray-600">
+      <div ref={resultsRef} className="container mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <p className="text-sm sm:text-base text-valorant-gray-600">
             <span className="font-black text-valorant-black">{filteredAndSortedCrosshairs.length}</span> {dictionary.crosshairs.results}
           </p>
           {searchQuery && (
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => setSearchQuery('')}
-              className="border-valorant-gray-300 hover:border-valorant-red"
+              className="border-valorant-gray-300 hover:border-valorant-red min-h-[44px] text-sm"
             >
               {dictionary.crosshairs.clearFilters}
             </Button>
@@ -201,9 +257,9 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
       </div>
 
       {/* Crosshair Grid */}
-      <div className="container mx-auto px-6 pb-20">
+      <div className="container mx-auto px-4 sm:px-6 pb-12 sm:pb-20">
         {filteredAndSortedCrosshairs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8" role="list" aria-label="Crosshair list">
             {filteredAndSortedCrosshairs.map((crosshair) => (
               <CrosshairCard
                 key={crosshair.id}
@@ -222,14 +278,14 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-valorant-gray-100 rounded-full mb-6">
-              <Sparkles className="h-10 w-10 text-valorant-gray-400" />
+          <div className="text-center py-12 sm:py-20 px-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-valorant-gray-100 rounded-full mb-4 sm:mb-6">
+              <Sparkles className="h-8 w-8 sm:h-10 sm:w-10 text-valorant-gray-400" />
             </div>
-            <h3 className="text-2xl font-black mb-2 text-valorant-gray-700">
+            <h3 className="text-xl sm:text-2xl font-black mb-2 text-valorant-gray-700">
               {dictionary.crosshairs.noResults}
             </h3>
-            <p className="text-valorant-gray-500 mb-6">
+            <p className="text-sm sm:text-base text-valorant-gray-500 mb-4 sm:mb-6">
               Try adjusting your filters or search terms
             </p>
             <Button
@@ -238,7 +294,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
                 setActiveFilter('all')
               }}
               variant="outline"
-              className="border-valorant-black hover:bg-valorant-black hover:text-white"
+              className="border-valorant-black hover:bg-valorant-black hover:text-white min-h-[44px] text-sm"
             >
               {dictionary.crosshairs.clearFilters}
             </Button>
