@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ReticleLabLogo } from '@/components/icons/ReticleLabLogo'
-import { Search, Menu, X, Target, Settings, HelpCircle, Globe } from 'lucide-react'
+import { Menu, X, Target, Settings, HelpCircle, Globe } from 'lucide-react'
 import { useState } from 'react'
 import { type Locale } from '@/i18n.config'
 import { usePathname } from 'next/navigation'
@@ -50,16 +50,6 @@ export function Header({ locale, dictionary }: HeaderProps) {
             <Globe className="h-4 w-4" />
             <span>{locale === 'en' ? '中文' : 'EN'}</span>
           </Link>
-          <div className="hidden xl:flex items-center gap-4">
-            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-valorant-gray-500 group-focus-within:text-valorant-red transition-colors" />
-              <input
-                type="search"
-                placeholder={dictionary.header.search}
-                className="w-[280px] h-12 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white px-12 text-sm font-medium outline-none transition-all duration-300 focus:ring-2 focus:ring-valorant-red/20 focus:border-valorant-red placeholder:text-valorant-gray-500 hover:border-valorant-gray-300"
-              />
-            </div>
-          </div>
 
           <button
             className="lg:hidden p-3 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white hover:border-valorant-red hover:bg-valorant-red/5 transition-all duration-300"
@@ -103,17 +93,6 @@ export function Header({ locale, dictionary }: HeaderProps) {
               <span className="font-bold tracking-wide uppercase text-lg">{dictionary.header.editor}</span>
               <span className="ml-auto text-xs bg-yellow-400 text-gray-900 px-2 py-0.5 rounded-full font-bold">SOON</span>
             </Link>
-            
-            <div className="pt-6">
-              <div className="relative group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-valorant-gray-500 group-focus-within:text-valorant-red transition-colors" />
-                <input
-                  type="search"
-                  placeholder={dictionary.header.search}
-                  className="w-full h-12 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white px-12 text-sm font-medium outline-none focus:ring-2 focus:ring-valorant-red/20 focus:border-valorant-red"
-                />
-              </div>
-            </div>
           </nav>
         </div>
       )}

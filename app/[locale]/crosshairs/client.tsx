@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { Search, TrendingUp, Users, Shield, Target, Crosshair as CrosshairIcon, Sparkles } from 'lucide-react'
 import {
@@ -30,6 +30,23 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
   const [sortBy, setSortBy] = useState<SortType>('popular')
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const previousFilter = useRef<FilterType>(activeFilter)
+  
+  // Scroll to top of results only when filter tabs change
+  useEffect(() => {
+    // Only scroll if the filter actually changed (not on initial render)
+    if (previousFilter.current !== activeFilter && resultsRef.current) {
+      previousFilter.current = activeFilter
+      
+      // Calculate the offset considering the sticky header
+      const yOffset = -100 // Adjust based on your sticky header height
+      const element = resultsRef.current
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset
+      
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }, [activeFilter])
 
   // Filter and sort crosshairs
   const filteredAndSortedCrosshairs = useMemo(() => {
@@ -165,7 +182,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
       </div>
 
       {/* Results Count */}
-      <div className="container mx-auto px-6 pt-8">
+      <div ref={resultsRef} className="container mx-auto px-6 pt-8">
         <div className="flex items-center justify-between mb-8">
           <p className="text-valorant-gray-600">
             <span className="font-black text-valorant-black">{filteredAndSortedCrosshairs.length}</span> {dictionary.crosshairs.results}
