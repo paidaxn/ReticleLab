@@ -38,12 +38,16 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
     try {
       await navigator.clipboard.writeText(crosshair.code)
       setCopied(true)
-      toast.success('✅ Code copied! Now paste it in VALORANT settings.', {
+      toast.success('Code copied! Now paste it in VALORANT settings.', {
         duration: 4000,
         style: {
           background: '#10B981',
           color: '#fff',
           fontWeight: 'bold',
+        },
+        iconTheme: {
+          primary: '#fff',
+          secondary: '#10B981',
         },
       })
       setTimeout(() => setCopied(false), 3000)

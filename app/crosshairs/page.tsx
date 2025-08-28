@@ -4,6 +4,13 @@ import { useState, useMemo } from 'react'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
 import { Search, TrendingUp, Users, Shield, Target, Crosshair } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type FilterType = 'all' | 'elite' | 'community' | 'trending'
 type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
@@ -173,17 +180,18 @@ export default function CrosshairsPage() {
             
             <div className="flex items-center gap-3">
               <span className="font-semibold text-gray-600 text-sm uppercase tracking-wide">Sort by:</span>
-              <select 
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortType)}
-                className="bg-white border-2 border-gray-300 rounded-xl px-4 py-2.5 font-medium text-gray-700 text-sm focus:ring-4 focus:ring-valorant-red/10 focus:border-valorant-red outline-none cursor-pointer hover:border-gray-400 transition-all shadow-sm"
-              >
-                <option value="popular">Most Popular</option>
-                <option value="copies">Most Copied</option>
-                <option value="likes">Most Liked</option>
-                <option value="newest">Newest First</option>
-                <option value="verified">Verified First</option>
-              </select>
+              <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortType)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="popular">Most Popular</SelectItem>
+                  <SelectItem value="copies">Most Copied</SelectItem>
+                  <SelectItem value="likes">Most Liked</SelectItem>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="verified">Verified First</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           

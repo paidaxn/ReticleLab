@@ -41,7 +41,16 @@ export function CrosshairCard({
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
-      toast.success('Configuration copied to clipboard!')
+      toast.success('Configuration copied to clipboard!', {
+        style: {
+          background: '#10B981',
+          color: '#fff',
+        },
+        iconTheme: {
+          primary: '#fff',
+          secondary: '#10B981',
+        },
+      })
       setTimeout(() => setCopied(false), 2500)
     } catch (error) {
       toast.error('Failed to copy. Please try again.')
