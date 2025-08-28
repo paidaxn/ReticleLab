@@ -89,6 +89,20 @@ export const translations = {
     'howTo.tips.2': 'Adjust the color if it doesn\'t contrast well with your game',
     'howTo.tips.3': 'Test crosshairs in the Practice Range before competitive play',
     'howTo.tips.4': 'Remember: the best crosshair is one you\'re comfortable with',
+    
+    // Detail Page
+    'detail.notFound': 'Crosshair Not Found',
+    'detail.notFoundDesc': 'The crosshair you\'re looking for doesn\'t exist.',
+    'detail.backToCollection': 'Back to Collection',
+    'detail.backToArsenal': 'BACK TO ARSENAL',
+    'detail.crosshairCode': 'CROSSHAIR CODE',
+    'detail.howToImport': 'How to import this crosshair in VALORANT',
+    'detail.export': 'EXPORT',
+    'detail.edit': 'EDIT',
+    'detail.techSpecs': 'TECHNICAL SPECIFICATIONS',
+    'detail.similarConfigs': 'SIMILAR CONFIGURATIONS',
+    'detail.viewAll': 'VIEW ALL',
+    'toast.shareSuccess': 'Link copied to clipboard!',
   },
   zh: {
     // Header
@@ -180,6 +194,20 @@ export const translations = {
     'howTo.tips.2': '如果与游戏画面对比度不够，调整颜色',
     'howTo.tips.3': '在竞技比赛前先在训练场测试准星',
     'howTo.tips.4': '记住：最好的准星是你用着舒服的准星',
+    
+    // Detail Page
+    'detail.notFound': '未找到准星',
+    'detail.notFoundDesc': '你正在寻找的准星不存在。',
+    'detail.backToCollection': '返回准星库',
+    'detail.backToArsenal': '返回配置库',
+    'detail.crosshairCode': '准星代码',
+    'detail.howToImport': '如何在瓦罗兰特中导入此准星',
+    'detail.export': '导出',
+    'detail.edit': '编辑',
+    'detail.techSpecs': '技术规格',
+    'detail.similarConfigs': '相似配置',
+    'detail.viewAll': '查看全部',
+    'toast.shareSuccess': '链接已复制到剪贴板！',
   }
 }
 

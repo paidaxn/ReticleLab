@@ -6,6 +6,7 @@ import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
 import { Copy, Heart, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target, HelpCircle, ChevronRight } from 'lucide-react'
 import { showSuccess, showError } from '@/lib/toast-config'
+import { useLanguage } from '@/contexts/LanguageContext'
 import Link from 'next/link'
 
 interface CrosshairDetailPageProps {
@@ -18,16 +19,17 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
   const crosshair = mockCrosshairs.find(c => c.id === params.id)
   const [liked, setLiked] = useState(false)
   const [copied, setCopied] = useState(false)
+  const { t } = useLanguage()
 
   if (!crosshair) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-valorant-white">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4 text-valorant-black">Crosshair Not Found</h1>
-          <p className="text-valorant-gray-600 mb-6">The crosshair you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className="text-2xl font-bold mb-4 text-valorant-black">{t('detail.notFound')}</h1>
+          <p className="text-valorant-gray-600 mb-6">{t('detail.notFoundDesc')}</p>
           <Link href="/crosshairs" className="bg-valorant-red hover:bg-valorant-red-dark text-white px-6 py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 inline-flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Collection
+            {t('detail.backToCollection')}
           </Link>
         </div>
       </div>
@@ -38,10 +40,10 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
     try {
       await navigator.clipboard.writeText(crosshair.code)
       setCopied(true)
-      showSuccess('Code copied! Now paste it in VALORANT settings.')
+      showSuccess(t('toast.copySuccess'))
       setTimeout(() => setCopied(false), 3000)
     } catch (error) {
-      showError('Failed to copy code. Please copy manually.')
+      showError(t('toast.copyError'))
     }
   }
 
@@ -54,13 +56,13 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
       })
     } catch (error) {
       await navigator.clipboard.writeText(window.location.href)
-      showSuccess('Link copied to clipboard!')
+      showSuccess(t('toast.shareSuccess'))
     }
   }
 
   const handleLike = () => {
     setLiked(!liked)
-    showSuccess(liked ? 'Removed from favorites' : 'Added to favorites')
+    showSuccess(liked ? t('toast.likeRemove') : t('toast.likeAdd'))
   }
 
   const formatParameterValue = (key: string, value: unknown): string => {
@@ -112,7 +114,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
         <div className="container mx-auto px-6 py-4">
           <Link href="/crosshairs" className="inline-flex items-center gap-2 font-bold tracking-wider uppercase text-valorant-gray-600 hover:text-valorant-black transition-colors">
             <ArrowLeft className="h-4 w-4" />
-            BACK TO ARSENAL
+            {t('detail.backToArsenal')}
           </Link>
         </div>
       </div>
@@ -189,7 +191,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                       <div className="text-xl font-black text-valorant-green">
                         {crosshair.copies.toLocaleString()}
                       </div>
-                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">COPIES</div>
+                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">{t('card.copies')}</div>
                     </div>
                     <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 text-center">
                       <div className="flex items-center justify-center gap-2 mb-2">
@@ -198,7 +200,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                       <div className="text-xl font-black text-valorant-red">
                         {crosshair.likes.toLocaleString()}
                       </div>
-                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">LIKES</div>
+                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">{t('card.likes')}</div>
                     </div>
                   </div>
                 </div>
@@ -208,7 +210,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
               <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-6 space-y-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Target className="h-5 w-5 text-valorant-red" />
-                  <span className="text-lg font-black tracking-wide uppercase text-valorant-black">CROSSHAIR CODE</span>
+                  <span className="text-lg font-black tracking-wide uppercase text-valorant-black">{t('detail.crosshairCode')}</span>
                 </div>
                 
                 <div className="space-y-4">
@@ -230,12 +232,12 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                         {copied ? (
                           <>
                             <CheckCircle className="h-4 w-4" />
-                            <span>COPIED</span>
+                            <span>{t('card.copied')}</span>
                           </>
                         ) : (
                           <>
                             <Copy className="h-4 w-4" />
-                            <span>COPY</span>
+                            <span>{t('card.copy')}</span>
                           </>
                         )}
                       </button>
@@ -243,7 +245,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                   </div>
                   <Link href="/how-to-use" className="inline-flex items-center gap-1 text-valorant-red hover:text-red-600 font-semibold text-sm transition-colors">
                     <HelpCircle className="h-4 w-4" />
-                    How to import this crosshair in VALORANT
+                    {t('detail.howToImport')}
                     <ChevronRight className="h-4 w-4" />
                   </Link>
                 </div>
@@ -253,11 +255,11 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
               <div className="grid grid-cols-2 gap-3">
                 <button className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-2">
                   <Download className="h-4 w-4" />
-                  <span>EXPORT</span>
+                  <span>{t('detail.export')}</span>
                 </button>
                 <Link href="/editor" className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white py-3 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center justify-center gap-2">
                   <Settings className="h-4 w-4" />
-                  <span>EDIT</span>
+                  <span>{t('detail.edit')}</span>
                 </Link>
               </div>
             </div>
@@ -268,7 +270,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
         <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-8">
           <div className="flex items-center gap-3 mb-8">
             <Settings className="h-6 w-6 text-valorant-blue" />
-            <h2 className="text-2xl font-black tracking-wide uppercase text-valorant-black">TECHNICAL SPECIFICATIONS</h2>
+            <h2 className="text-2xl font-black tracking-wide uppercase text-valorant-black">{t('detail.techSpecs')}</h2>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -298,10 +300,10 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
               <Target className="h-6 w-6 text-valorant-red" />
-              <h2 className="text-3xl font-black tracking-wide uppercase text-valorant-black">SIMILAR CONFIGURATIONS</h2>
+              <h2 className="text-3xl font-black tracking-wide uppercase text-valorant-black">{t('detail.similarConfigs')}</h2>
             </div>
             <Link href="/crosshairs" className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white px-4 py-2 rounded-lg font-bold tracking-wide uppercase transition-all duration-300 flex items-center gap-2">
-              <span>VIEW ALL</span>
+              <span>{t('detail.viewAll')}</span>
               <ExternalLink className="h-4 w-4" />
             </Link>
           </div>
