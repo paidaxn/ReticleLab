@@ -74,3 +74,11 @@ CSS variables defined in `app/globals.css`:
 - Authentication system planned but not implemented
 - When modifying crosshair parameters, ensure Canvas component properly re-renders
 - Maintain TypeScript strict mode compliance
+
+## Important Rules
+
+### Git & Version Control
+- **NEVER commit or push code automatically** - Always show changes to the user for review
+- **NO git commit or git push without explicit user request** - User will manually commit after reviewing
+- Always explain what changes were made and let the user decide when to commit
+- If deployment issues occur, explain the fix but let the user handle the commit/push
