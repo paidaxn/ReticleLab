@@ -53,10 +53,35 @@ export function CrosshairCanvas({
 
     // Helper function to convert hex to rgba
     const hexToRgba = (hex: string, opacity: number) => {
-      const r = parseInt(hex.slice(1, 3), 16)
-      const g = parseInt(hex.slice(3, 5), 16)
-      const b = parseInt(hex.slice(5, 7), 16)
-      return `rgba(${r}, ${g}, ${b}, ${opacity / 100})`
+      // Handle different color formats
+      if (!hex || hex === '') return `rgba(0, 255, 0, ${opacity / 100})`
+      
+      // Remove # if present
+      hex = hex.replace('#', '')
+      
+      // Handle 3-digit hex
+      if (hex.length === 3) {
+        hex = hex.split('').map(char => char + char).join('')
+      }
+      
+      // Handle 6-digit hex
+      if (hex.length === 6) {
+        const r = parseInt(hex.slice(0, 2), 16)
+        const g = parseInt(hex.slice(2, 4), 16)
+        const b = parseInt(hex.slice(4, 6), 16)
+        return `rgba(${r}, ${g}, ${b}, ${opacity / 100})`
+      }
+      
+      // Handle 8-digit hex (RRGGBBAA)
+      if (hex.length === 8) {
+        const r = parseInt(hex.slice(0, 2), 16)
+        const g = parseInt(hex.slice(2, 4), 16)
+        const b = parseInt(hex.slice(4, 6), 16)
+        return `rgba(${r}, ${g}, ${b}, ${opacity / 100})`
+      }
+      
+      // Default fallback
+      return `rgba(0, 255, 0, ${opacity / 100})`
     }
 
     // Draw outer lines
@@ -170,18 +195,22 @@ export function CrosshairCanvas({
     }
 
     // Draw center dot
-    if (params.centerDot) {
+    if (params.centerDot && params.centerDotSize > 0) {
+      const dotRadius = Math.max(params.centerDotSize / 2, 1) // Ensure minimum size
+      
+      // Draw center dot outline first if enabled
+      if (params.outlineThickness > 0) {
+        ctx.fillStyle = hexToRgba(params.outlineColor, params.outlineOpacity)
+        ctx.beginPath()
+        ctx.arc(centerX, centerY, dotRadius + params.outlineThickness, 0, Math.PI * 2)
+        ctx.fill()
+      }
+      
+      // Draw center dot
       ctx.fillStyle = hexToRgba(params.color, params.centerDotOpacity)
       ctx.beginPath()
-      ctx.arc(centerX, centerY, params.centerDotSize / 2, 0, Math.PI * 2)
+      ctx.arc(centerX, centerY, dotRadius, 0, Math.PI * 2)
       ctx.fill()
-
-      // Draw center dot outline
-      if (params.outlineThickness > 0) {
-        ctx.strokeStyle = hexToRgba(params.outlineColor, params.outlineOpacity)
-        ctx.lineWidth = params.outlineThickness
-        ctx.stroke()
-      }
     }
   }, [params, size, showBackground])
 

@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import { CrosshairCanvas } from './CrosshairCanvas'
-import { Button } from '@/components/ui/button'
-import { Copy, Heart, Eye, CheckCircle } from 'lucide-react'
+import { Copy, Heart, Eye, CheckCircle, Shield } from 'lucide-react'
 import { CrosshairParams } from '@/types/crosshair'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
 
 interface CrosshairCardProps {
+  id: string
   name: string
   playerName?: string
   teamName?: string
@@ -20,6 +21,7 @@ interface CrosshairCardProps {
 }
 
 export function CrosshairCard({
+  id,
   name,
   playerName,
   teamName,
@@ -28,96 +30,152 @@ export function CrosshairCard({
   views,
   copies,
   likes,
-  isVerified,
+  isVerified = false,
 }: CrosshairCardProps) {
-  const [liked, setLiked] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [liked, setLiked] = useState(false)
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
-      toast.success('准星代码已复制到剪贴板！')
-      setTimeout(() => setCopied(false), 2000)
+      toast.success('Configuration copied to clipboard!')
+      setTimeout(() => setCopied(false), 2500)
     } catch (error) {
-      toast.error('复制失败，请手动复制')
+      toast.error('Failed to copy. Please try again.')
     }
   }
 
-  const handleLike = () => {
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     setLiked(!liked)
-    if (!liked) {
-      toast.success('已收藏准星')
-    }
+    toast.success(liked ? 'Removed from favorites' : 'Added to favorites')
   }
 
-  return (
-    <div className="group relative overflow-hidden rounded-lg border bg-card hover:shadow-lg transition-all duration-200">
-      <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 p-4 flex items-center justify-center">
-        <CrosshairCanvas params={params} size={150} />
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
+    return num.toLocaleString()
+  }
+
+  const cardContent = (
+    <div className={`bg-white border-2 rounded-xl group relative overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer flex flex-col h-[450px] ${
+      isVerified && playerName ? 'border-blue-400 hover:border-blue-500' : 'border-gray-200 hover:border-valorant-red'
+    }`}>
+      {/* Header Badge */}
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        {isVerified && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500 text-white shadow-lg">
+            <Shield className="h-3.5 w-3.5" />
+            <span className="font-bold text-xs uppercase tracking-wider">Elite</span>
+          </div>
+        )}
+      </div>
+
+      {/* Crosshair Preview - Fixed Height */}
+      <div className="h-[200px] bg-gradient-to-br from-gray-900 to-gray-800 p-6 flex items-center justify-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="relative group-hover:scale-110 transition-transform duration-300">
+          <CrosshairCanvas params={params} size={150} showBackground={false} />
+        </div>
       </div>
       
-      <div className="p-4">
-        <div className="flex items-start justify-between mb-2">
+      {/* Content - Flex Grow */}
+      <div className="p-5 flex-1 flex flex-col">
+        {/* Title and Player Info */}
+        <div className="space-y-2 flex-1">
+          <h3 className="text-lg font-black uppercase text-gray-900 line-clamp-1 group-hover:text-valorant-red transition-colors">
+            {name}
+          </h3>
+          {playerName && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-base font-bold text-valorant-red">{playerName}</span>
+              {teamName && (
+                <span className="text-xs font-bold uppercase px-2.5 py-1 bg-gray-100 rounded-full text-gray-600">
+                  {teamName}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+        
+        {/* Stats - Fixed at Bottom */}
+        <div className="grid grid-cols-3 gap-3 text-center pt-4 mt-auto border-t border-gray-100">
           <div>
-            <h3 className="font-semibold text-sm line-clamp-1">{name}</h3>
-            {playerName && (
-              <div className="flex items-center gap-1 mt-1">
-                <span className="text-xs text-muted-foreground">{playerName}</span>
-                {isVerified && (
-                  <CheckCircle className="h-3 w-3 text-blue-500" />
-                )}
-                {teamName && (
-                  <span className="text-xs text-muted-foreground">• {teamName}</span>
-                )}
-              </div>
-            )}
+            <div className="flex items-center justify-center mb-1">
+              <Eye className="h-4 w-4 text-gray-600" />
+            </div>
+            <div className="font-bold text-sm text-gray-900">
+              {formatNumber(views)}
+            </div>
+            <div className="text-xs text-gray-500 uppercase">Views</div>
+          </div>
+          
+          <div>
+            <div className="flex items-center justify-center mb-1">
+              <Copy className="h-4 w-4 text-gray-600" />
+            </div>
+            <div className="font-bold text-sm text-gray-900">
+              {formatNumber(copies)}
+            </div>
+            <div className="text-xs text-gray-500 uppercase">Copies</div>
+          </div>
+          
+          <div>
+            <div className="flex items-center justify-center mb-1">
+              <Heart className="h-4 w-4 text-gray-600" />
+            </div>
+            <div className="font-bold text-sm text-gray-900">
+              {formatNumber(likes)}
+            </div>
+            <div className="text-xs text-gray-500 uppercase">Likes</div>
           </div>
         </div>
         
-        <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-          <span className="flex items-center gap-1">
-            <Eye className="h-3 w-3" />
-            {views.toLocaleString()}
-          </span>
-          <span className="flex items-center gap-1">
-            <Copy className="h-3 w-3" />
-            {copies.toLocaleString()}
-          </span>
-          <span className="flex items-center gap-1">
-            <Heart className="h-3 w-3" />
-            {likes.toLocaleString()}
-          </span>
-        </div>
-        
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            variant={copied ? "secondary" : "valorant"}
-            className="flex-1"
+        {/* Actions - Fixed at Bottom */}
+        <div className="flex gap-2 mt-4">
+          <button
             onClick={handleCopy}
+            className={`flex-1 px-4 py-2.5 rounded-lg font-bold text-sm uppercase tracking-wide transition-all duration-200 flex items-center justify-center gap-2 ${
+              copied
+                ? 'bg-green-500 text-white'
+                : 'bg-valorant-red hover:bg-red-600 text-white hover:shadow-lg'
+            }`}
           >
             {copied ? (
               <>
-                <CheckCircle className="h-3 w-3 mr-1" />
-                已复制
+                <CheckCircle className="h-4 w-4" />
+                <span>Copied</span>
               </>
             ) : (
               <>
-                <Copy className="h-3 w-3 mr-1" />
-                复制代码
+                <Copy className="h-4 w-4" />
+                <span>Copy</span>
               </>
             )}
-          </Button>
-          <Button
-            size="sm"
-            variant={liked ? "secondary" : "outline"}
+          </button>
+          
+          <button
             onClick={handleLike}
+            className={`px-3 rounded-lg border-2 transition-all duration-200 ${
+              liked 
+                ? 'bg-red-50 border-valorant-red text-valorant-red' 
+                : 'bg-white border-gray-300 text-gray-600 hover:border-valorant-red hover:text-valorant-red'
+            }`}
           >
-            <Heart className={`h-3 w-3 ${liked ? 'fill-current text-red-500' : ''}`} />
-          </Button>
+            <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
+          </button>
         </div>
       </div>
     </div>
+  )
+
+  return (
+    <Link href={`/crosshairs/${id}`}>
+      {cardContent}
+    </Link>
   )
 }

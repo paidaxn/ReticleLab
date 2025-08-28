@@ -1,5 +1,5 @@
 export interface CrosshairParams {
-  // 基础设置
+  // Basic settings
   color: string
   outlineColor: string
   outlineThickness: number
@@ -8,7 +8,7 @@ export interface CrosshairParams {
   centerDotSize: number
   centerDotOpacity: number
   
-  // 内线设置
+  // Inner line settings
   innerLineThickness: number
   innerLineLength: number
   innerLineOffset: number
@@ -17,7 +17,7 @@ export interface CrosshairParams {
   innerLineMovementError: number
   innerLineFiringError: number
   
-  // 外线设置
+  // Outer line settings
   outerLineThickness: number
   outerLineLength: number
   outerLineOffset: number

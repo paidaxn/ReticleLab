@@ -8,15 +8,27 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ReticleLab - 瓦罗兰特准星大全',
-  description: '瓦罗兰特玩家的准星配置中心，提供职业选手准星库、可视化编辑器和一键复制功能',
-  keywords: 'Valorant,瓦罗兰特,准星,Crosshair,职业选手,FPS',
-  authors: [{ name: 'ReticleLab Team' }],
+  title: 'RETICLELAB - Elite VALORANT Crosshair Arsenal',
+  description: 'Professional-grade crosshair configurations from championship-winning VALORANT players. Customize, deploy, and dominate with tactical precision.',
+  keywords: 'VALORANT,Crosshair,Professional,Elite,Gaming,FPS,Esports,Tactical,Configuration,Pro Player',
+  authors: [{ name: 'ReticleLab Tactical Division' }],
   openGraph: {
-    title: 'ReticleLab - 瓦罗兰特准星大全',
-    description: '瓦罗兰特玩家的准星配置中心',
+    title: 'RETICLELAB - Elite VALORANT Crosshair Arsenal',
+    description: 'Deploy professional-grade crosshair configurations and gain the tactical advantage. Your perfect aim starts here.',
     type: 'website',
+    siteName: 'ReticleLab',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RETICLELAB - Elite VALORANT Crosshair Arsenal',
+    description: 'Deploy professional-grade crosshair configurations and gain the tactical advantage.',
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  themeColor: '#FF4655',
 }
 
 export default function RootLayout({
@@ -25,9 +37,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
-      <body className={inter.className}>
-        <div className="flex min-h-screen flex-col">
+    <html lang="en" className="">
+      <body className={`${inter.className} antialiased`}>
+        <div className="flex min-h-screen flex-col bg-background text-foreground">
           <Header />
           <main className="flex-1">
             {children}
@@ -39,10 +51,17 @@ export default function RootLayout({
           toastOptions={{
             duration: 3000,
             style: {
-              background: '#363636',
-              color: '#fff',
+              background: 'hsl(var(--card))',
+              color: 'hsl(var(--card-foreground))',
+              border: '1px solid hsl(var(--border))',
             },
             success: {
+              iconTheme: {
+                primary: '#FF4655',
+                secondary: '#fff',
+              },
+            },
+            error: {
               iconTheme: {
                 primary: '#FF4655',
                 secondary: '#fff',

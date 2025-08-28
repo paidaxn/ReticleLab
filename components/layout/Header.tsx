@@ -1,61 +1,57 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Search, Menu, X } from 'lucide-react'
+import { ReticleLabLogo } from '@/components/icons/ReticleLabLogo'
+import { Search, Menu, X, Target, Shield, Settings } from 'lucide-react'
 import { useState } from 'react'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-valorant-red rounded-sm flex items-center justify-center">
-              <span className="text-white font-bold text-lg">R</span>
-            </div>
-            <span className="font-bold text-xl">ReticleLab</span>
+    <header className="sticky top-0 z-50 w-full bg-valorant-white border-b-2 border-valorant-gray-200">
+      <div className="container mx-auto px-6 flex h-20 items-center justify-between">
+        <div className="flex items-center gap-12">
+          <Link href="/" className="group">
+            <ReticleLabLogo className="hover:scale-105 transition-transform duration-300" />
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="/crosshairs" className="transition-colors hover:text-primary">
-              准星库
+          <nav className="hidden lg:flex items-center space-x-8">
+            <Link href="/crosshairs" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
+              <Target className="h-4 w-4" />
+              <span>ARSENAL</span>
             </Link>
-            <Link href="/crosshairs/pro" className="transition-colors hover:text-primary">
-              职业选手
+            <Link href="/crosshairs/pro" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              <span>ELITE</span>
             </Link>
-            <Link href="/editor" className="transition-colors hover:text-primary">
-              编辑器
+            <Link href="/editor" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <span>EDITOR</span>
             </Link>
           </nav>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-2">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-6">
+          <div className="hidden xl:flex items-center gap-4">
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-valorant-gray-500 group-focus-within:text-valorant-red transition-colors" />
               <input
                 type="search"
-                placeholder="搜索准星..."
-                className="w-[200px] lg:w-[300px] h-9 rounded-md border border-input bg-background px-8 text-sm outline-none focus:ring-2 focus:ring-ring"
+                placeholder="Search crosshairs..."
+                className="w-[280px] h-12 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white px-12 text-sm font-medium outline-none transition-all duration-300 focus:ring-2 focus:ring-valorant-red/20 focus:border-valorant-red placeholder:text-valorant-gray-500 hover:border-valorant-gray-300"
               />
             </div>
           </div>
-          
-          <Button variant="valorant" size="sm">
-            登录
-          </Button>
 
           <button
-            className="md:hidden"
+            className="lg:hidden p-3 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white hover:border-valorant-red hover:bg-valorant-red/5 transition-all duration-300"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5 text-valorant-black" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5 text-valorant-black" />
             )}
           </button>
         </div>
@@ -63,35 +59,42 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t">
-          <nav className="flex flex-col space-y-4 p-4">
+        <div className="lg:hidden border-t-2 border-valorant-gray-200 bg-valorant-white">
+          <nav className="container mx-auto px-6 flex flex-col space-y-2 py-6">
             <Link
               href="/crosshairs"
-              className="transition-colors hover:text-primary"
+              className="flex items-center gap-3 p-4 rounded-lg transition-all duration-300 hover:bg-valorant-red/10 text-valorant-black hover:text-valorant-red"
               onClick={() => setMobileMenuOpen(false)}
             >
-              准星库
+              <Target className="h-5 w-5" />
+              <span className="font-bold tracking-wide uppercase text-lg">ARSENAL</span>
             </Link>
             <Link
               href="/crosshairs/pro"
-              className="transition-colors hover:text-primary"
+              className="flex items-center gap-3 p-4 rounded-lg transition-all duration-300 hover:bg-valorant-red/10 text-valorant-black hover:text-valorant-red"
               onClick={() => setMobileMenuOpen(false)}
             >
-              职业选手
+              <Shield className="h-5 w-5" />
+              <span className="font-bold tracking-wide uppercase text-lg">ELITE</span>
             </Link>
             <Link
               href="/editor"
-              className="transition-colors hover:text-primary"
+              className="flex items-center gap-3 p-4 rounded-lg transition-all duration-300 hover:bg-valorant-red/10 text-valorant-black hover:text-valorant-red"
               onClick={() => setMobileMenuOpen(false)}
             >
-              编辑器
+              <Settings className="h-5 w-5" />
+              <span className="font-bold tracking-wide uppercase text-lg">EDITOR</span>
             </Link>
-            <div className="pt-4">
-              <input
-                type="search"
-                placeholder="搜索准星..."
-                className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm"
-              />
+            
+            <div className="pt-6">
+              <div className="relative group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-valorant-gray-500 group-focus-within:text-valorant-red transition-colors" />
+                <input
+                  type="search"
+                  placeholder="Search crosshairs..."
+                  className="w-full h-12 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white px-12 text-sm font-medium outline-none focus:ring-2 focus:ring-valorant-red/20 focus:border-valorant-red"
+                />
+              </div>
             </div>
           </nav>
         </div>
