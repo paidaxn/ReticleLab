@@ -1,5 +1,4 @@
 {
-  "regions": ["iad1", "sfo1", "sin1", "hnd1", "fra1"],
   "headers": [
     {
       "source": "/_next/static/(.*)",
