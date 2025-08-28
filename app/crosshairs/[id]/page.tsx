@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { CrosshairCanvas } from '@/components/crosshair/CrosshairCanvas'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
-import { Copy, Heart, Eye, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target, HelpCircle, ChevronRight } from 'lucide-react'
+import { Copy, Heart, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target, HelpCircle, ChevronRight } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
@@ -192,16 +192,7 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                   </div>
 
                   {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 text-center">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <Eye className="h-4 w-4 text-valorant-blue" />
-                      </div>
-                      <div className="text-xl font-black text-valorant-blue">
-                        {crosshair.views.toLocaleString()}
-                      </div>
-                      <div className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">VIEWS</div>
-                    </div>
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="bg-valorant-white border-2 border-valorant-gray-200 rounded-lg p-4 text-center">
                       <div className="flex items-center justify-center gap-2 mb-2">
                         <Copy className="h-4 w-4 text-valorant-green" />
@@ -336,7 +327,6 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                   teamName={similarCrosshair.teamName}
                   code={similarCrosshair.code}
                   params={similarCrosshair.params}
-                  views={similarCrosshair.views}
                   copies={similarCrosshair.copies}
                   likes={similarCrosshair.likes}
                   isVerified={similarCrosshair.isVerified}

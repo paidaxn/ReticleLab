@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CrosshairCanvas } from './CrosshairCanvas'
-import { Copy, Heart, Eye, CheckCircle, Shield } from 'lucide-react'
+import { Copy, Heart, CheckCircle, Shield } from 'lucide-react'
 import { CrosshairParams } from '@/types/crosshair'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
@@ -14,7 +14,6 @@ interface CrosshairCardProps {
   teamName?: string
   code: string
   params: CrosshairParams
-  views: number
   copies: number
   likes: number
   isVerified?: boolean
@@ -27,7 +26,6 @@ export function CrosshairCard({
   teamName,
   code,
   params,
-  views,
   copies,
   likes,
   isVerified = false,
@@ -112,17 +110,7 @@ export function CrosshairCard({
         </div>
         
         {/* Stats - Fixed at Bottom */}
-        <div className="grid grid-cols-3 gap-3 text-center pt-4 mt-auto border-t border-gray-100">
-          <div>
-            <div className="flex items-center justify-center mb-1">
-              <Eye className="h-4 w-4 text-gray-600" />
-            </div>
-            <div className="font-bold text-sm text-gray-900">
-              {formatNumber(views)}
-            </div>
-            <div className="text-xs text-gray-500 uppercase">Views</div>
-          </div>
-          
+        <div className="grid grid-cols-2 gap-3 text-center pt-4 mt-auto border-t border-gray-100">
           <div>
             <div className="flex items-center justify-center mb-1">
               <Copy className="h-4 w-4 text-gray-600" />

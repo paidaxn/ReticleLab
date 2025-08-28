@@ -43,8 +43,8 @@ export default function CrosshairsPage() {
         filtered = filtered.filter(c => !c.playerName)
         break
       case 'trending':
-        // Get top 5 most viewed in last "period"
-        filtered = filtered.sort((a, b) => b.views - a.views).slice(0, 5)
+        // Get top 5 most copied in last "period"
+        filtered = filtered.sort((a, b) => b.copies - a.copies).slice(0, 5)
         break
       case 'all':
       default:
@@ -55,7 +55,7 @@ export default function CrosshairsPage() {
     // Apply sorting
     switch (sortBy) {
       case 'popular':
-        filtered.sort((a, b) => b.views - a.views)
+        filtered.sort((a, b) => (b.copies + b.likes) - (a.copies + a.likes))
         break
       case 'copies':
         filtered.sort((a, b) => b.copies - a.copies)
@@ -69,7 +69,7 @@ export default function CrosshairsPage() {
         break
       case 'verified':
         filtered.sort((a, b) => {
-          if (a.isVerified === b.isVerified) return b.views - a.views
+          if (a.isVerified === b.isVerified) return (b.copies + b.likes) - (a.copies + a.likes)
           return a.isVerified ? -1 : 1
         })
         break
@@ -220,7 +220,6 @@ export default function CrosshairsPage() {
                 teamName={crosshair.teamName}
                 code={crosshair.code}
                 params={crosshair.params}
-                views={crosshair.views}
                 copies={crosshair.copies}
                 likes={crosshair.likes}
                 isVerified={crosshair.isVerified}
