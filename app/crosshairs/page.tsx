@@ -1,8 +1,76 @@
+'use client'
+
+import { useState, useMemo } from 'react'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
-import { Search, Filter, TrendingUp, Users, Shield, Target, Crosshair } from 'lucide-react'
+import { Search, TrendingUp, Users, Shield, Target, Crosshair } from 'lucide-react'
+
+type FilterType = 'all' | 'elite' | 'community' | 'trending'
+type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
 
 export default function CrosshairsPage() {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all')
+  const [sortBy, setSortBy] = useState<SortType>('popular')
+
+  // Filter and sort crosshairs
+  const filteredAndSortedCrosshairs = useMemo(() => {
+    let filtered = [...mockCrosshairs]
+
+    // Apply search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(crosshair => 
+        crosshair.name.toLowerCase().includes(query) ||
+        crosshair.playerName?.toLowerCase().includes(query) ||
+        crosshair.teamName?.toLowerCase().includes(query)
+      )
+    }
+
+    // Apply category filter
+    switch (activeFilter) {
+      case 'elite':
+        filtered = filtered.filter(c => c.isVerified && c.playerName)
+        break
+      case 'community':
+        filtered = filtered.filter(c => !c.playerName)
+        break
+      case 'trending':
+        // Get top 5 most viewed in last "period"
+        filtered = filtered.sort((a, b) => b.views - a.views).slice(0, 5)
+        break
+      case 'all':
+      default:
+        // No additional filter
+        break
+    }
+
+    // Apply sorting
+    switch (sortBy) {
+      case 'popular':
+        filtered.sort((a, b) => b.views - a.views)
+        break
+      case 'copies':
+        filtered.sort((a, b) => b.copies - a.copies)
+        break
+      case 'likes':
+        filtered.sort((a, b) => b.likes - a.likes)
+        break
+      case 'newest':
+        // In real app, would sort by creation date
+        filtered.reverse()
+        break
+      case 'verified':
+        filtered.sort((a, b) => {
+          if (a.isVerified === b.isVerified) return b.views - a.views
+          return a.isVerified ? -1 : 1
+        })
+        break
+    }
+
+    return filtered
+  }, [searchQuery, activeFilter, sortBy])
+
   return (
     <div className="min-h-screen bg-valorant-white">
       {/* Header Section */}
@@ -30,33 +98,74 @@ export default function CrosshairsPage() {
         <div className="mb-12 space-y-8">
           {/* Search Bar */}
           <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-valorant-gray-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
             <input
               type="search"
               placeholder="Search by player, team, or crosshair name..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-14 rounded-xl border-2 border-gray-300 bg-white px-14 text-base font-medium outline-none transition-all duration-300 focus:ring-4 focus:ring-valorant-red/10 focus:border-valorant-red placeholder:text-gray-500 hover:border-gray-400 shadow-sm"
             />
-            <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-valorant-red/10 transition-colors">
-              <Filter className="h-4 w-4 text-valorant-gray-500" />
-            </button>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <span className="text-gray-500 text-sm font-medium">Clear</span>
+              </button>
+            )}
           </div>
           
           {/* Filter Tabs */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="flex flex-wrap gap-3">
-              <button className="bg-valorant-red text-valorant-white px-6 py-3 rounded-lg font-bold tracking-wide uppercase text-sm transition-all duration-300 hover:bg-valorant-red-dark flex items-center gap-2">
+            <div className="flex flex-wrap gap-2">
+              <button 
+                onClick={() => setActiveFilter('all')}
+                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
+                  activeFilter === 'all' 
+                    ? 'bg-valorant-red text-white shadow-md' 
+                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-valorant-red hover:text-valorant-red'
+                }`}
+              >
                 <Crosshair className="h-4 w-4" />
                 <span>ALL CONFIGS</span>
+                <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs font-bold">
+                  {mockCrosshairs.length}
+                </span>
               </button>
-              <button className="border-2 border-valorant-blue text-valorant-blue hover:bg-valorant-blue hover:text-valorant-white px-6 py-3 rounded-lg font-bold tracking-wide uppercase text-sm transition-all duration-300 flex items-center gap-2">
+              
+              <button 
+                onClick={() => setActiveFilter('elite')}
+                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
+                  activeFilter === 'elite' 
+                    ? 'bg-blue-500 text-white shadow-md' 
+                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
                 <Shield className="h-4 w-4" />
                 <span>ELITE</span>
               </button>
-              <button className="border-2 border-valorant-yellow text-valorant-yellow-dark hover:bg-valorant-yellow hover:text-valorant-black px-6 py-3 rounded-lg font-bold tracking-wide uppercase text-sm transition-all duration-300 flex items-center gap-2">
+              
+              <button 
+                onClick={() => setActiveFilter('community')}
+                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
+                  activeFilter === 'community' 
+                    ? 'bg-yellow-500 text-white shadow-md' 
+                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-yellow-500 hover:text-yellow-600 hover:bg-yellow-50'
+                }`}
+              >
                 <Users className="h-4 w-4" />
                 <span>COMMUNITY</span>
               </button>
-              <button className="border-2 border-valorant-green text-valorant-green hover:bg-valorant-green hover:text-valorant-white px-6 py-3 rounded-lg font-bold tracking-wide uppercase text-sm transition-all duration-300 flex items-center gap-2">
+              
+              <button 
+                onClick={() => setActiveFilter('trending')}
+                className={`px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
+                  activeFilter === 'trending' 
+                    ? 'bg-green-500 text-white shadow-md' 
+                    : 'bg-white border-2 border-gray-300 text-gray-700 hover:border-green-500 hover:text-green-600 hover:bg-green-50'
+                }`}
+              >
                 <TrendingUp className="h-4 w-4" />
                 <span>TRENDING</span>
               </button>
@@ -64,11 +173,15 @@ export default function CrosshairsPage() {
             
             <div className="flex items-center gap-3">
               <span className="font-semibold text-gray-600 text-sm uppercase tracking-wide">Sort by:</span>
-              <select className="bg-white border-2 border-gray-300 rounded-xl px-4 py-2.5 font-medium text-gray-700 text-sm focus:ring-4 focus:ring-valorant-red/10 focus:border-valorant-red outline-none cursor-pointer hover:border-gray-400 transition-all shadow-sm">
+              <select 
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortType)}
+                className="bg-white border-2 border-gray-300 rounded-xl px-4 py-2.5 font-medium text-gray-700 text-sm focus:ring-4 focus:ring-valorant-red/10 focus:border-valorant-red outline-none cursor-pointer hover:border-gray-400 transition-all shadow-sm"
+              >
                 <option value="popular">Most Popular</option>
                 <option value="copies">Most Copied</option>
-                <option value="newest">Newest</option>
                 <option value="likes">Most Liked</option>
+                <option value="newest">Newest First</option>
                 <option value="verified">Verified First</option>
               </select>
             </div>
@@ -77,7 +190,9 @@ export default function CrosshairsPage() {
           {/* Results Counter */}
           <div className="flex items-center justify-between border-t border-gray-200 pt-6">
             <div className="font-semibold text-gray-700">
-              <span className="text-2xl font-bold text-gray-900">{mockCrosshairs.length}</span> configurations available
+              <span className="text-2xl font-bold text-gray-900">{filteredAndSortedCrosshairs.length}</span> 
+              {searchQuery && <span className="ml-2">results for &quot;{searchQuery}&quot;</span>}
+              {!searchQuery && <span className="ml-2">configurations available</span>}
             </div>
             <div className="text-sm text-gray-500">
               Updated: 2 hours ago
@@ -86,10 +201,11 @@ export default function CrosshairsPage() {
         </div>
         
         {/* Crosshair Grid */}
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {mockCrosshairs.map((crosshair) => (
-            <div key={crosshair.id}>
+        {filteredAndSortedCrosshairs.length > 0 ? (
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            {filteredAndSortedCrosshairs.map((crosshair) => (
               <CrosshairCard
+                key={crosshair.id}
                 id={crosshair.id}
                 name={crosshair.name}
                 playerName={crosshair.playerName}
@@ -101,19 +217,28 @@ export default function CrosshairsPage() {
                 likes={crosshair.likes}
                 isVerified={crosshair.isVerified}
               />
-            </div>
-          ))}
-        </div>
-        
-        {/* Load More Section */}
-        <div className="text-center mt-20">
-          <button className="border-2 border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-valorant-white px-12 py-4 rounded-lg font-bold tracking-wide uppercase text-base transition-all duration-300">
-            <span>LOAD MORE CONFIGS</span>
-          </button>
-          <div className="font-bold tracking-wider uppercase text-sm text-valorant-gray-500 mt-4">
-            SHOWING {mockCrosshairs.length} OF 2,847 CONFIGURATIONS
+            ))}
           </div>
-        </div>
+        ) : (
+          <div className="text-center py-20">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
+              <Search className="h-10 w-10 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No crosshairs found</h3>
+            <p className="text-gray-600 mb-6">
+              Try adjusting your search or filters to find what you&apos;re looking for.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery('')
+                setActiveFilter('all')
+              }}
+              className="bg-valorant-red hover:bg-red-600 text-white px-6 py-2.5 rounded-lg font-semibold transition-all duration-200"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

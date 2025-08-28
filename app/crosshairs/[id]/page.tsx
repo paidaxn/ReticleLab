@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { CrosshairCanvas } from '@/components/crosshair/CrosshairCanvas'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { mockCrosshairs } from '@/lib/crosshair/mock-data'
-import { Copy, Heart, Eye, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target } from 'lucide-react'
+import { Copy, Heart, Eye, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target, HelpCircle, ChevronRight } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
@@ -38,7 +38,14 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
     try {
       await navigator.clipboard.writeText(crosshair.code)
       setCopied(true)
-      toast.success('Crosshair code copied to clipboard!')
+      toast.success('✅ Code copied! Now paste it in VALORANT settings.', {
+        duration: 4000,
+        style: {
+          background: '#10B981',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      })
       setTimeout(() => setCopied(false), 3000)
     } catch (error) {
       toast.error('Failed to copy code. Please copy manually.')
@@ -250,9 +257,11 @@ export default function CrosshairDetailPage({ params }: CrosshairDetailPageProps
                       </button>
                     </div>
                   </div>
-                  <p className="font-bold tracking-wider uppercase text-xs text-valorant-gray-600">
-                    COPY CODE → VALORANT SETTINGS → CROSSHAIR → PASTE CODE → APPLY
-                  </p>
+                  <Link href="/how-to-use" className="inline-flex items-center gap-1 text-valorant-red hover:text-red-600 font-semibold text-sm transition-colors">
+                    <HelpCircle className="h-4 w-4" />
+                    How to import this crosshair in VALORANT
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
                 </div>
               </div>
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ReticleLabLogo } from '@/components/icons/ReticleLabLogo'
-import { Search, Menu, X, Target, Shield, Settings } from 'lucide-react'
+import { Search, Menu, X, Target, Settings, HelpCircle } from 'lucide-react'
 import { useState } from 'react'
 
 export function Header() {
@@ -21,13 +21,14 @@ export function Header() {
               <Target className="h-4 w-4" />
               <span>ARSENAL</span>
             </Link>
-            <Link href="/crosshairs/pro" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              <span>ELITE</span>
+            <Link href="/how-to-use" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
+              <HelpCircle className="h-4 w-4" />
+              <span>HOW TO USE</span>
             </Link>
             <Link href="/editor" className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <Settings className="h-4 w-4" />
               <span>EDITOR</span>
+              <span className="ml-1 text-xs bg-yellow-400 text-gray-900 px-2 py-0.5 rounded-full font-bold">SOON</span>
             </Link>
           </nav>
         </div>
@@ -70,12 +71,12 @@ export function Header() {
               <span className="font-bold tracking-wide uppercase text-lg">ARSENAL</span>
             </Link>
             <Link
-              href="/crosshairs/pro"
+              href="/how-to-use"
               className="flex items-center gap-3 p-4 rounded-lg transition-all duration-300 hover:bg-valorant-red/10 text-valorant-black hover:text-valorant-red"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Shield className="h-5 w-5" />
-              <span className="font-bold tracking-wide uppercase text-lg">ELITE</span>
+              <HelpCircle className="h-5 w-5" />
+              <span className="font-bold tracking-wide uppercase text-lg">HOW TO USE</span>
             </Link>
             <Link
               href="/editor"
@@ -84,6 +85,7 @@ export function Header() {
             >
               <Settings className="h-5 w-5" />
               <span className="font-bold tracking-wide uppercase text-lg">EDITOR</span>
+              <span className="ml-auto text-xs bg-yellow-400 text-gray-900 px-2 py-0.5 rounded-full font-bold">SOON</span>
             </Link>
             
             <div className="pt-6">
