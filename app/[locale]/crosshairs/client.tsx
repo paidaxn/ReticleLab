@@ -15,7 +15,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { type Locale } from '@/i18n.config'
 
-type FilterType = 'all' | 'elite' | 'community' | 'trending'
+type FilterType = 'all' | 'professional' | 'community' | 'trending'
 type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
 
 interface CrosshairsClientProps {
@@ -45,7 +45,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
 
     // Apply category filter
     switch (activeFilter) {
-      case 'elite':
+      case 'professional':
         filtered = filtered.filter(c => c.isVerified && c.playerName)
         break
       case 'community':
@@ -127,9 +127,9 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
                   <Target className="h-4 w-4 mr-2" />
                   {dictionary.crosshairs.filter.all}
                 </TabsTrigger>
-                <TabsTrigger value="elite" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
+                <TabsTrigger value="professional" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
                   <Shield className="h-4 w-4 mr-2" />
-                  {dictionary.crosshairs.filter.elite}
+                  {dictionary.crosshairs.filter.professional}
                 </TabsTrigger>
                 <TabsTrigger value="community" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white">
                   <Users className="h-4 w-4 mr-2" />

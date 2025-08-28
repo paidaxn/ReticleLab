@@ -100,7 +100,7 @@ export function CrosshairCard({
         {isVerified && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500 text-white shadow-lg">
             <Shield className="h-3.5 w-3.5" />
-            <span className="font-bold text-xs uppercase tracking-wider">Elite</span>
+            <span className="font-bold text-xs uppercase tracking-wider">Pro</span>
           </div>
         )}
       </div>

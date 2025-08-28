@@ -21,7 +21,7 @@
   },
   "features": {
     "badge": "战术装备库",
-    "title": "精英精准工具",
+    "title": "职业精准工具",
     "subtitle": "为竞技卓越和战术优势而设计的专业级实用工具",
     "pro": {
       "title": "职业数据库",
@@ -52,7 +52,7 @@
     },
     "filter": {
       "all": "全部",
-      "elite": "精英",
+      "professional": "职业",
       "community": "社区",
       "trending": "热门"
     },

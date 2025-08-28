@@ -5,7 +5,7 @@
 1. **Go to GitHub**: https://github.com/new
 2. **Create a new repository** with these settings:
    - Repository name: `ReticleLab`
-   - Description: "Professional Valorant crosshair platform - Browse, copy, and customize elite crosshair configurations"
+   - Description: "Professional Valorant crosshair platform - Browse, copy, and customize professional crosshair configurations"
    - Public/Private: Choose based on your preference
    - **DO NOT** initialize with README, .gitignore, or license (we already have these)
 

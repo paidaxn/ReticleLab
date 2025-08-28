@@ -9,7 +9,7 @@
     "badge": "TACTICAL ADVANTAGE",
     "title": "PERFECT YOUR",
     "titleHighlight": "AIM",
-    "subtitle": "Professional crosshair configurations from the world's elite VALORANT players.",
+    "subtitle": "Professional crosshair configurations from the world's top VALORANT players.",
     "subtitleHighlight": "Customize, copy, and dominate.",
     "browseBtn": "BROWSE ARSENAL",
     "customizeBtn": "CUSTOMIZE NOW",
@@ -21,7 +21,7 @@
   },
   "features": {
     "badge": "TACTICAL ARSENAL",
-    "title": "ELITE PRECISION TOOLS",
+    "title": "PROFESSIONAL PRECISION TOOLS",
     "subtitle": "Professional-grade utilities designed for competitive excellence and tactical superiority",
     "pro": {
       "title": "PRO DATABASE",
@@ -52,7 +52,7 @@
     },
     "filter": {
       "all": "ALL",
-      "elite": "ELITE",
+      "professional": "PROFESSIONAL",
       "community": "COMMUNITY",
       "trending": "TRENDING"
     },

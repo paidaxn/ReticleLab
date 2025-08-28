@@ -170,7 +170,7 @@ export default async function HomePage({
             <div>
               <Badge variant="valorant" className="px-3 py-1.5 text-xs mb-4">
                 <Trophy className="h-3 w-3" />
-                ELITE COLLECTION
+                PROFESSIONAL COLLECTION
               </Badge>
               <h2 className="text-3xl md:text-4xl font-black text-valorant-black">
                 Professional Player Crosshairs
