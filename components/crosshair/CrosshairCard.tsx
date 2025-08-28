@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { CrosshairCanvas } from './CrosshairCanvas'
 import { Copy, Heart, CheckCircle, Shield } from 'lucide-react'
 import { CrosshairParams } from '@/types/crosshair'
-import { showSuccess, showError } from '@/lib/toast-config'
-import { useLanguage } from '@/contexts/LanguageContext'
+import toast from 'react-hot-toast'
 import Link from 'next/link'
+import { type Locale } from '@/i18n.config'
 
 interface CrosshairCardProps {
   id: string
@@ -18,6 +18,8 @@ interface CrosshairCardProps {
   copies: number
   likes: number
   isVerified?: boolean
+  locale: Locale
+  dictionary: any
 }
 
 export function CrosshairCard({
@@ -30,10 +32,11 @@ export function CrosshairCard({
   copies,
   likes,
   isVerified = false,
+  locale,
+  dictionary,
 }: CrosshairCardProps) {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
-  const { t } = useLanguage()
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -41,10 +44,28 @@ export function CrosshairCard({
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
-      showSuccess(t('toast.copySuccess'))
+      toast.success(dictionary.toast.copySuccess, {
+        style: {
+          background: '#10B981',
+          color: '#fff',
+        },
+        iconTheme: {
+          primary: '#fff',
+          secondary: '#10B981',
+        },
+      })
       setTimeout(() => setCopied(false), 2500)
     } catch (error) {
-      showError(t('toast.copyError'))
+      toast.error(dictionary.toast.copyError, {
+        style: {
+          background: '#EF4444',
+          color: '#fff',
+        },
+        iconTheme: {
+          primary: '#fff',
+          secondary: '#EF4444',
+        },
+      })
     }
   }
 
@@ -52,7 +73,16 @@ export function CrosshairCard({
     e.preventDefault()
     e.stopPropagation()
     setLiked(!liked)
-    showSuccess(liked ? t('toast.likeRemove') : t('toast.likeAdd'))
+    toast.success(liked ? dictionary.toast.likeRemove : dictionary.toast.likeAdd, {
+      style: {
+        background: '#10B981',
+        color: '#fff',
+      },
+      iconTheme: {
+        primary: '#fff',
+        secondary: '#10B981',
+      },
+    })
   }
 
   const formatNumber = (num: number) => {
@@ -111,7 +141,7 @@ export function CrosshairCard({
             <div className="font-bold text-sm text-gray-900">
               {formatNumber(copies)}
             </div>
-            <div className="text-xs text-gray-500 uppercase">{t('card.copies')}</div>
+            <div className="text-xs text-gray-500 uppercase">{dictionary.card.copies}</div>
           </div>
           
           <div>
@@ -121,7 +151,7 @@ export function CrosshairCard({
             <div className="font-bold text-sm text-gray-900">
               {formatNumber(likes)}
             </div>
-            <div className="text-xs text-gray-500 uppercase">{t('card.likes')}</div>
+            <div className="text-xs text-gray-500 uppercase">{dictionary.card.likes}</div>
           </div>
         </div>
         
@@ -138,12 +168,12 @@ export function CrosshairCard({
             {copied ? (
               <>
                 <CheckCircle className="h-4 w-4" />
-                <span>{t('card.copied')}</span>
+                <span>{dictionary.card.copied}</span>
               </>
             ) : (
               <>
                 <Copy className="h-4 w-4" />
-                <span>{t('card.copy')}</span>
+                <span>{dictionary.card.copy}</span>
               </>
             )}
           </button>
@@ -164,7 +194,7 @@ export function CrosshairCard({
   )
 
   return (
-    <Link href={`/crosshairs/${id}`}>
+    <Link href={`/${locale}/crosshairs/${id}`}>
       {cardContent}
     </Link>
   )

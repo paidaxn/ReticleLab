@@ -1,0 +1,133 @@
+{
+  "header": {
+    "browse": "ARSENAL",
+    "editor": "EDITOR",
+    "howTo": "HOW TO USE",
+    "search": "Search crosshairs..."
+  },
+  "hero": {
+    "badge": "TACTICAL ADVANTAGE",
+    "title": "PERFECT YOUR",
+    "titleHighlight": "AIM",
+    "subtitle": "Professional crosshair configurations from the world's elite VALORANT players.",
+    "subtitleHighlight": "Customize, copy, and dominate.",
+    "browseBtn": "BROWSE ARSENAL",
+    "customizeBtn": "CUSTOMIZE NOW",
+    "stats": {
+      "users": "ACTIVE USERS",
+      "configs": "PRO CONFIGS",
+      "downloads": "DOWNLOADS"
+    }
+  },
+  "features": {
+    "badge": "TACTICAL ARSENAL",
+    "title": "ELITE PRECISION TOOLS",
+    "subtitle": "Professional-grade utilities designed for competitive excellence and tactical superiority",
+    "pro": {
+      "title": "PRO DATABASE",
+      "desc": "Verified crosshair configurations from world-class professional players, meticulously curated and regularly updated for competitive authenticity.",
+      "badge": "VERIFIED AUTHENTIC"
+    },
+    "editor": {
+      "title": "TACTICAL EDITOR",
+      "desc": "Advanced configuration interface with real-time preview, precision controls, and tactical presets for optimal combat performance.",
+      "badge": "REAL-TIME PREVIEW"
+    },
+    "copy": {
+      "title": "INSTANT COPY",
+      "desc": "Lightning-fast configuration copying with one-click commands, seamless integration, and instant battlefield implementation.",
+      "badge": "ONE-CLICK COPY"
+    }
+  },
+  "crosshairs": {
+    "title": "CROSSHAIR ARSENAL",
+    "search": "Search by player, team, or crosshair name...",
+    "sortBy": "Sort by:",
+    "sort": {
+      "popular": "Most Popular",
+      "copies": "Most Copied",
+      "likes": "Most Liked",
+      "newest": "Newest First",
+      "verified": "Verified First"
+    },
+    "filter": {
+      "all": "ALL",
+      "elite": "ELITE",
+      "community": "COMMUNITY",
+      "trending": "TRENDING"
+    },
+    "results": "configurations available",
+    "noResults": "No crosshairs found",
+    "clearFilters": "Clear Filters"
+  },
+  "card": {
+    "copies": "Copies",
+    "likes": "Likes",
+    "copy": "Copy",
+    "copied": "Copied"
+  },
+  "detail": {
+    "notFound": "Crosshair Not Found",
+    "notFoundDesc": "The crosshair you're looking for doesn't exist.",
+    "backToCollection": "Back to Collection",
+    "backToArsenal": "BACK TO ARSENAL",
+    "crosshairCode": "CROSSHAIR CODE",
+    "howToImport": "How to import this crosshair in VALORANT",
+    "export": "EXPORT",
+    "edit": "EDIT",
+    "techSpecs": "TECHNICAL SPECIFICATIONS",
+    "similarConfigs": "SIMILAR CONFIGURATIONS",
+    "viewAll": "VIEW ALL"
+  },
+  "editor": {
+    "title": "CROSSHAIR EDITOR",
+    "comingSoon": "COMING SOON",
+    "subtitle": "Advanced Crosshair Editor",
+    "description": "Our professional-grade crosshair editor is currently under development. Soon you'll be able to create, customize, and perfect your crosshair with precision tools and real-time preview.",
+    "features": {
+      "title": "Upcoming Features",
+      "1": "Real-time visual editor with live preview",
+      "2": "Import and modify existing crosshairs",
+      "3": "Save and share your custom configurations",
+      "4": "Advanced color and opacity controls",
+      "5": "Movement and firing error adjustments",
+      "6": "Export directly to VALORANT"
+    },
+    "backBtn": "BACK TO ARSENAL"
+  },
+  "howToUse": {
+    "title": "HOW TO USE",
+    "subtitle": "Import Crosshairs to VALORANT",
+    "step1": {
+      "title": "Step 1: Browse & Select",
+      "desc": "Navigate to the Crosshairs page and browse through our collection of professional player configurations. Use filters and search to find your preferred style."
+    },
+    "step2": {
+      "title": "Step 2: Copy the Code",
+      "desc": "Click the \"COPY\" button on any crosshair card. The configuration code will be automatically copied to your clipboard."
+    },
+    "step3": {
+      "title": "Step 3: Open VALORANT Settings",
+      "desc": "Launch VALORANT and press ESC to open the menu. Navigate to Settings → Crosshair."
+    },
+    "step4": {
+      "title": "Step 4: Import Profile",
+      "desc": "Click on \"Crosshair Profile\" and select \"Import Profile\". Paste the code (Ctrl+V) and press Import."
+    },
+    "tips": {
+      "title": "Pro Tips",
+      "1": "Save multiple crosshair profiles for different agents",
+      "2": "Adjust the color if it doesn't contrast well with your game",
+      "3": "Test crosshairs in the Practice Range before competitive play",
+      "4": "Remember: the best crosshair is one you're comfortable with"
+    }
+  },
+  "toast": {
+    "copySuccess": "Configuration copied to clipboard!",
+    "copyWithTip": "Code copied! Now paste it in VALORANT settings.",
+    "copyError": "Failed to copy. Please try again.",
+    "likeAdd": "Added to favorites",
+    "likeRemove": "Removed from favorites",
+    "shareSuccess": "Link copied to clipboard!"
+  }
+}
