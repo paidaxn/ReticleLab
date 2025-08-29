@@ -4,6 +4,8 @@ import { getDictionary } from '@/lib/dictionary'
 import { type Locale } from '@/i18n.config'
 import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 
+export const runtime = 'edge'
+
 export async function generateMetadata({
   params: { locale }
 }: {

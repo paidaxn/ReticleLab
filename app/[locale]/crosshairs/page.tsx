@@ -4,6 +4,8 @@ import { CrosshairsClient } from './client'
 import { generatePageMetadata } from '@/lib/seo-metadata'
 import type { Metadata } from 'next'
 
+export const runtime = 'edge'
+
 export async function generateMetadata({ params }: { params: { locale: Locale } }): Promise<Metadata> {
   const isZh = params.locale === 'zh'
   

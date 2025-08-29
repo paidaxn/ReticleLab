@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 // Mock favorites state - in production this would be stored in database
 const mockFavorites = new Map<string, Set<string>>()
 

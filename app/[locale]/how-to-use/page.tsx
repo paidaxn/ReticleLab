@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { getDictionary } from '@/lib/dictionary'
 import { type Locale } from '@/i18n.config'
 
+export const runtime = 'edge'
+
 export default async function HowToUsePage({ 
   params 
 }: { 

@@ -5,6 +5,8 @@ import { getDictionary } from '@/lib/dictionary'
 import { type Locale } from '@/i18n.config'
 import { CrosshairDetailClient } from './client'
 
+export const runtime = 'edge'
+
 export default async function CrosshairDetailPage({ 
   params 
 }: { 

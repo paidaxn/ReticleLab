@@ -1,54 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs/promises'
-import path from 'path'
+import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 
-interface CrosshairData {
-  id: string
-  name: string
-  playerName?: string
-  teamName?: string
-  code: string
-  params: any
-  copies: number
-  likes: number
-  views?: number
-  isVerified?: boolean
-  category?: string
-  tags?: string[]
-  createdAt?: string
-  updatedAt?: string
-  lastUpdated?: string
-}
+export const runtime = 'edge'
 
-// Cache for crosshairs data
-let cachedCrosshairs: CrosshairData[] | null = null
-let cacheTimestamp: number = 0
-const CACHE_DURATION = 60 * 1000 // 1 minute cache
-
-async function getCrosshairs(): Promise<CrosshairData[]> {
-  const now = Date.now()
-  
-  // Return cached data if it's still fresh
-  if (cachedCrosshairs && (now - cacheTimestamp) < CACHE_DURATION) {
-    return cachedCrosshairs
-  }
-
-  try {
-    // Read from JSON file
-    const jsonPath = path.join(process.cwd(), 'public', 'data', 'crosshairs.json')
-    const jsonData = await fs.readFile(jsonPath, 'utf-8')
-    const crosshairs = JSON.parse(jsonData)
-    
-    // Update cache
-    cachedCrosshairs = crosshairs
-    cacheTimestamp = now
-    
-    return crosshairs
-  } catch (error) {
-    console.error('Error reading crosshairs data:', error)
-    // Fallback to empty array if file doesn't exist
-    return []
-  }
+// Use mock data for Edge Runtime compatibility
+async function getCrosshairs() {
+  // In production, this would fetch from a database or external API
+  // For now, return mock data with transformed dates
+  return mockCrosshairs.map(crosshair => ({
+    ...crosshair,
+    createdAt: crosshair.createdAt?.toISOString(),
+    updatedAt: crosshair.updatedAt?.toISOString()
+  }))
 }
 
 export async function GET(request: NextRequest) {
@@ -169,20 +132,11 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date().toISOString()
     }
 
-    // Add to array
+    // Add to array (in-memory only for Edge Runtime)
     crosshairs.push(newCrosshair)
-
-    // Write back to file (optional - you might want to disable this in production)
-    try {
-      const jsonPath = path.join(process.cwd(), 'public', 'data', 'crosshairs.json')
-      await fs.writeFile(jsonPath, JSON.stringify(crosshairs, null, 2))
-      
-      // Clear cache
-      cachedCrosshairs = null
-    } catch (writeError) {
-      console.error('Error writing to file:', writeError)
-      // Continue even if write fails - the crosshair is still in memory
-    }
+    
+    // In production, this would save to a database
+    // For now, the crosshair is only stored in memory
 
     return NextResponse.json({
       success: true,
