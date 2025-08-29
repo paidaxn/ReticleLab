@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+
+// Mock favorites state - in production this would be stored in database
+const mockFavorites = new Map<string, Set<string>>()
 
 export async function POST(
   request: NextRequest,
@@ -10,66 +12,32 @@ export async function POST(
     const body = await request.json().catch(() => ({}))
     const { userId, action = 'like' } = body
 
+    // Mock response - database implementation pending
+    const mockLikes = Math.floor(Math.random() * 500) + 50
+
     if (action === 'like') {
-      // Increment likes count
-      const crosshair = await prisma.crosshair.update({
-        where: { id },
-        data: {
-          likes: { increment: 1 }
-        }
-      })
-
-      // Add to favorites if user is provided
+      // Track favorites in memory for this session
       if (userId) {
-        await prisma.favorite.create({
-          data: {
-            userId,
-            crosshairId: id
-          }
-        }).catch(() => {
-          // Ignore if already favorited
-        })
-
-        await prisma.usageHistory.create({
-          data: {
-            userId,
-            crosshairId: id,
-            action: 'favorite'
-          }
-        })
+        if (!mockFavorites.has(userId)) {
+          mockFavorites.set(userId, new Set())
+        }
+        mockFavorites.get(userId)?.add(id)
       }
 
       return NextResponse.json({ 
         success: true, 
-        likes: crosshair.likes,
+        likes: mockLikes + 1,
         favorited: true 
       })
     } else {
-      // Unlike - decrement likes count
-      const crosshair = await prisma.crosshair.update({
-        where: { id },
-        data: {
-          likes: { decrement: 1 }
-        }
-      })
-
-      // Remove from favorites if user is provided
+      // Unlike
       if (userId) {
-        await prisma.favorite.delete({
-          where: {
-            userId_crosshairId: {
-              userId,
-              crosshairId: id
-            }
-          }
-        }).catch(() => {
-          // Ignore if not favorited
-        })
+        mockFavorites.get(userId)?.delete(id)
       }
 
       return NextResponse.json({ 
         success: true, 
-        likes: crosshair.likes,
+        likes: Math.max(0, mockLikes - 1),
         favorited: false 
       })
     }
@@ -91,31 +59,19 @@ export async function GET(
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId')
 
-    const crosshair = await prisma.crosshair.findUnique({
-      where: { id },
-      select: {
-        likes: true,
-        copies: true
-      }
-    })
+    // Mock response - database implementation pending
+    const mockLikes = Math.floor(Math.random() * 500) + 50
+    const mockCopies = Math.floor(Math.random() * 1000) + 100
 
     let favorited = false
     if (userId) {
-      const favorite = await prisma.favorite.findUnique({
-        where: {
-          userId_crosshairId: {
-            userId,
-            crosshairId: id
-          }
-        }
-      })
-      favorited = !!favorite
+      favorited = mockFavorites.get(userId)?.has(id) || false
     }
 
     return NextResponse.json({ 
       success: true,
-      likes: crosshair?.likes || 0,
-      copies: crosshair?.copies || 0,
+      likes: mockLikes,
+      copies: mockCopies,
       favorited
     })
   } catch (error) {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,39 +11,38 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit
 
-    let orderBy: any = {}
-    switch (sortBy) {
-      case 'popular':
-        orderBy = { copies: 'desc' }
-        break
-      case 'likes':
-        orderBy = { likes: 'desc' }
-        break
-      case 'recent':
-        orderBy = { createdAt: 'desc' }
-        break
-      default:
-        orderBy = { copies: 'desc' }
+    // Filter crosshairs by category if provided
+    let filteredCrosshairs = [...mockCrosshairs]
+    if (category) {
+      filteredCrosshairs = filteredCrosshairs.filter(c => c.category === category)
     }
 
-    const where = category ? { category } : {}
+    // Sort crosshairs
+    switch (sortBy) {
+      case 'popular':
+        filteredCrosshairs.sort((a, b) => b.copies - a.copies)
+        break
+      case 'likes':
+        filteredCrosshairs.sort((a, b) => b.likes - a.likes)
+        break
+      case 'recent':
+        filteredCrosshairs.sort((a, b) => {
+          const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt)
+          const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt)
+          return dateB.getTime() - dateA.getTime()
+        })
+        break
+      default:
+        filteredCrosshairs.sort((a, b) => b.copies - a.copies)
+    }
 
-    const [crosshairs, total] = await Promise.all([
-      prisma.crosshair.findMany({
-        where,
-        orderBy,
-        skip,
-        take: limit,
-        include: {
-          player: true
-        }
-      }),
-      prisma.crosshair.count({ where })
-    ])
+    // Paginate results
+    const total = filteredCrosshairs.length
+    const paginatedCrosshairs = filteredCrosshairs.slice(skip, skip + limit)
 
     return NextResponse.json({
       success: true,
-      crosshairs,
+      crosshairs: paginatedCrosshairs,
       pagination: {
         page,
         limit,
@@ -63,32 +62,28 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, code, category, playerId, params, tags } = body
+    const { name, code, category, params, tags } = body
 
-    const crosshair = await prisma.crosshair.create({
-      data: {
-        name,
-        code,
-        category,
-        playerId,
-        color: params.color,
-        outlineColor: params.outlineColor,
-        centerDot: params.centerDot,
-        innerLines: JSON.stringify(params.innerLines),
-        outerLines: JSON.stringify(params.outerLines),
-        tags: tags.join(','),
-        views: 0,
-        copies: 0,
-        likes: 0
-      },
-      include: {
-        player: true
-      }
-    })
+    // Mock response - database implementation pending
+    // In production, this would create a new crosshair in the database
+    const newCrosshair = {
+      id: `custom-${Date.now()}`,
+      name,
+      code,
+      category: category || 'custom',
+      params,
+      tags: tags || [],
+      views: 0,
+      copies: 0,
+      likes: 0,
+      isVerified: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
 
     return NextResponse.json({
       success: true,
-      crosshair
+      crosshair: newCrosshair
     })
   } catch (error) {
     console.error('Error creating crosshair:', error)

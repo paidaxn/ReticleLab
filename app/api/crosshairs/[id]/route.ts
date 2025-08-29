@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 
 export async function GET(
   request: NextRequest,
@@ -8,20 +8,9 @@ export async function GET(
   try {
     const { id } = params
 
-    // Increment view count
-    await prisma.crosshair.update({
-      where: { id },
-      data: {
-        views: { increment: 1 }
-      }
-    })
-
-    const crosshair = await prisma.crosshair.findUnique({
-      where: { id },
-      include: {
-        player: true
-      }
-    })
+    // Mock response - database implementation pending
+    // Find crosshair from mock data
+    const crosshair = mockCrosshairs.find(c => c.id === id)
 
     if (!crosshair) {
       return NextResponse.json(
@@ -30,17 +19,15 @@ export async function GET(
       )
     }
 
-    // Parse JSON fields
-    const formattedCrosshair = {
+    // Simulate incrementing view count
+    const enhancedCrosshair = {
       ...crosshair,
-      innerLines: JSON.parse(crosshair.innerLines),
-      outerLines: JSON.parse(crosshair.outerLines),
-      tags: crosshair.tags.split(',').filter(Boolean)
+      views: crosshair.views + 1
     }
 
     return NextResponse.json({
       success: true,
-      crosshair: formattedCrosshair
+      crosshair: enhancedCrosshair
     })
   } catch (error) {
     console.error('Error fetching crosshair:', error)
