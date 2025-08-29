@@ -21,8 +21,13 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
 // Fetch crosshairs from API
 async function fetchCrosshairs() {
   try {
-    // Use relative path for API calls - works in all environments
-    const response = await fetch('/api/crosshairs?limit=500', {
+    // Use Cloudflare Pages URL or fallback to localhost
+    // CF_PAGES_URL is automatically provided by Cloudflare Pages
+    const baseUrl = process.env.CF_PAGES_URL || 
+                    process.env.NEXT_PUBLIC_BASE_URL || 
+                    'http://localhost:3000'
+    
+    const response = await fetch(`${baseUrl}/api/crosshairs?limit=500`, {
       next: { revalidate: 60 } // Cache for 60 seconds
     })
 
