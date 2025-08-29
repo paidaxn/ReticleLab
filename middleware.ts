@@ -25,13 +25,10 @@ const getLocale = (request: NextRequest): string => {
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   
-  // Generate CSP nonce
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
-  
   // Content Security Policy
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http: ${
+    script-src 'self' 'unsafe-inline' ${
       process.env.NODE_ENV === 'development' ? `'unsafe-eval'` : ''
     };
     style-src 'self' 'unsafe-inline';
