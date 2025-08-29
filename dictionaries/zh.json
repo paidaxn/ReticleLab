@@ -1,17 +1,17 @@
 {
   "header": {
-    "browse": "武器库",
+    "browse": "准星库",
     "editor": "编辑器",
     "howTo": "使用教程",
     "search": "搜索准星..."
   },
   "hero": {
     "badge": "战术优势",
-    "title": "完美你的",
-    "titleHighlight": "准星",
-    "subtitle": "来自世界顶级瓦罗兰特职业选手的专业准星配置。",
-    "subtitleHighlight": "自定义、复制、制霸战场。",
-    "browseBtn": "浏览武器库",
+    "title": "找到你的",
+    "titleHighlight": "完美准星",
+    "subtitle": "浏览并复制顶级职业选手的准星设置。",
+    "subtitleHighlight": "几秒钟找到最适合你的配置。",
+    "browseBtn": "浏览准星",
     "customizeBtn": "立即自定义",
     "stats": {
       "users": "活跃用户",
@@ -40,7 +40,7 @@
     }
   },
   "crosshairs": {
-    "title": "准星武器库",
+    "title": "准星库",
     "search": "搜索选手、战队或准星名称...",
     "sortBy": "排序：",
     "sort": {
@@ -70,7 +70,7 @@
     "notFound": "未找到准星",
     "notFoundDesc": "你正在寻找的准星不存在。",
     "backToCollection": "返回准星库",
-    "backToArsenal": "返回武器库",
+    "backToArsenal": "返回准星库",
     "crosshairCode": "准星代码",
     "howToImport": "如何在瓦罗兰特中导入此准星",
     "export": "导出",
@@ -88,7 +88,7 @@
       "realtime": "实时预览",
       "export": "导出瓦罗兰特代码"
     },
-    "back": "返回武器库",
+    "back": "返回准星库",
     "backDesc": "返回准星收藏"
   },
   "howTo": {

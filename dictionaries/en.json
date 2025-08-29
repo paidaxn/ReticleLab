@@ -1,17 +1,17 @@
 {
   "header": {
-    "browse": "ARSENAL",
+    "browse": "CROSSHAIRS",
     "editor": "EDITOR",
     "howTo": "HOW TO USE",
     "search": "Search crosshairs..."
   },
   "hero": {
     "badge": "TACTICAL ADVANTAGE",
-    "title": "PERFECT YOUR",
-    "titleHighlight": "AIM",
-    "subtitle": "Professional crosshair configurations from the world's top VALORANT players.",
-    "subtitleHighlight": "Customize, copy, and dominate.",
-    "browseBtn": "BROWSE ARSENAL",
+    "title": "MASTER YOUR",
+    "titleHighlight": "CROSSHAIR",
+    "subtitle": "Browse and copy crosshair settings from top VALORANT professionals.",
+    "subtitleHighlight": "Find your perfect setup in seconds.",
+    "browseBtn": "BROWSE CROSSHAIRS",
     "customizeBtn": "CUSTOMIZE NOW",
     "stats": {
       "users": "ACTIVE USERS",
@@ -40,7 +40,7 @@
     }
   },
   "crosshairs": {
-    "title": "CROSSHAIR ARSENAL",
+    "title": "CROSSHAIR COLLECTION",
     "search": "Search by player, team, or crosshair name...",
     "sortBy": "Sort by:",
     "sort": {
@@ -70,7 +70,7 @@
     "notFound": "Crosshair Not Found",
     "notFoundDesc": "The crosshair you're looking for doesn't exist.",
     "backToCollection": "Back to Collection",
-    "backToArsenal": "BACK TO ARSENAL",
+    "backToArsenal": "BACK TO COLLECTION",
     "crosshairCode": "CROSSHAIR CODE",
     "howToImport": "How to import this crosshair in VALORANT",
     "export": "EXPORT",
@@ -88,7 +88,7 @@
       "realtime": "Real-time preview",
       "export": "Export to VALORANT code"
     },
-    "back": "BACK TO ARSENAL",
+    "back": "BACK TO COLLECTION",
     "backDesc": "Return to crosshair collection"
   },
   "howTo": {
