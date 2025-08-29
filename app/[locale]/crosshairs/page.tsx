@@ -1,4 +1,3 @@
-import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 import { getDictionary } from '@/lib/dictionary'
 import { type Locale } from '@/i18n.config'
 import { CrosshairsClient } from './client'
@@ -17,16 +16,41 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
   )
 }
 
+// Fetch crosshairs from API
+async function fetchCrosshairs() {
+  try {
+    // In production, use the full URL
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+    
+    const response = await fetch(`${baseUrl}/api/crosshairs?limit=500`, {
+      next: { revalidate: 60 } // Cache for 60 seconds
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch crosshairs')
+    }
+
+    const data = await response.json()
+    return data.data || []
+  } catch (error) {
+    console.error('Error fetching crosshairs:', error)
+    // Return empty array as fallback
+    return []
+  }
+}
+
 export default async function CrosshairsPage({ 
   params 
 }: { 
   params: { locale: Locale } 
 }) {
   const dictionary = await getDictionary(params.locale)
+  const crosshairs = await fetchCrosshairs()
 
   return (
     <CrosshairsClient 
-      crosshairs={mockCrosshairs}
+      initialCrosshairs={crosshairs}
       locale={params.locale}
       dictionary={dictionary}
     />

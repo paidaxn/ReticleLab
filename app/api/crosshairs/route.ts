@@ -1,53 +1,137 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
+import fs from 'fs/promises'
+import path from 'path'
+
+interface CrosshairData {
+  id: string
+  name: string
+  playerName?: string
+  teamName?: string
+  code: string
+  params: any
+  copies: number
+  likes: number
+  views?: number
+  isVerified?: boolean
+  category?: string
+  tags?: string[]
+  createdAt?: string
+  updatedAt?: string
+  lastUpdated?: string
+}
+
+// Cache for crosshairs data
+let cachedCrosshairs: CrosshairData[] | null = null
+let cacheTimestamp: number = 0
+const CACHE_DURATION = 60 * 1000 // 1 minute cache
+
+async function getCrosshairs(): Promise<CrosshairData[]> {
+  const now = Date.now()
+  
+  // Return cached data if it's still fresh
+  if (cachedCrosshairs && (now - cacheTimestamp) < CACHE_DURATION) {
+    return cachedCrosshairs
+  }
+
+  try {
+    // Read from JSON file
+    const jsonPath = path.join(process.cwd(), 'public', 'data', 'crosshairs.json')
+    const jsonData = await fs.readFile(jsonPath, 'utf-8')
+    const crosshairs = JSON.parse(jsonData)
+    
+    // Update cache
+    cachedCrosshairs = crosshairs
+    cacheTimestamp = now
+    
+    return crosshairs
+  } catch (error) {
+    console.error('Error reading crosshairs data:', error)
+    // Fallback to empty array if file doesn't exist
+    return []
+  }
+}
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
+    const search = searchParams.get('search')?.toLowerCase()
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
     const sortBy = searchParams.get('sortBy') || 'popular'
 
-    const skip = (page - 1) * limit
+    // Get all crosshairs from JSON
+    let crosshairs = await getCrosshairs()
 
-    // Filter crosshairs by category if provided
-    let filteredCrosshairs = [...mockCrosshairs]
+    // Apply filters
     if (category) {
-      filteredCrosshairs = filteredCrosshairs.filter(c => c.category === category)
+      if (category === 'professional') {
+        crosshairs = crosshairs.filter(c => c.isVerified === true)
+      } else if (category === 'community') {
+        crosshairs = crosshairs.filter(c => c.isVerified === false)
+      } else if (category === 'trending') {
+        // Get top trending based on recent copies
+        crosshairs = crosshairs.filter(c => c.copies > 100000)
+      }
+    }
+
+    // Apply search
+    if (search) {
+      crosshairs = crosshairs.filter(c => 
+        c.name?.toLowerCase().includes(search) ||
+        c.playerName?.toLowerCase().includes(search) ||
+        c.teamName?.toLowerCase().includes(search) ||
+        c.code?.toLowerCase().includes(search)
+      )
     }
 
     // Sort crosshairs
     switch (sortBy) {
       case 'popular':
-        filteredCrosshairs.sort((a, b) => b.copies - a.copies)
+      case 'copies':
+        crosshairs.sort((a, b) => b.copies - a.copies)
         break
       case 'likes':
-        filteredCrosshairs.sort((a, b) => b.likes - a.likes)
+        crosshairs.sort((a, b) => b.likes - a.likes)
         break
+      case 'newest':
       case 'recent':
-        filteredCrosshairs.sort((a, b) => {
-          const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt)
-          const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt)
-          return dateB.getTime() - dateA.getTime()
+        crosshairs.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0
+          return dateB - dateA
+        })
+        break
+      case 'verified':
+        // Sort by verified status first, then by copies
+        crosshairs.sort((a, b) => {
+          if (a.isVerified === b.isVerified) {
+            return b.copies - a.copies
+          }
+          return a.isVerified ? -1 : 1
         })
         break
       default:
-        filteredCrosshairs.sort((a, b) => b.copies - a.copies)
+        crosshairs.sort((a, b) => b.copies - a.copies)
     }
 
-    // Paginate results
-    const total = filteredCrosshairs.length
-    const paginatedCrosshairs = filteredCrosshairs.slice(skip, skip + limit)
+    // Calculate pagination
+    const total = crosshairs.length
+    const totalPages = Math.ceil(total / limit)
+    const skip = (page - 1) * limit
+    
+    // Apply pagination
+    const paginatedCrosshairs = crosshairs.slice(skip, skip + limit)
 
     return NextResponse.json({
       success: true,
-      crosshairs: paginatedCrosshairs,
+      data: paginatedCrosshairs,
       pagination: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit)
+        totalPages,
+        hasMore: page < totalPages
       }
     })
   } catch (error) {
@@ -62,14 +146,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, code, category, params, tags } = body
+    const { name, code, category, params, tags, playerName, teamName } = body
 
-    // Mock response - database implementation pending
-    // In production, this would create a new crosshair in the database
+    // Get existing crosshairs
+    const crosshairs = await getCrosshairs()
+    
+    // Create new crosshair
     const newCrosshair = {
       id: `custom-${Date.now()}`,
       name,
       code,
+      playerName: playerName || 'Community',
+      teamName: teamName || '',
       category: category || 'custom',
       params,
       tags: tags || [],
@@ -77,13 +165,28 @@ export async function POST(request: NextRequest) {
       copies: 0,
       likes: 0,
       isVerified: false,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+
+    // Add to array
+    crosshairs.push(newCrosshair)
+
+    // Write back to file (optional - you might want to disable this in production)
+    try {
+      const jsonPath = path.join(process.cwd(), 'public', 'data', 'crosshairs.json')
+      await fs.writeFile(jsonPath, JSON.stringify(crosshairs, null, 2))
+      
+      // Clear cache
+      cachedCrosshairs = null
+    } catch (writeError) {
+      console.error('Error writing to file:', writeError)
+      // Continue even if write fails - the crosshair is still in memory
     }
 
     return NextResponse.json({
       success: true,
-      crosshair: newCrosshair
+      data: newCrosshair
     })
   } catch (error) {
     console.error('Error creating crosshair:', error)

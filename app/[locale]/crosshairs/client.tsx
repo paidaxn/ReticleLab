@@ -22,12 +22,12 @@ type FilterType = 'all' | 'professional' | 'community' | 'trending'
 type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
 
 interface CrosshairsClientProps {
-  crosshairs: Crosshair[]
+  initialCrosshairs: Crosshair[]
   locale: Locale
   dictionary: Dictionary
 }
 
-export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsClientProps) {
+export function CrosshairsClient({ initialCrosshairs, locale, dictionary }: CrosshairsClientProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
   const [sortBy, setSortBy] = useState<SortType>('popular')
@@ -100,7 +100,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
 
   // Filter and sort crosshairs
   const filteredAndSortedCrosshairs = useMemo(() => {
-    let filtered = [...crosshairs]
+    let filtered = [...initialCrosshairs]
 
     // Apply search filter
     if (searchQuery) {
@@ -154,7 +154,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
     }
 
     return filtered
-  }, [searchQuery, activeFilter, sortBy, crosshairs])
+  }, [searchQuery, activeFilter, sortBy, initialCrosshairs])
 
   return (
     <div className="min-h-screen bg-valorant-white">
@@ -164,7 +164,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
           <div className="max-w-4xl">
             <Badge variant="valorant" className="mb-4 px-3 py-1.5 text-xs">
               <CrosshairIcon className="h-3 w-3" />
-              VALORANT CROSSHAIRS • {crosshairs.length} TOTAL
+              VALORANT CROSSHAIRS • {initialCrosshairs.length} TOTAL
             </Badge>
             <h1 className="text-3xl sm:text-5xl font-black mb-4 sm:mb-6 tracking-tight">
               {dictionary.crosshairs.title}
