@@ -36,6 +36,14 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
   const sortSelectRef = useRef<HTMLButtonElement>(null)
   const previousFilter = useRef<FilterType>(activeFilter)
 
+  // Filter tabs configuration
+  const filterTabs = [
+    { value: 'all' as FilterType, icon: Target },
+    { value: 'professional' as FilterType, icon: Shield },
+    { value: 'community' as FilterType, icon: Users,},
+    { value: 'trending' as FilterType, icon: TrendingUp},
+  ]
+
   // Keyboard shortcuts
   useKeyboardShortcuts([
     {
@@ -190,26 +198,24 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
             {/* Filter Tabs */}
             <Tabs value={activeFilter} onValueChange={(value) => setActiveFilter(value as FilterType)} aria-label="Filter crosshairs">
               <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-valorant-gray-50 h-auto">
-                <TabsTrigger value="all" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
-                  <Target className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.all}</span>
-                  <span className="sm:hidden">All</span>
-                </TabsTrigger>
-                <TabsTrigger value="professional" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
-                  <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.professional}</span>
-                  <span className="sm:hidden">Pro</span>
-                </TabsTrigger>
-                <TabsTrigger value="community" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
-                  <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.community}</span>
-                  <span className="sm:hidden">Community</span>
-                </TabsTrigger>
-                <TabsTrigger value="trending" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
-                  <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{dictionary.crosshairs.filter.trending}</span>
-                  <span className="sm:hidden">Trending</span>
-                </TabsTrigger>
+                {filterTabs.map((tab) => {
+                  const Icon = tab.icon
+                  const shortLabel = tab.value === 'all' ? 'All' :
+                                    tab.value === 'professional' ? 'Pro' :
+                                    tab.value === 'community' ? 'Community' : 'Trending'
+
+                  return (
+                    <TabsTrigger
+                      key={tab.value}
+                      value={tab.value}
+                      className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm"
+                    >
+                      <Icon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                      <span className="hidden sm:inline">{dictionary.crosshairs.filter[tab.value]}</span>
+                      <span className="sm:hidden">{shortLabel}</span>
+                    </TabsTrigger>
+                  )
+                })}
               </TabsList>
             </Tabs>
 
