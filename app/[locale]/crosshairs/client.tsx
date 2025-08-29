@@ -194,25 +194,21 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
                   <Target className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">{dictionary.crosshairs.filter.all}</span>
                   <span className="sm:hidden">All</span>
-                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">1</kbd>
                 </TabsTrigger>
                 <TabsTrigger value="professional" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
                   <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">{dictionary.crosshairs.filter.professional}</span>
                   <span className="sm:hidden">Pro</span>
-                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">2</kbd>
                 </TabsTrigger>
                 <TabsTrigger value="community" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
                   <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">{dictionary.crosshairs.filter.community}</span>
                   <span className="sm:hidden">Community</span>
-                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">3</kbd>
                 </TabsTrigger>
                 <TabsTrigger value="trending" className="data-[state=active]:bg-valorant-red data-[state=active]:text-white relative py-2 sm:py-2.5 px-2 sm:px-3 text-xs sm:text-sm">
                   <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">{dictionary.crosshairs.filter.trending}</span>
                   <span className="sm:hidden">Trending</span>
-                  <kbd className="absolute -top-1 -right-1 hidden lg:block w-4 h-4 text-[10px] bg-valorant-gray-200 border border-valorant-gray-300 rounded flex items-center justify-center font-mono">4</kbd>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
