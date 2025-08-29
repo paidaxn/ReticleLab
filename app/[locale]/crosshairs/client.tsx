@@ -164,7 +164,7 @@ export function CrosshairsClient({ crosshairs, locale, dictionary }: CrosshairsC
           <div className="max-w-4xl">
             <Badge variant="valorant" className="mb-4 px-3 py-1.5 text-xs">
               <CrosshairIcon className="h-3 w-3" />
-              VALORANT CROSSHAIRS
+              VALORANT CROSSHAIRS • {crosshairs.length} TOTAL
             </Badge>
             <h1 className="text-3xl sm:text-5xl font-black mb-4 sm:mb-6 tracking-tight">
               {dictionary.crosshairs.title}
