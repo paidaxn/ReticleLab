@@ -9,10 +9,10 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
   const isZh = params.locale === 'zh'
   
   return generatePageMetadata(
-    isZh ? '准星编辑器 - RETICLELAB' : 'Crosshair Editor - RETICLELAB',
+    isZh ? 'Valorant准星生成器 - 自定义准星编辑器' : 'Valorant Crosshair Generator - Custom Crosshair Editor',
     isZh 
-      ? '使用可视化编辑器创建您的完美瓦罗兰特准星。实时预览、精确调整、一键导出准星代码。'
-      : 'Create your perfect VALORANT crosshair with our visual editor. Real-time preview, precise adjustments, and instant code export.',
+      ? '免费Valorant准星生成器。使用我们的可视化编辑器创建和自定义Valorant准星。实时预览、精确设置、即刻导出准星代码。'
+      : 'Free Valorant crosshair generator. Create and customize your Valorant crosshair with our visual editor. Real-time preview, precise settings, instant code export.',
     `/${params.locale}/editor`
   )
 }

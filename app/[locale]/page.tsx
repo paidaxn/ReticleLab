@@ -14,10 +14,10 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
   const isZh = params.locale === 'zh'
   
   return generatePageMetadata(
-    isZh ? 'RETICLELAB - 专业瓦罗兰特准星配置平台' : 'RETICLELAB - Professional VALORANT Crosshair Arsenal',
+    isZh ? 'Valorant准星设置 - 职业选手配置 | RETICLELAB' : 'Valorant Crosshair Settings - Pro Player Configs | RETICLELAB',
     isZh 
-      ? '来自世界冠军级瓦罗兰特职业选手的专业准星配置。自定义、部署并主宰战场。'
-      : 'Professional-grade crosshair configurations from championship-winning VALORANT players. Customize, deploy, and dominate with tactical precision.',
+      ? '最佳Valorant准星设置和代码，来自TenZ、Aspas、Demon1等职业选手。使用我们的视觉编辑器和数据库即刻复制专业Valorant准星。'
+      : 'Best Valorant crosshair settings and codes from pro players like TenZ, Aspas, and Demon1. Copy professional Valorant crosshairs instantly with our visual editor and database.',
     `/${params.locale}`
   )
 }
@@ -49,9 +49,8 @@ export default async function HomePage({
               </Badge>
               
               <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tight leading-tight">
-                {dictionary.hero.title}
-                <br />
-                <span className="text-valorant-red">
+                <span className="block">Valorant Crosshair</span>
+                <span className="text-valorant-red block">
                   {dictionary.hero.titleHighlight}
                 </span>
               </h1>
@@ -187,7 +186,7 @@ export default async function HomePage({
                 PROFESSIONAL COLLECTION
               </Badge>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-valorant-black">
-                Professional Player Crosshairs
+                Valorant Pro Player Crosshairs
               </h2>
               <p className="text-base sm:text-lg text-valorant-gray-600 mt-2">
                 Battle-tested configurations from championship winners
@@ -232,7 +231,7 @@ export default async function HomePage({
                 TRENDING NOW
               </Badge>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-valorant-black">
-                Community Favorites
+                Popular Valorant Crosshairs
               </h2>
               <p className="text-base sm:text-lg text-valorant-gray-600 mt-2">
                 Most copied crosshairs by the VALORANT community

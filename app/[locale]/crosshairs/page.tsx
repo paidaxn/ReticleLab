@@ -9,10 +9,10 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
   const isZh = params.locale === 'zh'
   
   return generatePageMetadata(
-    isZh ? '职业选手准星合集 - RETICLELAB' : 'Pro Player Crosshairs Collection - RETICLELAB',
+    isZh ? 'Valorant职业选手准星大全 - 准星代码库' : 'All Valorant Pro Crosshairs - Codes & Settings Database',
     isZh 
-      ? '浏览TenZ、Aspas、Demon1等职业选手的瓦罗兰特准星配置。一键复制代码，立即在游戏中使用。'
-      : 'Browse VALORANT crosshair configurations from pro players like TenZ, Aspas, and Demon1. Copy codes and use them in-game instantly.',
+      ? '最全的Valorant准星数据库。浏览并复制TenZ、Aspas、Demon1等职业选手的Valorant准星设置和代码。包含1000+专业准星配置。'
+      : 'Complete Valorant crosshair database. Browse and copy Valorant crosshair settings from TenZ, Aspas, Demon1 and more pro players. 1000+ professional crosshair codes.',
     `/${params.locale}/crosshairs`
   )
 }
