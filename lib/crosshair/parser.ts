@@ -2,154 +2,165 @@ import { CrosshairParams } from '@/types/crosshair'
 
 /**
  * Parses a VALORANT crosshair code and extracts all parameters
- * Handles both old and new format crosshair codes
+ * Based on the actual Valorant crosshair code format
+ * 
+ * Format explanation:
+ * - The code is semicolon-separated
+ * - Each parameter is a key followed by its value
+ * - Special sections: P (Primary), A (ADS), S (Sniper)
  */
 export function parseCrosshairCode(code: string): CrosshairParams {
-  const parts = code.split(';')
+  if (!code || typeof code !== 'string') {
+    return getDefaultParams()
+  }
+
+  const segments = code.split(';').filter(s => s.trim() !== '')
   const params: Record<string, string> = {}
   
-  // Parse all key-value pairs
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i].trim()
-    if (part === '') continue
+  // Parse the code into key-value pairs
+  let i = 0
+  while (i < segments.length) {
+    const segment = segments[i].trim()
     
-    // Handle first part which might be version
-    if (i === 0 && part === '0') continue
+    // Skip version marker or section markers
+    if (segment === '0' || segment === 'P' || segment === 'A' || segment === 'S') {
+      i++
+      continue
+    }
     
-    // Handle key-value pairs
-    if (part.includes(';')) {
-      const subParts = part.split(';')
-      for (const subPart of subParts) {
-        if (subPart.trim() === '') continue
-        params[subPart.trim()] = ''
+    // Key-value pair
+    if (i + 1 < segments.length) {
+      const key = segment
+      const value = segments[i + 1]
+      
+      // Check if next segment is actually a value (not another key)
+      if (!/^[a-zA-Z]/.test(value) || value.length > 10) {
+        params[key] = value
+        i += 2
+      } else {
+        params[key] = '1' // Default value for flags
+        i++
       }
     } else {
-      // Look for next part as value
-      if (i + 1 < parts.length && !parts[i + 1].match(/^[a-zA-Z]/)) {
-        params[part] = parts[i + 1]
-        i++ // Skip next part as it's the value
-      } else {
-        params[part] = ''
-      }
+      params[segment] = '1' // Default value for flags at the end
+      i++
     }
   }
   
-  // Color mapping
+  // Color mapping - based on Valorant's actual color codes
   const colorMap: Record<string, string> = {
     '0': '#FFFFFF', // White
     '1': '#00FF00', // Green  
-    '2': '#00FFFF', // Cyan
-    '3': '#0000FF', // Blue
+    '2': '#7FFF00', // Yellow Green
+    '3': '#00FFFF', // Cyan
     '4': '#FFFF00', // Yellow
-    '5': '#FF00FF', // Magenta
-    '6': '#FF0000', // Red
-    '7': '#FFFFFF', // White
-    '8': '#000000', // Black
+    '5': '#00FFFF', // Cyan (duplicate)
+    '6': '#FF69B4', // Pink
+    '7': '#FF0000', // Red
+    '8': '#FFFFFF', // White (custom)
   }
   
-  // Extract color from 'c' parameter or 'u' parameter for custom color
-  let color = '#00FF00' // Default green
+  // Extract color
+  let color = '#00FFFF' // Default cyan (most popular)
   if (params.c && colorMap[params.c]) {
     color = colorMap[params.c]
   }
+  
+  // Handle custom color (u parameter)
   if (params.u) {
-    // Custom color in RRGGBBAA format
-    let colorHex = params.u
-    
-    // Remove FF suffix if present (alpha channel)
-    if (colorHex.endsWith('FF')) {
-      colorHex = colorHex.slice(0, -2)
-    }
-    
-    // Ensure we have 6 characters for RGB
+    const customColor = params.u.toUpperCase()
+    // Remove alpha channel (last 2 characters) if present
+    const colorHex = customColor.length >= 8 ? customColor.substring(0, 6) : customColor
     if (colorHex.length >= 6) {
-      color = '#' + colorHex.substring(0, 6)
+      color = '#' + colorHex
     }
   }
+  
+  // Parse outline settings
+  const hasOutlines = params.o === '1' || params.h === '0'
+  const outlineOpacity = params.o === '1' ? 100 : (params.o === '0' ? 0 : 50)
+  
+  // Parse center dot settings
+  const hasCenterDot = params.d === '1'
+  const centerDotSize = parseInt(params.z) || 1
+  
+  // Parse inner lines (0-prefixed parameters)
+  const innerThickness = parseInt(params['0t']) || 2
+  const innerLength = parseInt(params['0l']) || 4
+  const innerOffset = parseInt(params['0o']) || 0
+  const innerOpacity = params['0a'] ? Math.round(parseFloat(params['0a']) * 100) : 100
+  const innerVerticalOffset = parseInt(params['0v']) || 0
+  const innerGap = parseInt(params['0g']) || 0
+  
+  // Parse outer lines (1-prefixed parameters)
+  const outerThickness = parseInt(params['1t']) || 0
+  const outerLength = parseInt(params['1l']) || 0
+  const outerOffset = parseInt(params['1o']) || 0
+  const outerOpacity = params['1a'] ? Math.round(parseFloat(params['1a']) * 100) : 100
+  const outerVerticalOffset = parseInt(params['1v']) || 0
+  const outerGap = parseInt(params['1g']) || 0
+  
+  // Parse movement and firing error
+  const showMovementError = params['0f'] === '1' || params['1f'] === '1'
+  // const showFiringError = params['0b'] === '1' || params['1b'] === '1' // Reserved for future use
   
   return {
     // Basic settings
     color,
     outlineColor: '#000000',
-    outlineThickness: parseInt(params.o) || 0,
-    outlineOpacity: 100,
-    centerDot: params.h !== '0' && params.d !== '0',
-    centerDotSize: parseInt(params.z) || 2,
-    centerDotOpacity: parseFloat(params.a) ? parseFloat(params.a) * 100 : 100,
+    outlineThickness: hasOutlines ? 1 : 0,
+    outlineOpacity,
+    centerDot: hasCenterDot,
+    centerDotSize,
+    centerDotOpacity: 100,
     
-    // Inner line settings  
-    innerLineThickness: parseInt(params['0t']) || parseInt(params.t) || 2,
-    innerLineLength: parseInt(params['0l']) || parseInt(params.l) || 4,
-    innerLineOffset: parseInt(params['0o']) || parseInt(params.m) || 0,
-    innerLineOpacity: params['0a'] ? parseFloat(params['0a']) * 100 : 100,
-    innerLineMovement: params['0f'] === '1',
-    innerLineMovementError: parseInt(params['0s']) || 0,
-    innerLineFiringError: parseInt(params['0e']) || 0,
+    // Inner line settings
+    innerLineThickness: innerThickness,
+    innerLineLength: innerLength,
+    innerLineOffset: innerOffset,
+    innerLineOpacity: innerOpacity,
+    innerLineMovement: showMovementError,
+    innerLineMovementError: innerVerticalOffset,
+    innerLineFiringError: innerGap,
     
     // Outer line settings
-    outerLineThickness: parseInt(params['1t']) || 0,
-    outerLineLength: parseInt(params['1l']) || parseInt(params['0v']) || 0,
-    outerLineOffset: parseInt(params['1o']) || parseInt(params['0g']) || 0,
-    outerLineOpacity: params['1a'] ? parseFloat(params['1a']) * 100 : 100,
-    outerLineMovement: params['1f'] === '1',
-    outerLineMovementError: parseInt(params['1s']) || 0,
-    outerLineFiringError: parseInt(params['1e']) || 0,
+    outerLineThickness: outerThickness,
+    outerLineLength: outerLength || innerVerticalOffset, // Sometimes 0v is used for outer length
+    outerLineOffset: outerOffset || innerGap, // Sometimes 0g is used for outer offset
+    outerLineOpacity: outerOpacity,
+    outerLineMovement: showMovementError,
+    outerLineMovementError: outerVerticalOffset,
+    outerLineFiringError: outerGap,
   }
 }
 
 /**
- * Generates a crosshair code from parameters
+ * Returns default crosshair parameters
  */
-export function generateCrosshairCode(params: CrosshairParams): string {
-  const colorMap: Record<string, string> = {
-    '#FFFFFF': '0',
-    '#00FF00': '1', 
-    '#00FFFF': '2',
-    '#0000FF': '3',
-    '#FFFF00': '4',
-    '#FF00FF': '5',
-    '#FF0000': '6',
-    '#000000': '8',
+function getDefaultParams(): CrosshairParams {
+  return {
+    color: '#00FFFF',
+    outlineColor: '#000000',
+    outlineThickness: 1,
+    outlineOpacity: 100,
+    centerDot: false,
+    centerDotSize: 2,
+    centerDotOpacity: 100,
+    innerLineThickness: 2,
+    innerLineLength: 4,
+    innerLineOffset: 2,
+    innerLineOpacity: 100,
+    innerLineMovement: false,
+    innerLineMovementError: 0,
+    innerLineFiringError: 0,
+    outerLineThickness: 0,
+    outerLineLength: 0,
+    outerLineOffset: 0,
+    outerLineOpacity: 100,
+    outerLineMovement: false,
+    outerLineMovementError: 0,
+    outerLineFiringError: 0,
   }
-  
-  const colorCode = colorMap[params.color.toUpperCase()] || '1'
-  
-  let code = `0;P;c;${colorCode}`
-  
-  if (params.outlineThickness > 0) {
-    code += `;o;${params.outlineThickness}`
-  }
-  
-  if (params.centerDot) {
-    code += `;h;0;d;1`
-    if (params.centerDotSize !== 2) {
-      code += `;z;${params.centerDotSize}`
-    }
-  }
-  
-  if (params.innerLineLength > 0) {
-    code += `;0l;${params.innerLineLength}`
-    code += `;0o;${params.innerLineOffset}`
-    if (params.innerLineThickness !== 2) {
-      code += `;0t;${params.innerLineThickness}`
-    }
-    if (params.innerLineOpacity !== 100) {
-      code += `;0a;${params.innerLineOpacity / 100}`
-    }
-  }
-  
-  if (params.outerLineLength > 0) {
-    code += `;1l;${params.outerLineLength}`
-    code += `;1o;${params.outerLineOffset}`
-    if (params.outerLineThickness > 0) {
-      code += `;1t;${params.outerLineThickness}`
-    }
-    if (params.outerLineOpacity !== 100) {
-      code += `;1a;${params.outerLineOpacity / 100}`
-    }
-  }
-  
-  return code
 }
 
 /**
@@ -158,7 +169,80 @@ export function generateCrosshairCode(params: CrosshairParams): string {
 export function validateCrosshairCode(code: string): boolean {
   if (!code || typeof code !== 'string') return false
   
-  // Should start with 0; or have basic structure
-  const basicPattern = /^0;.*|.*P;.*|.*c;.*|.*l;.*/
-  return basicPattern.test(code)
+  // Should contain semicolons and have basic structure
+  const hasBasicStructure = code.includes(';')
+  
+  return hasBasicStructure && code.length > 5
+}
+
+/**
+ * Generates a crosshair code from parameters (simplified version)
+ */
+export function generateCrosshairCode(params: CrosshairParams): string {
+  const colorMap: Record<string, string> = {
+    '#FFFFFF': '0',
+    '#00FF00': '1',
+    '#00FFFF': '5',
+    '#FFFF00': '4',
+    '#FF0000': '7',
+  }
+  
+  let code = '0;P'
+  
+  // Add color
+  const colorCode = colorMap[params.color.toUpperCase()]
+  if (colorCode) {
+    code += `;c;${colorCode}`
+  } else {
+    // Custom color
+    const hex = params.color.replace('#', '')
+    code += `;u;${hex}FF`
+  }
+  
+  // Add outline
+  if (params.outlineThickness > 0) {
+    code += `;o;1`
+  }
+  
+  // Add center dot
+  if (params.centerDot) {
+    code += `;d;1`
+    if (params.centerDotSize !== 1) {
+      code += `;z;${params.centerDotSize}`
+    }
+  }
+  
+  // Add inner lines
+  if (params.innerLineLength > 0) {
+    code += `;0l;${params.innerLineLength}`
+    code += `;0o;${params.innerLineOffset}`
+    if (params.innerLineThickness !== 2) {
+      code += `;0t;${params.innerLineThickness}`
+    }
+    if (params.innerLineOpacity !== 100) {
+      code += `;0a;${(params.innerLineOpacity / 100).toFixed(1)}`
+    }
+  }
+  
+  // Add outer lines
+  if (params.outerLineLength > 0) {
+    code += `;1l;${params.outerLineLength}`
+    code += `;1o;${params.outerLineOffset}`
+    if (params.outerLineThickness > 0) {
+      code += `;1t;${params.outerLineThickness}`
+    }
+    if (params.outerLineOpacity !== 100) {
+      code += `;1a;${(params.outerLineOpacity / 100).toFixed(1)}`
+    }
+  }
+  
+  // Add error settings
+  if (params.innerLineMovement) {
+    code += `;0f;1`
+  }
+  if (params.innerLineFiringError > 0) {
+    code += `;0b;1`
+  }
+  
+  return code
 }

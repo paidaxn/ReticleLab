@@ -11,6 +11,7 @@ interface RawMockCrosshair {
   copies: number
   likes: number
   isVerified?: boolean
+  lastUpdated?: string
 }
 
 // Helper function to add missing fields to mock data

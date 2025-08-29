@@ -228,6 +228,13 @@ export function CrosshairDetailClient({
                       <div className="font-bold tracking-wider uppercase text-[10px] sm:text-xs text-valorant-gray-600">{dictionary.card.likes}</div>
                     </div>
                   </div>
+                  
+                  {/* Last Updated Info */}
+                  {crosshair.updatedAt && (
+                    <div className="text-xs text-valorant-gray-500 font-semibold">
+                      Last verified: {new Date(crosshair.updatedAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                    </div>
+                  )}
                 </div>
               </div>
 
