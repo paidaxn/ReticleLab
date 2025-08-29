@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CrosshairCanvas } from '@/components/crosshair/CrosshairCanvas'
 import { CrosshairCard } from '@/components/crosshair/CrosshairCard'
 import { Copy, Heart, CheckCircle, ArrowLeft, Share2, Download, Shield, Settings, ExternalLink, Target, HelpCircle, ChevronRight } from 'lucide-react'
@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { type Locale } from '@/i18n.config'
 import { type Crosshair } from '@/types/crosshair'
 import { type Dictionary } from '@/lib/dictionary'
+import { incrementCopies, toggleFavorite as toggleFav, initializeStats, isFavorited } from '@/lib/storage/crosshair-stats'
 
 interface CrosshairDetailClientProps {
   crosshair: Crosshair
@@ -25,11 +26,26 @@ export function CrosshairDetailClient({
 }: CrosshairDetailClientProps) {
   const [liked, setLiked] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [copies, setCopies] = useState(crosshair.copies || 0)
+  const [likes, setLikes] = useState(crosshair.likes || 0)
+
+  // Load initial stats on mount
+  useEffect(() => {
+    const stats = initializeStats(crosshair.id, crosshair.copies || 0, crosshair.likes || 0)
+    setCopies(stats.copies)
+    setLikes(stats.likes)
+    setLiked(isFavorited(crosshair.id))
+  }, [crosshair.id, crosshair.copies, crosshair.likes])
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(crosshair.code)
       setCopied(true)
+      
+      // Track copy in local storage
+      const stats = incrementCopies(crosshair.id, copies)
+      setCopies(stats.copies)
+      
       toast.success(dictionary.toast.copySuccess, {
         duration: 4000,
         style: {
@@ -79,8 +95,15 @@ export function CrosshairDetailClient({
     }
   }
 
-  const handleLike = () => {
-    setLiked(!liked)
+  const handleLike = async () => {
+    const newLikedState = !liked
+    setLiked(newLikedState)
+    
+    // Toggle favorite in local storage
+    const result = toggleFav(crosshair.id, likes)
+    setLikes(result.likes)
+    setLiked(result.favorited)
+    
     toast.success(liked ? dictionary.toast.likeRemove : dictionary.toast.likeAdd, {
       style: {
         background: '#10B981',
@@ -214,7 +237,7 @@ export function CrosshairDetailClient({
                         <Copy className="h-3 w-3 sm:h-4 sm:w-4 text-valorant-green" />
                       </div>
                       <div className="text-lg sm:text-xl font-black text-valorant-green">
-                        {crosshair.copies.toLocaleString()}
+                        {copies.toLocaleString()}
                       </div>
                       <div className="font-bold tracking-wider uppercase text-[10px] sm:text-xs text-valorant-gray-600">{dictionary.card.copies}</div>
                     </div>
@@ -223,7 +246,7 @@ export function CrosshairDetailClient({
                         <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-valorant-red" />
                       </div>
                       <div className="text-lg sm:text-xl font-black text-valorant-red">
-                        {crosshair.likes.toLocaleString()}
+                        {likes.toLocaleString()}
                       </div>
                       <div className="font-bold tracking-wider uppercase text-[10px] sm:text-xs text-valorant-gray-600">{dictionary.card.likes}</div>
                     </div>

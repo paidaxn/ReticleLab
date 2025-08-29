@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CrosshairCanvas } from './CrosshairCanvas'
 import { Copy, Heart, CheckCircle, Shield } from 'lucide-react'
 import { CrosshairParams } from '@/types/crosshair'
@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { type Locale } from '@/i18n.config'
 import { LazyLoad } from '@/components/ui/lazy-load'
 import { type Dictionary } from '@/lib/dictionary'
+import { incrementCopies, toggleFavorite as toggleFav, initializeStats, isFavorited } from '@/lib/storage/crosshair-stats'
 
 interface CrosshairCardProps {
   id: string
@@ -31,14 +32,24 @@ export function CrosshairCard({
   teamName,
   code,
   params,
-  copies,
-  likes,
+  copies: initialCopies,
+  likes: initialLikes,
   isVerified = false,
   locale,
   dictionary,
 }: CrosshairCardProps) {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
+  const [copies, setCopies] = useState(initialCopies)
+  const [likes, setLikes] = useState(initialLikes)
+
+  // Load initial stats on mount
+  useEffect(() => {
+    const stats = initializeStats(id, initialCopies, initialLikes)
+    setCopies(stats.copies)
+    setLikes(stats.likes)
+    setLiked(isFavorited(id))
+  }, [id, initialCopies, initialLikes])
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -46,6 +57,11 @@ export function CrosshairCard({
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
+      
+      // Track copy in local storage
+      const stats = incrementCopies(id, copies)
+      setCopies(stats.copies)
+      
       toast.success(dictionary.toast.copySuccess, {
         style: {
           background: '#10B981',
@@ -71,10 +87,18 @@ export function CrosshairCard({
     }
   }
 
-  const handleLike = (e: React.MouseEvent) => {
+  const handleLike = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setLiked(!liked)
+    
+    const newLikedState = !liked
+    setLiked(newLikedState)
+    
+    // Toggle favorite in local storage
+    const result = toggleFav(id, likes)
+    setLikes(result.likes)
+    setLiked(result.favorited)
+    
     toast.success(liked ? dictionary.toast.likeRemove : dictionary.toast.likeAdd, {
       style: {
         background: '#10B981',
