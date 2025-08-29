@@ -3,6 +3,7 @@
     "browse": "准星库",
     "editor": "编辑器",
     "howTo": "使用教程",
+    "favorites": "我的收藏",
     "search": "搜索准星..."
   },
   "hero": {
@@ -151,5 +152,33 @@
     "likeAdd": "已添加到收藏",
     "likeRemove": "已从收藏移除",
     "shareSuccess": "链接已复制到剪贴板！"
+  },
+  "common": {
+    "back": "返回",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "retry": "重试"
+  },
+  "favorites": {
+    "title": "我的收藏",
+    "description": "你收藏的准星合集",
+    "subtitle": "你的收藏中有 {count} 个准星",
+    "search": "搜索你的收藏...",
+    "emptyTitle": "还没有收藏",
+    "emptyDescription": "点击任何准星上的爱心图标，开始建立你的收藏集。",
+    "browseCrosshairs": "浏览准星",
+    "noResults": "没有找到匹配项",
+    "tryDifferentSearch": "尝试其他搜索词",
+    "sortRecent": "最近添加",
+    "sortName": "名称 (A-Z)",
+    "sortPlayer": "选手名称",
+    "statsTitle": "收藏统计",
+    "totalFavorites": "总收藏数",
+    "proCrosshairs": "职业准星",
+    "differentPlayers": "不同选手",
+    "differentTeams": "不同战队"
   }
 }

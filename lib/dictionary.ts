@@ -5,6 +5,7 @@ export interface Dictionary {
     browse: string
     editor: string
     howTo: string
+    favorites?: string
     search: string
   }
   hero: {
@@ -124,6 +125,34 @@ export interface Dictionary {
     copyError: string
     likeAdd: string
     likeRemove: string
+  }
+  common?: {
+    back: string
+    search: string
+    filter: string
+    sort: string
+    loading: string
+    error: string
+    retry: string
+  }
+  favorites?: {
+    title: string
+    description: string
+    subtitle: string
+    search?: string
+    emptyTitle: string
+    emptyDescription: string
+    browseCrosshairs: string
+    noResults: string
+    tryDifferentSearch: string
+    sortRecent: string
+    sortName: string
+    sortPlayer: string
+    statsTitle: string
+    totalFavorites: string
+    proCrosshairs: string
+    differentPlayers: string
+    differentTeams: string
   }
   // Allow for additional properties with explicit type
   [key: string]: string | Record<string, unknown> | undefined

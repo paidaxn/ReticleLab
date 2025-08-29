@@ -3,6 +3,7 @@
     "browse": "CROSSHAIRS",
     "editor": "EDITOR",
     "howTo": "HOW TO USE",
+    "favorites": "MY FAVORITES",
     "search": "Search crosshairs..."
   },
   "hero": {
@@ -124,5 +125,33 @@
     "likeAdd": "Added to favorites",
     "likeRemove": "Removed from favorites",
     "shareSuccess": "Link copied to clipboard!"
+  },
+  "common": {
+    "back": "Back",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try Again"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "description": "Your collection of favorite crosshairs",
+    "subtitle": "{count} crosshairs in your collection",
+    "search": "Search your favorites...",
+    "emptyTitle": "No Favorites Yet",
+    "emptyDescription": "Start building your collection by clicking the heart icon on any crosshair you like.",
+    "browseCrosshairs": "Browse Crosshairs",
+    "noResults": "No matches found",
+    "tryDifferentSearch": "Try a different search term",
+    "sortRecent": "Recently Added",
+    "sortName": "Name (A-Z)",
+    "sortPlayer": "Player Name",
+    "statsTitle": "Your Collection Stats",
+    "totalFavorites": "Total Favorites",
+    "proCrosshairs": "Pro Crosshairs",
+    "differentPlayers": "Different Players",
+    "differentTeams": "Different Teams"
   }
 }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ReticleLabLogo } from '@/components/icons/ReticleLabLogo'
-import { Menu, X, Target, Settings, HelpCircle, Globe } from 'lucide-react'
+import { Menu, X, Target, Settings, HelpCircle, Globe, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { type Locale } from '@/i18n.config'
 import { usePathname } from 'next/navigation'
@@ -29,6 +29,10 @@ export function Header({ locale, dictionary }: HeaderProps) {
             <Link href={`/${locale}/crosshairs`} className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <Target className="h-4 w-4" />
               <span>{dictionary.header.browse}</span>
+            </Link>
+            <Link href={`/${locale}/favorites`} className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
+              <Heart className="h-4 w-4" />
+              <span>{dictionary.header.favorites}</span>
             </Link>
             <Link href={`/${locale}/how-to-use`} className="text-valorant-black hover:text-valorant-red font-bold tracking-wide uppercase text-sm transition-colors duration-200 flex items-center gap-2">
               <HelpCircle className="h-4 w-4" />
@@ -78,6 +82,14 @@ export function Header({ locale, dictionary }: HeaderProps) {
             >
               <Target className="h-5 w-5" />
               <span className="font-bold tracking-wide uppercase text-lg">{dictionary.header.browse}</span>
+            </Link>
+            <Link
+              href={`/${locale}/favorites`}
+              className="flex items-center gap-3 p-4 rounded-lg transition-all duration-300 hover:bg-valorant-red/10 text-valorant-black hover:text-valorant-red"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Heart className="h-5 w-5" />
+              <span className="font-bold tracking-wide uppercase text-lg">{dictionary.header.favorites}</span>
             </Link>
             <Link
               href={`/${locale}/how-to-use`}
