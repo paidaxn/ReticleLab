@@ -1,12 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { FileQuestion, Home, ArrowLeft } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { FileQuestion, Home } from 'lucide-react'
 
-export default function NotFound() {
-  const pathname = usePathname()
-  const locale = pathname?.split('/')[1] || 'en'
+export default function RootNotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-valorant-black to-gray-900 flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-8">
@@ -28,20 +25,20 @@ export default function NotFound() {
 
         <div className="flex gap-4">
           <Link
-            href={`/${locale}`}
+            href="/en"
             className="flex-1 px-6 py-3 bg-valorant-red hover:bg-red-600 text-white font-bold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 transform hover:scale-105"
           >
             <Home className="h-5 w-5" />
-            Home
+            English Home
           </Link>
           
-          <button
-            onClick={() => window.history.back()}
+          <Link
+            href="/zh"
             className="flex-1 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 transform hover:scale-105"
           >
-            <ArrowLeft className="h-5 w-5" />
-            Go Back
-          </button>
+            <Home className="h-5 w-5" />
+            中文主页
+          </Link>
         </div>
       </div>
     </div>
