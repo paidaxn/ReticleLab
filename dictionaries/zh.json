@@ -8,7 +8,7 @@
   },
   "hero": {
     "badge": "战术优势",
-    "title": "找到你的",
+    "title": "瓦罗兰特准星",
     "titleHighlight": "完美准星",
     "subtitle": "浏览并复制顶级职业选手的准星设置。",
     "subtitleHighlight": "几秒钟找到最适合你的配置。",
@@ -109,6 +109,18 @@
     },
     "ready": "准备好找到您的完美准星了吗？",
     "browse": "浏览准星"
+  },
+  "proCrosshairs": {
+    "badge": "职业收藏",
+    "title": "瓦罗兰特职业选手准星",
+    "subtitle": "来自冠军选手的实战配置",
+    "viewAll": "查看全部"
+  },
+  "popularCrosshairs": {
+    "badge": "热门趋势",
+    "title": "流行瓦罗兰特准星",
+    "subtitle": "瓦罗兰特社区复制最多的准星",
+    "exploreMore": "探索更多"
   },
   "footer": {
     "links": {

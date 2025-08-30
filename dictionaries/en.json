@@ -110,6 +110,18 @@
     "ready": "Ready to find your perfect crosshair?",
     "browse": "BROWSE CROSSHAIRS"
   },
+  "proCrosshairs": {
+    "badge": "PROFESSIONAL COLLECTION",
+    "title": "Valorant Pro Player Crosshairs",
+    "subtitle": "Battle-tested configurations from championship winners",
+    "viewAll": "View All"
+  },
+  "popularCrosshairs": {
+    "badge": "TRENDING NOW",
+    "title": "Popular Valorant Crosshairs",
+    "subtitle": "Most copied crosshairs by the VALORANT community",
+    "exploreMore": "Explore More"
+  },
   "footer": {
     "links": {
       "browse": "Browse Crosshairs",

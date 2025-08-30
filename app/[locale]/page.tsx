@@ -51,7 +51,7 @@ export default async function HomePage({
               </Badge>
               
               <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tight leading-tight">
-                <span className="block">Valorant Crosshair</span>
+                <span className="block">{dictionary.hero.title}</span>
                 <span className="text-valorant-red block">
                   {dictionary.hero.titleHighlight}
                 </span>
@@ -185,18 +185,18 @@ export default async function HomePage({
             <div>
               <Badge variant="valorant" className="px-3 py-1.5 text-xs mb-4">
                 <Trophy className="h-3 w-3" />
-                PROFESSIONAL COLLECTION
+                {dictionary.proCrosshairs.badge}
               </Badge>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-valorant-black">
-                Valorant Pro Player Crosshairs
+                {dictionary.proCrosshairs.title}
               </h2>
               <p className="text-base sm:text-lg text-valorant-gray-600 mt-2">
-                Battle-tested configurations from championship winners
+                {dictionary.proCrosshairs.subtitle}
               </p>
             </div>
             <Button asChild variant="outline" className="self-start sm:self-auto border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white">
               <Link href={`/${locale}/crosshairs`} className="min-h-[44px] text-sm">
-                View All
+                {dictionary.proCrosshairs.viewAll}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -230,18 +230,18 @@ export default async function HomePage({
             <div>
               <Badge variant="outline" className="px-3 py-1.5 text-xs mb-4 border-valorant-red text-valorant-red">
                 <Users className="h-3 w-3" />
-                TRENDING NOW
+                {dictionary.popularCrosshairs.badge}
               </Badge>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-valorant-black">
-                Popular Valorant Crosshairs
+                {dictionary.popularCrosshairs.title}
               </h2>
               <p className="text-base sm:text-lg text-valorant-gray-600 mt-2">
-                Most copied crosshairs by the VALORANT community
+                {dictionary.popularCrosshairs.subtitle}
               </p>
             </div>
             <Button asChild variant="outline" className="self-start sm:self-auto border-valorant-black text-valorant-black hover:bg-valorant-black hover:text-white">
               <Link href={`/${locale}/crosshairs`} className="min-h-[44px] text-sm">
-                Explore More
+                {dictionary.popularCrosshairs.exploreMore}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

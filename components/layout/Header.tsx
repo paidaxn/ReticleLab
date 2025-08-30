@@ -2,11 +2,11 @@
 
 import Link from 'next/link'
 import { ReticleLabLogo } from '@/components/icons/ReticleLabLogo'
-import { Menu, X, Target, Settings, HelpCircle, Globe, Heart } from 'lucide-react'
+import { Menu, X, Target, Settings, HelpCircle, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { type Locale } from '@/i18n.config'
-import { usePathname } from 'next/navigation'
 import { type Dictionary } from '@/lib/dictionary'
+import { LanguageSelector } from './LanguageSelector'
 
 interface HeaderProps {
   locale: Locale
@@ -15,7 +15,6 @@ interface HeaderProps {
 
 export function Header({ locale, dictionary }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
 
   return (
     <header className="sticky top-0 z-50 w-full bg-valorant-white border-b-2 border-valorant-gray-200" role="banner">
@@ -46,15 +45,8 @@ export function Header({ locale, dictionary }: HeaderProps) {
           </nav>
         </div>
 
-        <div className="flex items-center gap-6">
-          <Link
-            href={locale === 'en' ? pathname.replace('/en', '/zh') : pathname.replace('/zh', '/en')}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border-2 border-valorant-gray-200 hover:border-valorant-red transition-all duration-300 text-valorant-black hover:text-valorant-red font-bold text-sm"
-            aria-label={`Switch language to ${locale === 'en' ? 'Chinese' : 'English'}`}
-          >
-            <Globe className="h-4 w-4" />
-            <span>{locale === 'en' ? '中文' : 'EN'}</span>
-          </Link>
+        <div className="flex items-center gap-4">
+          <LanguageSelector currentLocale={locale} />
 
           <button
             className="lg:hidden p-3 rounded-lg border-2 border-valorant-gray-200 bg-valorant-white hover:border-valorant-red hover:bg-valorant-red/5 transition-all duration-300"

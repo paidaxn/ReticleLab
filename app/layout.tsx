@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="">
       <head>
-        <link rel="icon" href="/icon" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
