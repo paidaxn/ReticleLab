@@ -4,7 +4,6 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { Analytics } from '@vercel/analytics/react'
 import { defaultMetadata, generateOrganizationSchema, generateWebSiteSchema } from '@/lib/seo-metadata'
-import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,13 +40,6 @@ export default function RootLayout({
             __html: JSON.stringify(websiteSchema),
           }}
         />
-        {/* Cloudflare Web Analytics */}
-        <Script
-          defer
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "351618e4c2c4485290352a9d371c5029"}'
-          strategy="afterInteractive"
-        />
       </head>
       <body className={`${inter.className} antialiased`}>
         {children}
@@ -75,6 +67,12 @@ export default function RootLayout({
           }}
         />
         <Analytics />
+        {/* Cloudflare Web Analytics */}
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "351618e4c2c4485290352a9d371c5029"}'
+        />
       </body>
     </html>
   )
