@@ -112,6 +112,18 @@ export interface Dictionary {
     ready: string
     browse: string
   }
+  proCrosshairs: {
+    badge: string
+    title: string
+    subtitle: string
+    viewAll: string
+  }
+  popularCrosshairs: {
+    badge: string
+    title: string
+    subtitle: string
+    exploreMore: string
+  }
   footer: {
     links: {
       browse: string
