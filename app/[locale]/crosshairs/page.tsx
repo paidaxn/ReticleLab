@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
   )
 }
 
-// Fetch crosshairs from API
+// Fetch crosshairs - directly import mock data during build time
 async function fetchCrosshairs() {
   console.log('[Page] fetchCrosshairs called')
   console.log('[Page] Environment:', {
@@ -29,42 +29,26 @@ async function fetchCrosshairs() {
     NODE_ENV: process.env.NODE_ENV
   })
   
+  // During build time or when API is not available, use mock data directly
+  // This avoids the issue of API routes not being available during static generation
   try {
-    // Automatically detect the deployment platform
-    // Vercel provides VERCEL_URL, Cloudflare provides CF_PAGES_URL
-    const baseUrl = process.env.CF_PAGES_URL || 
-                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
-                    process.env.NEXT_PUBLIC_BASE_URL || 
-                    'http://localhost:3000'
+    // Import mock data directly instead of fetching from API
+    const { mockCrosshairs } = await import('@/lib/crosshair/mockCrosshairs')
     
-    console.log('[Page] Using baseUrl:', baseUrl)
+    console.log('[Page] Using direct mock data import')
+    console.log('[Page] Mock crosshairs count:', mockCrosshairs.length)
     
-    const url = `${baseUrl}/api/crosshairs?limit=500`
-    console.log('[Page] Fetching from:', url)
+    // Transform dates to ISO strings for serialization
+    const crosshairs = mockCrosshairs.map(crosshair => ({
+      ...crosshair,
+      createdAt: crosshair.createdAt?.toISOString(),
+      updatedAt: crosshair.updatedAt?.toISOString()
+    }))
     
-    const response = await fetch(url, {
-      next: { revalidate: 60 } // Cache for 60 seconds
-    })
-    
-    console.log('[Page] Response status:', response.status)
-    console.log('[Page] Response ok:', response.ok)
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch crosshairs')
-    }
-
-    const data = await response.json()
-    console.log('[Page] Response data:', {
-      success: data.success,
-      dataLength: data.data?.length,
-      hasPagination: !!data.pagination
-    })
-    
-    const crosshairs = data.data || []
-    console.log('[Page] Returning', crosshairs.length, 'crosshairs')
+    console.log('[Page] Returning', crosshairs.length, 'crosshairs from mock data')
     return crosshairs
   } catch (error) {
-    console.error('[Page] Error fetching crosshairs:', error)
+    console.error('[Page] Error loading crosshairs:', error)
     console.error('[Page] Error details:', {
       message: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : undefined

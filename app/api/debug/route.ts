@@ -43,8 +43,8 @@ export async function GET(request: NextRequest) {
     dataTest: {
       canImportMockData: false,
       mockDataLength: 0,
-      sampleData: null,
-      error: null
+      sampleData: null as any,
+      error: null as string | null
     }
   }
   

@@ -21,8 +21,14 @@ import { type Dictionary } from '@/lib/dictionary'
 type FilterType = 'all' | 'professional' | 'community' | 'trending'
 type SortType = 'popular' | 'copies' | 'newest' | 'likes' | 'verified'
 
+// Serialized version of Crosshair for client-side props
+type SerializedCrosshair = Omit<Crosshair, 'createdAt' | 'updatedAt'> & {
+  createdAt: string
+  updatedAt: string
+}
+
 interface CrosshairsClientProps {
-  initialCrosshairs: Crosshair[]
+  initialCrosshairs: SerializedCrosshair[]
   locale: Locale
   dictionary: Dictionary
 }
@@ -34,6 +40,7 @@ export function CrosshairsClient({ initialCrosshairs, locale, dictionary }: Cros
     console.log('[Client] Initial crosshairs count:', initialCrosshairs?.length || 0)
     console.log('[Client] Sample crosshair:', initialCrosshairs?.[0])
     console.log('[Client] Locale:', locale)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
   const [searchQuery, setSearchQuery] = useState('')
