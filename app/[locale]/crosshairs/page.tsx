@@ -21,9 +21,10 @@ export async function generateMetadata({ params }: { params: { locale: Locale } 
 // Fetch crosshairs from API
 async function fetchCrosshairs() {
   try {
-    // Use Cloudflare Pages URL or fallback to localhost
-    // CF_PAGES_URL is automatically provided by Cloudflare Pages
+    // Automatically detect the deployment platform
+    // Vercel provides VERCEL_URL, Cloudflare provides CF_PAGES_URL
     const baseUrl = process.env.CF_PAGES_URL || 
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
                     process.env.NEXT_PUBLIC_BASE_URL || 
                     'http://localhost:3000'
     
