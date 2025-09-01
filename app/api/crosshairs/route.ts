@@ -1,20 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { mockCrosshairs } from '@/lib/crosshair/mockCrosshairs'
 
-export const runtime = 'edge'
+// Removed Edge Runtime for Vercel compatibility
+// export const runtime = 'edge'
 
 // Use mock data for Edge Runtime compatibility
 async function getCrosshairs() {
+  console.log('[API] getCrosshairs called')
+  console.log('[API] mockCrosshairs length:', mockCrosshairs.length)
+  
   // In production, this would fetch from a database or external API
   // For now, return mock data with transformed dates
-  return mockCrosshairs.map(crosshair => ({
+  const transformed = mockCrosshairs.map(crosshair => ({
     ...crosshair,
     createdAt: crosshair.createdAt?.toISOString(),
     updatedAt: crosshair.updatedAt?.toISOString()
   }))
+  
+  console.log('[API] Transformed crosshairs length:', transformed.length)
+  console.log('[API] Sample transformed data:', transformed[0])
+  
+  return transformed
 }
 
 export async function GET(request: NextRequest) {
+  console.log('[API Route] GET /api/crosshairs called')
+  console.log('[API Route] URL:', request.url)
+  console.log('[API Route] Headers host:', request.headers.get('host'))
+  
   try {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
@@ -25,6 +38,7 @@ export async function GET(request: NextRequest) {
 
     // Get all crosshairs from JSON
     let crosshairs = await getCrosshairs()
+    console.log('[API Route] Initial crosshairs count:', crosshairs.length)
 
     // Apply filters
     if (category) {
@@ -86,7 +100,7 @@ export async function GET(request: NextRequest) {
     // Apply pagination
     const paginatedCrosshairs = crosshairs.slice(skip, skip + limit)
 
-    return NextResponse.json({
+    const response = {
       success: true,
       data: paginatedCrosshairs,
       pagination: {
@@ -96,9 +110,15 @@ export async function GET(request: NextRequest) {
         totalPages,
         hasMore: page < totalPages
       }
-    })
+    }
+    
+    console.log('[API Route] Returning response with', paginatedCrosshairs.length, 'crosshairs')
+    console.log('[API Route] Response success:', response.success)
+    
+    return NextResponse.json(response)
   } catch (error) {
-    console.error('Error fetching crosshairs:', error)
+    console.error('[API Route] Error fetching crosshairs:', error)
+    console.error('[API Route] Error stack:', error instanceof Error ? error.stack : 'No stack')
     return NextResponse.json(
       { success: false, error: 'Failed to fetch crosshairs' },
       { status: 500 }

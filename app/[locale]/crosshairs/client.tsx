@@ -28,6 +28,14 @@ interface CrosshairsClientProps {
 }
 
 export function CrosshairsClient({ initialCrosshairs, locale, dictionary }: CrosshairsClientProps) {
+  // Log received data on client side
+  useEffect(() => {
+    console.log('[Client] CrosshairsClient mounted')
+    console.log('[Client] Initial crosshairs count:', initialCrosshairs?.length || 0)
+    console.log('[Client] Sample crosshair:', initialCrosshairs?.[0])
+    console.log('[Client] Locale:', locale)
+  }, [])
+  
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
   const [sortBy, setSortBy] = useState<SortType>('popular')
